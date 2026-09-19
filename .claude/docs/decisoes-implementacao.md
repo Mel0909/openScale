@@ -96,9 +96,9 @@ funciona, mas perde o sistema.
 **Como fica:** os fragments novos estão em `gui/redesign/`. O `MainActivity` antigo
 segue intacto; criei `MainActivityNew` como ponto de entrada do app novo.
 
-**Para trocar:** basta mudar qual Activity tem o `intent-filter` LAUNCHER no
-`AndroidManifest.xml`. Deixei a antiga como launcher — **o app continua abrindo
-na UI velha** até você decidir. Documentado no §12.
+**Como ficou:** desde 2026-09-20 a `MainActivityNew` é o launcher. A antiga
+continua registrada, sem `intent-filter`, porque `LegacyBridge` a abre para o que
+o design ainda não cobre.
 
 ---
 
@@ -262,14 +262,14 @@ inconsistente. Os `path` estavam no protótipo, então foi transcrição, não i
 
 ---
 
-## 12. Como ligar a UI nova
+## 12. Como ligar a UI nova — feito
 
-Deixei a **UI antiga como launcher**. Para ver a nova, trocar no `AndroidManifest.xml`
-qual Activity tem o `intent-filter` MAIN/LAUNCHER: de `.gui.MainActivity` para
-`.gui.redesign.MainActivityNew`.
+Na noite de 19/09 deixei a UI antiga como launcher, porque sem ter compilado um
+app que não abre seria pior que um app antigo.
 
-Fiz assim porque, sem ter compilado, deixar a UI nova como padrão poderia resultar num
-app que não abre.
+**Em 20/09 você autorizou a troca**, e `MainActivityNew` passou a ser a porta de
+entrada. Para reverter, é mover o `intent-filter` MAIN/LAUNCHER de volta para
+`.gui.MainActivity` no `AndroidManifest.xml` — uma linha.
 
 ---
 
