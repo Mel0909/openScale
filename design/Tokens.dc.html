@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#FBF3F1;-webkit-font-smoothing:antialiased}a{color:#A81F52}a:hover{color:#8A1740}</style>
+</helmet>
+<div style="max-width:1060px;margin:0 auto;padding:48px 28px 96px;font-family:'Instrument Sans',system-ui,sans-serif;color:#2A2224">
+
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:44px">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:#A81F52">Etapa 1 de 4 · fundação</span>
+<h1 style="margin:0;font-family:'Bricolage Grotesque';font-weight:800;font-size:44px;line-height:1.02;letter-spacing:-.03em;max-width:15ch">Paleta e tokens tipográficos</h1>
+<p style="margin:0;max-width:62ch;font:400 15px/1.55 'Instrument Sans';color:#5D4B50;text-wrap:pretty">Rosa profundo como cor de dado e de ação, sobre fundos quentes levemente rosados. O rosa nunca preenche a tela: ele aparece no número, na linha do gráfico, no botão e na variação. Tudo mapeado nos slots do Material 3 e verificado em WCAG AA.</p>
+</div>
+
+<section style="display:flex;flex-direction:column;gap:18px;margin-bottom:52px">
+<h2 style="margin:0;font:600 13px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:#7A6469">Escala tipográfica</h2>
+<div style="background:#FFF8F6;border:1px solid #F0DDE1;border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:26px">
+<sc-for list="{{ typeRows }}" as="t" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:24px;align-items:end;border-bottom:1px solid #F4E4E6;padding-bottom:22px">
+<div style="{{ t.sample }}">{{ t.text }}</div>
+<div style="display:flex;flex-direction:column;gap:3px;padding-bottom:4px">
+<span style="font:600 12px/1.3 'Instrument Sans';color:#2A2224">{{ t.name }}</span>
+<span style="font:400 12px/1.4 'Instrument Sans';color:#7A6469">{{ t.spec }}</span>
+<span style="font:500 11px/1.4 'Instrument Sans';color:#A81F52">{{ t.m3 }}</span>
+</div>
+</div>
+</sc-for>
+<p style="margin:0;font:400 13px/1.55 'Instrument Sans';color:#5D4B50;max-width:70ch">Duas famílias, ambas no Google Fonts e empacotáveis no APK. <strong style="font-weight:600">Bricolage Grotesque</strong> só nos números e títulos curtos — é ela que cria o contraste de peso. <strong style="font-weight:600">Instrument Sans</strong> em todo o resto, sempre em peso 400 ou 500, com rótulos em caixa alta pequena e discretos.</p>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:18px;margin-bottom:52px">
+<h2 style="margin:0;font:600 13px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:#7A6469">Slots Material 3 — tema claro</h2>
+<div style="background:#FFF8F6;border:1px solid #F0DDE1;border-radius:24px;padding:10px 10px 14px">
+<div style="display:grid;grid-template-columns:44px minmax(0,1.1fr) 110px minmax(0,1fr) 96px;gap:14px;padding:12px 18px;font:600 11px/1.2 'Instrument Sans';letter-spacing:.07em;text-transform:uppercase;color:#7A6469">
+<span></span><span>Slot</span><span>Hex</span><span>Uso</span><span style="text-align:right">Contraste · par</span>
+</div>
+<sc-for list="{{ light }}" as="c" hint-placeholder-count="14">
+<div style="display:grid;grid-template-columns:44px minmax(0,1.1fr) 110px minmax(0,1fr) 96px;gap:14px;padding:9px 18px;align-items:center;border-top:1px solid #F7EBED">
+<div style="height:30px;border-radius:9px;border:1px solid rgba(0,0,0,.09);background: {{ c.hex }}"></div>
+<span style="font:500 13px/1.3 'Instrument Sans';color:#2A2224">{{ c.slot }}</span>
+<span style="font:500 12px/1.3 ui-monospace,Menlo,monospace;color:#5D4B50">{{ c.hex }}</span>
+<span style="font:400 12.5px/1.4 'Instrument Sans';color:#7A6469">{{ c.use }}</span>
+<span style="font:600 12px/1.3 'Instrument Sans';color:#A81F52;text-align:right">{{ c.ratio }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:18px;margin-bottom:52px">
+<h2 style="margin:0;font:600 13px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:#7A6469">Slots Material 3 — tema escuro</h2>
+<div style="background:#191113;border:1px solid #3A2C30;border-radius:24px;padding:10px 10px 14px">
+<div style="display:grid;grid-template-columns:44px minmax(0,1.1fr) 110px minmax(0,1fr) 96px;gap:14px;padding:12px 18px;font:600 11px/1.2 'Instrument Sans';letter-spacing:.07em;text-transform:uppercase;color:#9E848A">
+<span></span><span>Slot</span><span>Hex</span><span>Uso</span><span style="text-align:right">Contraste · par</span>
+</div>
+<sc-for list="{{ dark }}" as="c" hint-placeholder-count="14">
+<div style="display:grid;grid-template-columns:44px minmax(0,1.1fr) 110px minmax(0,1fr) 96px;gap:14px;padding:9px 18px;align-items:center;border-top:1px solid #2C2023">
+<div style="height:30px;border-radius:9px;border:1px solid rgba(255,255,255,.12);background: {{ c.hex }}"></div>
+<span style="font:500 13px/1.3 'Instrument Sans';color:#F0E0E3">{{ c.slot }}</span>
+<span style="font:500 12px/1.3 ui-monospace,Menlo,monospace;color:#D6BFC5">{{ c.hex }}</span>
+<span style="font:400 12.5px/1.4 'Instrument Sans';color:#B9A2A8">{{ c.use }}</span>
+<span style="font:600 12px/1.3 'Instrument Sans';color:#FFB1C6;text-align:right">{{ c.ratio }}</span>
+</div>
+</sc-for>
+</div>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:18px;margin-bottom:52px">
+<h2 style="margin:0;font:600 13px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:#7A6469">Cores de gráfico (MPAndroidChart)</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
+<div style="background:#FFF8F6;border:1px solid #F0DDE1;border-radius:24px;padding:22px 20px">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:#7A6469">Claro</span>
+<sc-for list="{{ chartLight }}" as="c" hint-placeholder-count="7">
+<div style="display:grid;grid-template-columns:26px minmax(0,1fr) 100px;gap:12px;align-items:center;padding:8px 0;border-top:1px solid #F7EBED;margin-top:8px">
+<div style="height:20px;border-radius:6px;border:1px solid rgba(0,0,0,.09);background: {{ c.hex }}"></div>
+<span style="font:400 12.5px/1.35 'Instrument Sans';color:#5D4B50">{{ c.slot }}</span>
+<span style="font:500 12px/1.3 ui-monospace,Menlo,monospace;color:#2A2224">{{ c.hex }}</span>
+</div>
+</sc-for>
+</div>
+<div style="background:#191113;border:1px solid #3A2C30;border-radius:24px;padding:22px 20px">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:#9E848A">Escuro</span>
+<sc-for list="{{ chartDark }}" as="c" hint-placeholder-count="7">
+<div style="display:grid;grid-template-columns:26px minmax(0,1fr) 100px;gap:12px;align-items:center;padding:8px 0;border-top:1px solid #2C2023;margin-top:8px">
+<div style="height:20px;border-radius:6px;border:1px solid rgba(255,255,255,.12);background: {{ c.hex }}"></div>
+<span style="font:400 12.5px/1.35 'Instrument Sans';color:#B9A2A8">{{ c.slot }}</span>
+<span style="font:500 12px/1.3 ui-monospace,Menlo,monospace;color:#F0E0E3">{{ c.hex }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<p style="margin:0;font:400 13px/1.55 'Instrument Sans';color:#5D4B50;max-width:74ch">Uma série de dados por vez é o padrão: linha rosa sobre grade quase invisível. A cor âmbar existe só para quando duas métricas forem comparadas no mesmo eixo, e a faixa de referência (intervalo saudável) é um preenchimento chapado, sem gradiente, para não custar draw calls.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:18px">
+<h2 style="margin:0;font:600 13px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:#7A6469">Amostra — o token em uso</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+
+<div style="background:#FFF8F6;border-radius:28px;padding:26px 24px 24px;display:flex;flex-direction:column;gap:22px;border:1px solid #F0DDE1">
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:#7A6469">Peso</span>
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:66px;line-height:.92;letter-spacing:-.035em;color:#2A2224">72,4</span>
+<span style="font:500 17px/1 'Instrument Sans';color:#7A6469">kg</span>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+<span style="display:inline-flex;align-items:center;gap:5px;background:#FFD9E3;color:#3F0019;font:600 12.5px/1 'Instrument Sans';padding:7px 11px;border-radius:999px">&#8595; 0,6 kg</span>
+<span style="font:400 12.5px/1.3 'Instrument Sans';color:#7A6469">desde 12 set</span>
+</div>
+</div>
+<div style="display:flex;gap:10px">
+<button style="flex:1;background:#A81F52;color:#fff;border:none;border-radius:999px;padding:14px 18px;font:600 14px/1 'Instrument Sans';cursor:pointer;min-height:48px" style-hover="background:#8A1740">Pesar agora</button>
+<button style="background:#FFF8F6;color:#A81F52;border:1px solid #8A7176;border-radius:999px;padding:14px 18px;font:600 14px/1 'Instrument Sans';cursor:pointer;min-height:48px" style-hover="background:#FFECF1">Inserir</button>
+</div>
+</div>
+
+<div style="background:#191113;border-radius:28px;padding:26px 24px 24px;display:flex;flex-direction:column;gap:22px;border:1px solid #3A2C30">
+<div style="display:flex;flex-direction:column;gap:6px">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:#9E848A">Peso</span>
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:66px;line-height:.92;letter-spacing:-.035em;color:#F0E0E3">72,4</span>
+<span style="font:500 17px/1 'Instrument Sans';color:#B9A2A8">kg</span>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+<span style="display:inline-flex;align-items:center;gap:5px;background:#7E1F45;color:#FFD9E3;font:600 12.5px/1 'Instrument Sans';padding:7px 11px;border-radius:999px">&#8595; 0,6 kg</span>
+<span style="font:400 12.5px/1.3 'Instrument Sans';color:#B9A2A8">desde 12 set</span>
+</div>
+</div>
+<div style="display:flex;gap:10px">
+<button style="flex:1;background:#FFB1C6;color:#5E0A2B;border:none;border-radius:999px;padding:14px 18px;font:600 14px/1 'Instrument Sans';cursor:pointer;min-height:48px" style-hover="background:#FFC8D7">Pesar agora</button>
+<button style="background:#191113;color:#FFB1C6;border:1px solid #9E848A;border-radius:999px;padding:14px 18px;font:600 14px/1 'Instrument Sans';cursor:pointer;min-height:48px" style-hover="background:#2C2023">Inserir</button>
+</div>
+</div>
+</div>
+<p style="margin:0;font:400 13px/1.55 'Instrument Sans';color:#5D4B50;max-width:74ch">Sem sombra em nenhum dos dois temas: no claro a hierarquia vem do fundo <span style="font-family:ui-monospace,Menlo,monospace">surface</span> mais branco que o <span style="font-family:ui-monospace,Menlo,monospace">background</span> rosado, no escuro vem de uma borda de 1&nbsp;px em <span style="font-family:ui-monospace,Menlo,monospace">surfaceVariant</span>. Isso evita blur e elevação custosos no Android.</p>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const T = (name, spec, m3, text, sample) => ({name, spec, m3, text, sample});
+    return {
+      typeRows: [
+        T("Número herói", "Bricolage Grotesque 800 · 64/0.92 · -0.035em", "displayLarge", "72,4", "font-family:'Bricolage Grotesque';font-weight:800;font-size:64px;line-height:.92;letter-spacing:-.035em;color:#2A2224"),
+        T("Número secundário", "Bricolage Grotesque 700 · 34/1.0 · -0.02em", "headlineMedium", "23,8 %", "font-family:'Bricolage Grotesque';font-weight:700;font-size:34px;line-height:1;letter-spacing:-.02em;color:#2A2224"),
+        T("Título de tela", "Bricolage Grotesque 700 · 26/1.15", "headlineSmall", "Histórico", "font-family:'Bricolage Grotesque';font-weight:700;font-size:26px;line-height:1.15;letter-spacing:-.015em;color:#2A2224"),
+        T("Título de seção", "Instrument Sans 600 · 18/1.3", "titleMedium", "Medidas manuais", "font:600 18px/1.3 'Instrument Sans';color:#2A2224"),
+        T("Corpo", "Instrument Sans 400 · 15/1.55", "bodyLarge", "Estimado pela fórmula de Gallagher, com base na sua idade e sexo.", "font:400 15px/1.55 'Instrument Sans';color:#5D4B50"),
+        T("Rótulo", "Instrument Sans 500 · 13/1.2", "labelLarge", "Gordura corporal", "font:500 13px/1.2 'Instrument Sans';color:#5D4B50"),
+        T("Rótulo micro", "Instrument Sans 600 · 11/1.2 · +0.09em · caixa alta", "labelSmall", "ÚLTIMA MEDIÇÃO", "font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:#7A6469")
+      ],
+      light: [
+        {slot:"primary", hex:"#A81F52", use:"Botão principal, linha do gráfico, variação", ratio:"6,71 · surface"},
+        {slot:"onPrimary", hex:"#FFFFFF", use:"Texto sobre primary", ratio:"7,04 · primary"},
+        {slot:"primaryContainer", hex:"#FFD9E3", use:"Chip de variação, aba ativa", ratio:"—"},
+        {slot:"onPrimaryContainer", hex:"#3F0019", use:"Texto sobre o container", ratio:"13,29 · container"},
+        {slot:"secondary", hex:"#7A5A62", use:"Ação secundária, ícone inativo", ratio:"5,77 · surface"},
+        {slot:"onSecondary", hex:"#FFFFFF", use:"Texto sobre secondary", ratio:"6,06 · secondary"},
+        {slot:"secondaryContainer", hex:"#FBE1E7", use:"Fundo de filtro selecionado", ratio:"—"},
+        {slot:"onSecondaryContainer", hex:"#2F1620", use:"Texto sobre o container", ratio:"13,55 · container"},
+        {slot:"tertiary", hex:"#8A5A2B", use:"2ª série de gráfico, alerta suave", ratio:"5,59 · surface"},
+        {slot:"onTertiary", hex:"#FFFFFF", use:"Texto sobre tertiary", ratio:"5,87 · tertiary"},
+        {slot:"tertiaryContainer", hex:"#FFDDB8", use:"Aviso de faixa de referência", ratio:"—"},
+        {slot:"onTertiaryContainer", hex:"#2E1700", use:"Texto sobre o container", ratio:"13,15 · container"},
+        {slot:"background", hex:"#FBF3F1", use:"Fundo da tela, quente", ratio:"—"},
+        {slot:"onBackground", hex:"#2A2224", use:"Texto padrão", ratio:"14,19 · background"},
+        {slot:"surface", hex:"#FFF8F6", use:"Cartões", ratio:"—"},
+        {slot:"onSurface", hex:"#2A2224", use:"Texto em cartão", ratio:"14,79 · surface"},
+        {slot:"surfaceVariant", hex:"#F4E4E6", use:"Campos, divisórias, faixa do gráfico", ratio:"—"},
+        {slot:"onSurfaceVariant", hex:"#5D4B50", use:"Rótulos e texto de apoio", ratio:"7,73 · surface"},
+        {slot:"outline", hex:"#8A7176", use:"Só borda e eixo — não usar como texto", ratio:"4,25 · surface"},
+        {slot:"outlineVariant", hex:"#E6D2D6", use:"Linha de grade, separador", ratio:"—"},
+        {slot:"error", hex:"#B3261E", use:"Erro de conexão, exclusão", ratio:"6,23 · surface"},
+        {slot:"onError", hex:"#FFFFFF", use:"Texto sobre error", ratio:"6,54 · error"},
+        {slot:"errorContainer", hex:"#F9DEDC", use:"Banner de erro", ratio:"—"},
+        {slot:"onErrorContainer", hex:"#410E0B", use:"Texto sobre o container", ratio:"12,77 · container"}
+      ],
+      dark: [
+        {slot:"primary", hex:"#FFB1C6", use:"Botão principal, linha do gráfico", ratio:"10,90 · surface"},
+        {slot:"onPrimary", hex:"#5E0A2B", use:"Texto sobre primary", ratio:"7,90 · primary"},
+        {slot:"primaryContainer", hex:"#7E1F45", use:"Chip de variação, aba ativa", ratio:"—"},
+        {slot:"onPrimaryContainer", hex:"#FFD9E3", use:"Texto sobre o container", ratio:"7,51 · container"},
+        {slot:"secondary", hex:"#E3BDC7", use:"Ação secundária, ícone inativo", ratio:"10,94 · surface"},
+        {slot:"onSecondary", hex:"#432A33", use:"Texto sobre secondary", ratio:"7,65 · secondary"},
+        {slot:"secondaryContainer", hex:"#5B3F48", use:"Fundo de filtro selecionado", ratio:"—"},
+        {slot:"onSecondaryContainer", hex:"#FFD9E3", use:"Texto sobre o container", ratio:"7,24 · container"},
+        {slot:"tertiary", hex:"#EFBD8B", use:"2ª série de gráfico", ratio:"10,90 · surface"},
+        {slot:"onTertiary", hex:"#4A2800", use:"Texto sobre tertiary", ratio:"7,73 · tertiary"},
+        {slot:"tertiaryContainer", hex:"#693C0D", use:"Aviso de faixa de referência", ratio:"—"},
+        {slot:"onTertiaryContainer", hex:"#FFDDB8", use:"Texto sobre o container", ratio:"7,40 · container"},
+        {slot:"background", hex:"#141011", use:"Fundo da tela", ratio:"—"},
+        {slot:"onBackground", hex:"#F0E0E3", use:"Texto padrão", ratio:"14,82 · background"},
+        {slot:"surface", hex:"#191113", use:"Cartões", ratio:"—"},
+        {slot:"onSurface", hex:"#F0E0E3", use:"Texto em cartão", ratio:"14,60 · surface"},
+        {slot:"surfaceVariant", hex:"#3A2C30", use:"Campos, divisórias", ratio:"—"},
+        {slot:"onSurfaceVariant", hex:"#D6BFC5", use:"Rótulos e texto de apoio", ratio:"7,60 · surfaceVariant"},
+        {slot:"outline", hex:"#9E848A", use:"Borda de cartão, eixo", ratio:"5,41 · surface"},
+        {slot:"outlineVariant", hex:"#4A393E", use:"Linha de grade, separador", ratio:"—"},
+        {slot:"error", hex:"#F2B8B5", use:"Erro de conexão, exclusão", ratio:"10,88 · surface"},
+        {slot:"onError", hex:"#601410", use:"Texto sobre error", ratio:"7,66 · error"},
+        {slot:"errorContainer", hex:"#8C1D18", use:"Banner de erro", ratio:"—"},
+        {slot:"onErrorContainer", hex:"#F9DEDC", use:"Texto sobre o container", ratio:"7,17 · container"}
+      ],
+      chartLight: [
+        {slot:"Cor da linha (setValueColor / line)", hex:"#A81F52"},
+        {slot:"Preenchimento sob a linha (fillColor, alpha 60)", hex:"#F7C9D8"},
+        {slot:"Círculo do ponto", hex:"#A81F52"},
+        {slot:"Ponto destacado (highlight)", hex:"#C2185B"},
+        {slot:"2ª série", hex:"#8A5A2B"},
+        {slot:"Grade (gridColor)", hex:"#E6D2D6"},
+        {slot:"Eixo (axisLineColor)", hex:"#D9C2C7"},
+        {slot:"Texto do eixo (textColor)", hex:"#7A6469"},
+        {slot:"Faixa de referência (LimitLine)", hex:"#F4E4E6"}
+      ],
+      chartDark: [
+        {slot:"Cor da linha (setValueColor / line)", hex:"#FFB1C6"},
+        {slot:"Preenchimento sob a linha (fillColor, alpha 55)", hex:"#5E2338"},
+        {slot:"Círculo do ponto", hex:"#FFB1C6"},
+        {slot:"Ponto destacado (highlight)", hex:"#FFD9E3"},
+        {slot:"2ª série", hex:"#EFBD8B"},
+        {slot:"Grade (gridColor)", hex:"#31252A"},
+        {slot:"Eixo (axisLineColor)", hex:"#4A393E"},
+        {slot:"Texto do eixo (textColor)", hex:"#B9A2A8"},
+        {slot:"Faixa de referência (LimitLine)", hex:"#2C2023"}
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

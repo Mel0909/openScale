@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#EDE6E4;-webkit-font-smoothing:antialiased}*{box-sizing:border-box}button{font-family:'Instrument Sans',system-ui,sans-serif}a{color:#A81F52}a:hover{color:#8A1740}</style>
+</helmet>
+
+<div style="min-height:100vh;padding:36px 24px 56px;font-family:'Instrument Sans',system-ui,sans-serif;color:#2A2224;display:flex;flex-direction:column;align-items:center;gap:20px">
+
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:center">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:#7A6469">Protótipo navegável · toque nas abas, nos registros e no botão de pesar</span>
+<div style="display:flex;gap:6px;background:#FFF8F6;border:1px solid #F0DDE1;border-radius:999px;padding:4px">
+<button onClick="{{ setLight }}" style="border:none;border-radius:999px;padding:9px 16px;font:600 12.5px/1 'Instrument Sans';cursor:pointer;min-height:38px;background: {{ lightBtnBg }};color: {{ lightBtnFg }}">Claro</button>
+<button onClick="{{ setDark }}" style="border:none;border-radius:999px;padding:9px 16px;font:600 12.5px/1 'Instrument Sans';cursor:pointer;min-height:38px;background: {{ darkBtnBg }};color: {{ darkBtnFg }}">Escuro</button>
+</div>
+</div>
+
+<div style="width:412px;height:892px;border-radius:44px;border:9px solid #171214;background:#FBF3F1;overflow:hidden;position:relative;box-shadow:0 30px 70px rgba(60,30,40,.22)">
+<div style="position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg,#FBF3F1); {{ themeVars }}">
+
+<div style="height:38px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font:600 12.5px/1 'Instrument Sans';color:var(--on,#2A2224)">
+<span>9:41</span>
+<span style="display:flex;gap:5px;align-items:center">
+<span style="width:15px;height:10px;border-radius:2px;border:1.5px solid var(--on,#2A2224)"></span>
+<span style="width:20px;height:10px;border-radius:3px;background:var(--on,#2A2224)"></span>
+</span>
+</div>
+
+<div style="flex:1;overflow:auto;scrollbar-width:none;-ms-overflow-style:none;padding:4px 20px 130px">
+
+<sc-if value="{{ isHoje }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0 0">
+<button onClick="{{ openUsers }}" style="display:flex;align-items:center;gap:10px;background:var(--sfv,#F4E4E6);border:none;border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer;min-height:44px">
+<span style="width:32px;height:32px;border-radius:999px;background:var(--pr,#A81F52);color:var(--onpr,#ffffff);display:grid;place-items:center;font:700 13px/1 'Instrument Sans'">M</span>
+<span style="font:600 13.5px/1 'Instrument Sans';color:var(--on,#2A2224)">Marina</span>
+<span style="font:600 10px/1 'Instrument Sans';color:var(--onv,#5D4B50)">&#9660;</span>
+</button>
+<button onClick="{{ goAjustes }}" style="width:44px;height:44px;border:none;background:transparent;cursor:pointer;display:grid;place-items:center">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 7h9M18 7h2M4 17h5M14 17h6" stroke="var(--onv,#5D4B50)" stroke-width="1.8" stroke-linecap="round"></path><circle cx="15.5" cy="7" r="2.4" stroke="var(--onv,#5D4B50)" stroke-width="1.8"></circle><circle cx="11.5" cy="17" r="2.4" stroke="var(--onv,#5D4B50)" stroke-width="1.8"></circle></svg>
+</button>
+</div>
+
+<div style="display:flex;flex-direction:column">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:var(--mic,#7A6469)">Peso · 17 set, 08:12</span>
+<div style="display:flex;align-items:baseline;gap:10px;margin-top:8px">
+<span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:84px;line-height:.88;letter-spacing:-.04em;color:var(--on,#2A2224)">72,4</span>
+<span style="font:500 20px/1 'Instrument Sans';color:var(--onv,#5D4B50)">kg</span>
+</div>
+<div style="display:flex;align-items:center;gap:9px;margin-top:16px">
+<span style="display:inline-flex;align-items:center;gap:6px;background:var(--prc,#FFD9E3);color:var(--onprc,#3F0019);font:600 13px/1 'Instrument Sans';padding:9px 14px;border-radius:999px">&#8595; 0,6 kg</span>
+<span style="font:400 13px/1.3 'Instrument Sans';color:var(--onv,#5D4B50)">desde 12 set</span>
+</div>
+</div>
+
+<button onClick="{{ goHistorico }}" style="width:100%;text-align:left;background:var(--sf,#FFF8F6);border:none;border-radius:26px;padding:18px 18px 12px;display:flex;flex-direction:column;gap:8px;cursor:pointer">
+<span style="display:flex;width:100%;justify-content:space-between;align-items:baseline">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:var(--mic,#7A6469)">Últimos 30 dias</span>
+<span style="font:600 12.5px/1 'Instrument Sans';color:var(--pr,#A81F52)">Ver histórico</span>
+</span>
+<svg viewBox="0 0 312 104" width="100%" height="104" fill="none" preserveAspectRatio="none">
+<path d="{{ sparkArea }}" fill="var(--fill,#F7C9D8)" opacity="0.55"></path>
+<path d="{{ sparkLine }}" stroke="var(--pr,#A81F52)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path>
+<circle cx="306" cy="{{ sparkLastY }}" r="4.5" fill="var(--pr,#A81F52)"></circle>
+</svg>
+<span style="display:flex;width:100%;justify-content:space-between;font:500 11px/1 'Instrument Sans';color:var(--mic,#7A6469);padding-bottom:4px"><span>18 ago</span><span>2 set</span><span>17 set</span></span>
+</button>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:var(--mic,#7A6469)">Composição</span>
+<button onClick="{{ goAjustes }}" style="background:none;border:none;padding:0;font:600 12.5px/1 'Instrument Sans';color:var(--pr,#A81F52);cursor:pointer">Escolher métricas</button>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<sc-for list="{{ overviewMetrics }}" as="m" hint-placeholder-count="6">
+<button onClick="{{ m.onClick }}" style="text-align:left;background:var(--sf,#FFF8F6);border:none;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:7px;min-height:112px;cursor:pointer">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">{{ m.label }}</span>
+<span style="display:flex;align-items:baseline;gap:4px">
+<span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:31px;line-height:1;letter-spacing:-.02em;color:var(--on,#2A2224)">{{ m.value }}</span>
+<span style="font:500 12px/1 'Instrument Sans';color:var(--onv,#5D4B50)">{{ m.unit }}</span>
+</span>
+<span style="font:600 12px/1.2 'Instrument Sans';color: {{ m.deltaColor }}">{{ m.delta }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ isHist }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:16px">
+<h2 style="margin:12px 0 0;font-family:'Bricolage Grotesque';font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-.02em;color:var(--on,#2A2224)">Histórico</h2>
+<div style="display:flex;gap:8px;overflow:auto;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:2px">
+<sc-for list="{{ metricChips }}" as="c" hint-placeholder-count="5">
+<button onClick="{{ c.onClick }}" style="flex:none;border-radius:999px;padding:11px 16px;font:600 13px/1 'Instrument Sans';cursor:pointer;min-height:42px;border:1px solid {{ c.border }};background: {{ c.bg }};color: {{ c.fg }}">{{ c.label }}</button>
+</sc-for>
+</div>
+<div style="display:flex;background:var(--sfv,#F4E4E6);border-radius:999px;padding:4px">
+<sc-for list="{{ periods }}" as="p" hint-placeholder-count="3">
+<button onClick="{{ p.onClick }}" style="flex:1;border:none;border-radius:999px;padding:11px 0;font:600 13px/1 'Instrument Sans';cursor:pointer;min-height:44px;background: {{ p.bg }};color: {{ p.fg }}">{{ p.label }}</button>
+</sc-for>
+</div>
+<div style="background:var(--sf,#FFF8F6);border-radius:26px;padding:20px 18px 16px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:baseline">
+<div style="display:flex;flex-direction:column;gap:5px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">{{ chartTitle }}</span>
+<div style="display:flex;align-items:baseline;gap:5px">
+<span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:32px;line-height:1;letter-spacing:-.02em;color:var(--on,#2A2224)">{{ chartCurrent }}</span>
+<span style="font:500 13px/1 'Instrument Sans';color:var(--onv,#5D4B50)">{{ chartUnit }}</span>
+</div>
+</div>
+<span style="font:600 12.5px/1 'Instrument Sans';color:var(--pr,#A81F52)">{{ chartDelta }}</span>
+</div>
+<div style="display:flex;gap:10px">
+<div style="display:flex;flex-direction:column;justify-content:space-between;font:500 10.5px/1 'Instrument Sans';color:var(--mic,#7A6469);height:176px;padding:0 0 22px">
+<span>{{ axisHi }}</span><span>{{ axisMid }}</span><span>{{ axisLo }}</span>
+</div>
+<div style="flex:1;min-width:0">
+<svg viewBox="0 0 280 156" width="100%" height="156" fill="none" preserveAspectRatio="none">
+<line x1="0" y1="5" x2="280" y2="5" stroke="var(--grid,#E6D2D6)" stroke-width="1"></line>
+<line x1="0" y1="76" x2="280" y2="76" stroke="var(--grid,#E6D2D6)" stroke-width="1"></line>
+<line x1="0" y1="148" x2="280" y2="148" stroke="var(--grid,#E6D2D6)" stroke-width="1"></line>
+<path d="{{ chartArea }}" fill="var(--fill,#F7C9D8)" opacity="0.5"></path>
+<path d="{{ chartLine }}" stroke="var(--pr,#A81F52)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path>
+<sc-for list="{{ chartDots }}" as="d" hint-placeholder-count="6">
+<circle cx="{{ d.x }}" cy="{{ d.y }}" r="3.4" fill="var(--sf,#FFF8F6)" stroke="var(--pr,#A81F52)" stroke-width="2.2"></circle>
+</sc-for>
+</svg>
+<div style="display:flex;justify-content:space-between;font:500 10.5px/1 'Instrument Sans';color:var(--mic,#7A6469);padding-top:8px">
+<sc-for list="{{ chartLabels }}" as="l" hint-placeholder-count="6"><span>{{ l.t }}</span></sc-for>
+</div>
+</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+<sc-for list="{{ chartStats }}" as="s" hint-placeholder-count="3">
+<div style="background:var(--sf,#FFF8F6);border-radius:20px;padding:14px 12px;display:flex;flex-direction:column;gap:6px">
+<span style="font:600 10px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">{{ s.label }}</span>
+<span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:20px;line-height:1;color:var(--on,#2A2224)">{{ s.value }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:0;font:400 13px/1.5 'Instrument Sans';color:var(--onv,#5D4B50)">{{ aggregationNote }}</p>
+</div>
+</sc-if>
+
+<sc-if value="{{ isReg }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;margin:12px 0 10px">
+<h2 style="margin:0;font-family:'Bricolage Grotesque';font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-.02em;color:var(--on,#2A2224)">Medições</h2>
+<span style="font:500 12.5px/1.2 'Instrument Sans';color:var(--mic,#7A6469)">128 registros</span>
+</div>
+<sc-for list="{{ records }}" as="r" hint-placeholder-count="8">
+<div>
+<sc-if value="{{ r.showMonth }}" hint-placeholder-val="{{ false }}">
+<span style="display:block;font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:14px 4px 8px">{{ r.month }}</span>
+</sc-if>
+<button onClick="{{ r.onClick }}" style="width:100%;text-align:left;background:var(--sf,#FFF8F6);border:none;border-radius:20px;padding:15px 16px;margin-bottom:8px;display:flex;align-items:center;gap:14px;cursor:pointer;min-height:66px">
+<span style="display:flex;flex-direction:column;gap:3px;width:52px">
+<span style="font:700 15px/1 'Instrument Sans';color:var(--on,#2A2224)">{{ r.day }}</span>
+<span style="font:400 11.5px/1 'Instrument Sans';color:var(--mic,#7A6469)">{{ r.time }}</span>
+</span>
+<span style="flex:1;display:flex;flex-direction:column;gap:4px;min-width:0">
+<span style="display:flex;align-items:baseline;gap:5px">
+<span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:23px;line-height:1;letter-spacing:-.02em;color:var(--on,#2A2224)">{{ r.weight }}</span>
+<span style="font:500 12px/1 'Instrument Sans';color:var(--onv,#5D4B50)">kg</span>
+</span>
+<span style="font:400 12px/1.3 'Instrument Sans';color:var(--mic,#7A6469);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.sub }}</span>
+</span>
+<span style="font:600 12.5px/1 'Instrument Sans';color: {{ r.deltaColor }}">{{ r.delta }}</span>
+</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPerfil }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:18px">
+<h2 style="margin:12px 0 0;font-family:'Bricolage Grotesque';font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-.02em;color:var(--on,#2A2224)">Perfil</h2>
+<div style="display:flex;align-items:center;gap:14px">
+<span style="width:60px;height:60px;border-radius:999px;background:var(--pr,#A81F52);color:var(--onpr,#ffffff);display:grid;place-items:center;font-family:'Bricolage Grotesque';font-weight:700;font-size:24px">M</span>
+<div style="display:flex;flex-direction:column;gap:3px">
+<span style="font:600 18px/1.2 'Instrument Sans';color:var(--on,#2A2224)">Marina Alves</span>
+<span style="font:400 13px/1.2 'Instrument Sans';color:var(--onv,#5D4B50)">Desde março de 2024 · 128 medições</span>
+</div>
+</div>
+<div style="background:var(--prc,#FFD9E3);border-radius:22px;padding:16px 18px">
+<p style="margin:0;font:400 13px/1.5 'Instrument Sans';color:var(--onprc,#3F0019)">Estes quatro campos entram direto nas fórmulas. Mudar a altura recalcula o IMC e a relação cintura-altura de todo o histórico.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ profileFields }}" as="f" hint-placeholder-count="4">
+<button style="width:100%;text-align:left;background:var(--sf,#FFF8F6);border:none;border-radius:22px;padding:16px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;min-height:78px">
+<span style="flex:1;display:flex;flex-direction:column;gap:6px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">{{ f.label }}</span>
+<span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:22px;line-height:1;letter-spacing:-.02em;color:var(--on,#2A2224)">{{ f.value }}</span>
+<span style="font:400 11.5px/1.3 'Instrument Sans';color:var(--onv,#5D4B50)">{{ f.feeds }}</span>
+</span>
+<span style="font:600 16px/1 'Instrument Sans';color:var(--onv,#5D4B50)">&#8250;</span>
+</button>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:6px 4px 0">Pessoas nesta balança</span>
+<sc-for list="{{ users }}" as="u" hint-placeholder-count="3">
+<button onClick="{{ u.onClick }}" style="width:100%;text-align:left;border-radius:22px;padding:14px 16px;display:flex;align-items:center;gap:13px;cursor:pointer;min-height:68px;border:1px solid {{ u.border }};background: {{ u.bg }}">
+<span style="width:40px;height:40px;border-radius:999px;display:grid;place-items:center;font:700 14px/1 'Instrument Sans';background: {{ u.avatarBg }};color: {{ u.avatarFg }}">{{ u.initial }}</span>
+<span style="flex:1;display:flex;flex-direction:column;gap:3px">
+<span style="font:600 14.5px/1.2 'Instrument Sans';color:var(--on,#2A2224)">{{ u.name }}</span>
+<span style="font:400 12px/1.2 'Instrument Sans';color:var(--onv,#5D4B50)">{{ u.sub }}</span>
+</span>
+<span style="font:600 12px/1 'Instrument Sans';color:var(--pr,#A81F52)">{{ u.tag }}</span>
+</button>
+</sc-for>
+<button style="width:100%;border:1px dashed var(--out,#8A7176);background:transparent;border-radius:22px;padding:15px;font:600 13.5px/1 'Instrument Sans';color:var(--pr,#A81F52);cursor:pointer;min-height:56px">+ Adicionar pessoa</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isAjustes }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:22px">
+<h2 style="margin:12px 0 0;font-family:'Bricolage Grotesque';font-weight:700;font-size:28px;line-height:1.1;letter-spacing:-.02em;color:var(--on,#2A2224)">Configurações</h2>
+<div style="background:var(--sf,#FFF8F6);border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:13px">
+<span style="width:42px;height:42px;border-radius:14px;background:var(--prc,#FFD9E3);display:grid;place-items:center">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M8 7.5 16 15.5 12 19.5V4.5l4 4L8 16.5" stroke="var(--onprc,#3F0019)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</span>
+<span style="flex:1;display:flex;flex-direction:column;gap:3px">
+<span style="font:600 14.5px/1.2 'Instrument Sans';color:var(--on,#2A2224)">Beurer BF700</span>
+<span style="font:400 12px/1.2 'Instrument Sans';color:var(--onv,#5D4B50)">Conectada · sincronizada há 2 dias</span>
+</span>
+<span style="width:9px;height:9px;border-radius:999px;background:var(--pr,#A81F52)"></span>
+</div>
+<div style="display:flex;gap:9px">
+<button style="flex:1;background:var(--pr,#A81F52);color:var(--onpr,#ffffff);border:none;border-radius:999px;padding:13px;font:600 13.5px/1 'Instrument Sans';cursor:pointer;min-height:48px">Procurar balança</button>
+<button style="background:transparent;color:var(--pr,#A81F52);border:1px solid var(--out,#8A7176);border-radius:999px;padding:13px 18px;font:600 13.5px/1 'Instrument Sans';cursor:pointer;min-height:48px">Esquecer</button>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:0 4px">Métricas exibidas</span>
+<div style="background:var(--sf,#FFF8F6);border-radius:24px;padding:4px 18px 8px">
+<sc-for list="{{ metricToggles }}" as="t" hint-placeholder-count="8">
+<button onClick="{{ t.onClick }}" style="width:100%;background:transparent;border:none;border-top:1px solid var(--outv,#E6D2D6);padding:13px 0;display:flex;align-items:center;gap:12px;cursor:pointer;min-height:56px">
+<span style="flex:1;text-align:left;font:500 14px/1.2 'Instrument Sans';color:var(--on,#2A2224)">{{ t.label }}</span>
+<span style="font:400 11px/1 'Instrument Sans';color:var(--mic,#7A6469)">{{ t.source }}</span>
+<span style="width:46px;height:27px;border-radius:999px;position:relative;flex:none;background: {{ t.trackBg }};border:1px solid {{ t.trackBorder }}">
+<span style="position:absolute;top:3px;width:19px;height:19px;border-radius:999px;background: {{ t.knobBg }};left: {{ t.knobLeft }}"></span>
+</span>
+</button>
+</sc-for>
+</div>
+<span style="font:400 12px/1.4 'Instrument Sans';color:var(--onv,#5D4B50);padding:0 4px">A ordem desta lista é a ordem dos cartões na visão geral.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:0 4px">Fórmula de gordura estimada</span>
+<sc-for list="{{ formulas }}" as="f" hint-placeholder-count="4">
+<button onClick="{{ f.onClick }}" style="width:100%;text-align:left;border-radius:20px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:13px;cursor:pointer;min-height:62px;border:1px solid {{ f.border }};background: {{ f.bg }}">
+<span style="width:20px;height:20px;border-radius:999px;flex:none;display:grid;place-items:center;border:2px solid {{ f.ring }}">
+<span style="width:10px;height:10px;border-radius:999px;background: {{ f.dot }}"></span>
+</span>
+<span style="flex:1;display:flex;flex-direction:column;gap:3px">
+<span style="font:600 14px/1.2 'Instrument Sans';color:var(--on,#2A2224)">{{ f.name }}</span>
+<span style="font:400 11.5px/1.3 'Instrument Sans';color:var(--onv,#5D4B50)">{{ f.desc }}</span>
+</span>
+</button>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:0 4px">Dados</span>
+<div style="display:flex;gap:10px">
+<button style="flex:1;background:var(--sf,#FFF8F6);border:none;border-radius:22px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;cursor:pointer;min-height:84px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M4.5 19h15" stroke="var(--pr,#A81F52)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span style="font:600 13.5px/1.2 'Instrument Sans';color:var(--on,#2A2224)">Importar CSV</span>
+</button>
+<button style="flex:1;background:var(--sf,#FFF8F6);border:none;border-radius:22px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;cursor:pointer;min-height:84px">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 19V8m0 0 4.5 4.5M12 8l-4.5 4.5M4.5 4h15" stroke="var(--pr,#A81F52)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span style="font:600 13.5px/1.2 'Instrument Sans';color:var(--on,#2A2224)">Exportar CSV</span>
+</button>
+</div>
+<span style="font:400 12px/1.4 'Instrument Sans';color:var(--onv,#5D4B50);padding:0 4px">Exporta apenas o perfil ativo. Nada sai do aparelho sem você pedir.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:0 4px">Aparência</span>
+<div style="display:flex;background:var(--sfv,#F4E4E6);border-radius:999px;padding:4px">
+<button onClick="{{ setLight }}" style="flex:1;border:none;border-radius:999px;padding:12px 0;font:600 13px/1 'Instrument Sans';cursor:pointer;min-height:46px;background: {{ appearLightBg }};color: {{ appearLightFg }}">Claro</button>
+<button onClick="{{ setDark }}" style="flex:1;border:none;border-radius:999px;padding:12px 0;font:600 13px/1 'Instrument Sans';cursor:pointer;min-height:46px;background: {{ appearDarkBg }};color: {{ appearDarkFg }}">Escuro</button>
+</div>
+<div style="display:flex;background:var(--sfv,#F4E4E6);border-radius:999px;padding:4px">
+<button onClick="{{ setRosa }}" style="flex:1;border:none;border-radius:999px;padding:12px 0;font:600 13px/1 'Instrument Sans';cursor:pointer;min-height:46px;display:flex;align-items:center;justify-content:center;gap:8px;background: {{ accentRosaBg }};color: {{ accentRosaFg }}">
+<span style="width:12px;height:12px;border-radius:999px;background: {{ accentRosaDot }}"></span>Rosa
+</button>
+<button onClick="{{ setAzul }}" style="flex:1;border:none;border-radius:999px;padding:12px 0;font:600 13px/1 'Instrument Sans';cursor:pointer;min-height:46px;display:flex;align-items:center;justify-content:center;gap:8px;background: {{ accentAzulBg }};color: {{ accentAzulFg }}">
+<span style="width:12px;height:12px;border-radius:999px;background: {{ accentAzulDot }}"></span>Azul
+</button>
+</div>
+<span style="font:400 12px/1.4 'Instrument Sans';color:var(--onv,#5D4B50);padding:0 4px">A cor escolhida troca também a linha do gráfico e os neutros: o rosa vem com cinzas quentes, o azul com cinzas frios.</span>
+</div>
+</div>
+</sc-if>
+
+</div>
+
+<button onClick="{{ openWeigh }}" style="position:absolute;right:20px;bottom:104px;height:60px;padding:0 22px;border:none;border-radius:20px;background:var(--pr,#A81F52);color:var(--onpr,#ffffff);font:600 14.5px/1 'Instrument Sans';display:flex;align-items:center;gap:9px;cursor:pointer;box-shadow:0 6px 18px rgba(168,31,82,.28)">
+<span style="font-size:20px;line-height:1">+</span>Pesar
+</button>
+
+<div style="position:absolute;left:0;right:0;bottom:0;background:var(--sf,#FFF8F6);border-top:1px solid var(--outv,#E6D2D6);padding:8px 6px 16px;display:flex">
+<sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
+<button onClick="{{ n.onClick }}" style="flex:1;background:transparent;border:none;padding:4px 0;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;min-height:56px">
+<span style="padding:5px 18px;border-radius:999px;display:grid;place-items:center;background: {{ n.pill }}">
+<svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="{{ n.icon }}" stroke="{{ n.iconColor }}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</span>
+<span style="font:600 11px/1 'Instrument Sans';color: {{ n.labelColor }}">{{ n.label }}</span>
+</button>
+</sc-for>
+</div>
+
+<sc-if value="{{ showUsers }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeSheets }}" style="position:absolute;inset:0;background:rgba(40,20,28,.42);display:flex;align-items:flex-end"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:var(--bg,#FBF3F1);border-radius:30px 30px 0 0;padding:14px 20px 28px;display:flex;flex-direction:column;gap:12px">
+<span style="width:40px;height:4px;border-radius:999px;background:var(--outv,#E6D2D6);align-self:center;margin-bottom:6px"></span>
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:0 4px 4px">Trocar de pessoa</span>
+<sc-for list="{{ users }}" as="u" hint-placeholder-count="3">
+<button onClick="{{ u.onClick }}" style="width:100%;text-align:left;border-radius:22px;padding:14px 16px;display:flex;align-items:center;gap:13px;cursor:pointer;min-height:68px;border:1px solid {{ u.border }};background: {{ u.bg }}">
+<span style="width:40px;height:40px;border-radius:999px;display:grid;place-items:center;font:700 14px/1 'Instrument Sans';background: {{ u.avatarBg }};color: {{ u.avatarFg }}">{{ u.initial }}</span>
+<span style="flex:1;display:flex;flex-direction:column;gap:3px">
+<span style="font:600 14.5px/1.2 'Instrument Sans';color:var(--on,#2A2224)">{{ u.name }}</span>
+<span style="font:400 12px/1.2 'Instrument Sans';color:var(--onv,#5D4B50)">{{ u.sub }}</span>
+</span>
+<span style="font:600 12px/1 'Instrument Sans';color:var(--pr,#A81F52)">{{ u.tag }}</span>
+</button>
+</sc-for>
+<button onClick="{{ closeSheets }}" style="width:100%;background:transparent;border:1px solid var(--out,#8A7176);border-radius:999px;padding:14px;font:600 13.5px/1 'Instrument Sans';color:var(--on,#2A2224);cursor:pointer;min-height:50px;margin-top:4px">Fechar</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ showRecord }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeSheets }}" style="position:absolute;inset:0;background:rgba(40,20,28,.42)"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:var(--bg,#FBF3F1);border-radius:30px 30px 0 0;padding:14px 20px 28px;display:flex;flex-direction:column;gap:16px">
+<span style="width:40px;height:4px;border-radius:999px;background:var(--outv,#E6D2D6);align-self:center"></span>
+<div style="display:flex;align-items:flex-end;justify-content:space-between">
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">{{ openRecord.full }}</span>
+<div style="display:flex;align-items:baseline;gap:6px">
+<span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:46px;line-height:1;letter-spacing:-.035em;color:var(--on,#2A2224)">{{ openRecord.weight }}</span>
+<span style="font:500 15px/1 'Instrument Sans';color:var(--onv,#5D4B50)">kg</span>
+</div>
+</div>
+<span style="font:600 13px/1 'Instrument Sans';color:var(--pr,#A81F52);padding-bottom:6px">{{ openRecord.delta }}</span>
+</div>
+<div style="background:var(--sf,#FFF8F6);border-radius:22px;padding:6px 16px 10px">
+<sc-for list="{{ recordDetail }}" as="d" hint-placeholder-count="6">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--outv,#E6D2D6)">
+<span style="font:400 13px/1.2 'Instrument Sans';color:var(--onv,#5D4B50)">{{ d.k }}</span>
+<span style="font:600 13.5px/1.2 'Instrument Sans';color:var(--on,#2A2224)">{{ d.v }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:0;font:400 13px/1.5 'Instrument Sans';color:var(--onv,#5D4B50);background:var(--sfv,#F4E4E6);border-radius:18px;padding:13px 15px">{{ openRecord.note }}</p>
+<div style="display:flex;gap:10px">
+<button onClick="{{ openAdd }}" style="flex:1;background:var(--pr,#A81F52);color:var(--onpr,#ffffff);border:none;border-radius:999px;padding:15px;font:600 14px/1 'Instrument Sans';cursor:pointer;min-height:52px">Editar</button>
+<button onClick="{{ closeSheets }}" style="background:transparent;color:var(--err,#B3261E);border:1px solid var(--err,#B3261E);border-radius:999px;padding:15px 20px;font:600 14px/1 'Instrument Sans';cursor:pointer;min-height:52px">Apagar</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showWeigh }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeSheets }}" style="position:absolute;inset:0;background:rgba(40,20,28,.42)"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;background:var(--bg,#FBF3F1);border-radius:30px 30px 0 0;padding:14px 20px 28px;display:flex;flex-direction:column;gap:18px">
+<span style="width:40px;height:4px;border-radius:999px;background:var(--outv,#E6D2D6);align-self:center"></span>
+<div style="display:flex;align-items:center;gap:10px">
+<span style="width:9px;height:9px;border-radius:999px;background:var(--pr,#A81F52)"></span>
+<span style="font:600 12.5px/1.2 'Instrument Sans';color:var(--onv,#5D4B50)">Beurer BF700 · conectada</span>
+</div>
+<div style="background:var(--sf,#FFF8F6);border-radius:26px;padding:30px 20px;display:flex;flex-direction:column;align-items:center;gap:12px">
+<sc-if value="{{ noReading }}" hint-placeholder-val="{{ true }}">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:var(--mic,#7A6469)">Suba na balança descalça</span>
+<button onClick="{{ simulate }}" style="background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0">
+<span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:64px;line-height:1;letter-spacing:-.04em;color:var(--outv,#E6D2D6)">- -,-</span>
+<span style="font:600 11px/1 'Instrument Sans';color:var(--pr,#A81F52);border:1px dashed var(--out,#8A7176);border-radius:999px;padding:8px 14px">toque para simular a leitura</span>
+</button>
+<span style="font:400 12.5px/1.4 'Instrument Sans';color:var(--onv,#5D4B50);text-align:center">Aguardando a leitura. A medição chega sozinha e é atribuída a <strong style="font-weight:600">Marina</strong> pelo peso.</span>
+</sc-if>
+<sc-if value="{{ hasReading }}" hint-placeholder-val="{{ false }}">
+<span style="font:600 11px/1.2 'Instrument Sans';letter-spacing:.09em;text-transform:uppercase;color:var(--mic,#7A6469)">Leitura recebida</span>
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:64px;line-height:1;letter-spacing:-.04em;color:var(--on,#2A2224)">{{ reading }}</span>
+<span style="font:500 17px/1 'Instrument Sans';color:var(--onv,#5D4B50)">kg</span>
+</div>
+<span style="font:400 12.5px/1.4 'Instrument Sans';color:var(--onv,#5D4B50);text-align:center">Gordura, água, músculo e TMB chegaram junto. Você ainda pode acrescentar cintura, quadril, pescoço e uma anotação.</span>
+</sc-if>
+</div>
+<div style="display:flex;gap:10px">
+<button onClick="{{ openAddFromWeigh }}" style="background:transparent;border:1px solid var(--out,#8A7176);border-radius:999px;padding:15px 20px;font:600 14px/1 'Instrument Sans';color:var(--on,#2A2224);cursor:pointer;min-height:52px">Inserir à mão</button>
+<button onClick="{{ weighCta }}" style="flex:1;border:none;border-radius:999px;padding:15px;font:600 14px/1 'Instrument Sans';cursor:pointer;min-height:52px;background: {{ weighCtaBg }};color: {{ weighCtaFg }}">{{ weighCtaLabel }}</button>
+</div>
+<span style="font:400 11.5px/1.4 'Instrument Sans';color:var(--mic,#7A6469);text-align:center">"Inserir à mão" é o caminho para quando a balança não está por perto.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ showAdd }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;background:var(--bg,#FBF3F1);display:flex;flex-direction:column">
+<div style="flex:none;display:flex;align-items:center;gap:12px;padding:22px 20px 10px">
+<button onClick="{{ closeSheets }}" style="width:44px;height:44px;border:none;background:transparent;cursor:pointer;font:400 22px/1 'Instrument Sans';color:var(--on,#2A2224)">&#8592;</button>
+<span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--on,#2A2224)">Nova medição</span>
+</div>
+<div style="flex:1;overflow:auto;scrollbar-width:none;-ms-overflow-style:none;padding:6px 20px 24px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;gap:10px">
+<button style="flex:1;background:var(--sf,#FFF8F6);border:none;border-radius:18px;padding:14px 16px;text-align:left;display:flex;flex-direction:column;gap:5px;cursor:pointer;min-height:64px">
+<span style="font:600 10px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">Data</span>
+<span style="font:600 14.5px/1 'Instrument Sans';color:var(--on,#2A2224)">19 set 2026</span>
+</button>
+<button style="flex:1;background:var(--sf,#FFF8F6);border:none;border-radius:18px;padding:14px 16px;text-align:left;display:flex;flex-direction:column;gap:5px;cursor:pointer;min-height:64px">
+<span style="font:600 10px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">Hora</span>
+<span style="font:600 14.5px/1 'Instrument Sans';color:var(--on,#2A2224)">09:41</span>
+</button>
+</div>
+<div style="background:var(--sf,#FFF8F6);border-radius:26px;padding:22px 20px;display:flex;flex-direction:column;gap:16px;align-items:center">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">Peso</span>
+<div style="display:flex;align-items:center;gap:20px">
+<button onClick="{{ decWeight }}" style="width:52px;height:52px;border-radius:999px;border:1px solid var(--out,#8A7176);background:transparent;color:var(--on,#2A2224);font:400 24px/1 'Instrument Sans';cursor:pointer">&#8722;</button>
+<div style="display:flex;align-items:baseline;gap:6px;min-width:150px;justify-content:center">
+<span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:56px;line-height:1;letter-spacing:-.035em;color:var(--on,#2A2224)">{{ newWeight }}</span>
+<span style="font:500 16px/1 'Instrument Sans';color:var(--onv,#5D4B50)">kg</span>
+</div>
+<button onClick="{{ incWeight }}" style="width:52px;height:52px;border-radius:999px;border:1px solid var(--out,#8A7176);background:transparent;color:var(--on,#2A2224);font:400 24px/1 'Instrument Sans';cursor:pointer">+</button>
+</div>
+<span style="font:400 12px/1.3 'Instrument Sans';color:var(--onv,#5D4B50)">{{ newWeightDelta }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:0 4px">Medidas manuais</span>
+<sc-for list="{{ manualFields }}" as="f" hint-placeholder-count="3">
+<div style="background:var(--sf,#FFF8F6);border-radius:18px;padding:14px 16px;display:flex;align-items:center;gap:12px;min-height:60px">
+<span style="flex:1;font:500 14px/1.2 'Instrument Sans';color:var(--on,#2A2224)">{{ f.label }}</span>
+<span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:20px;line-height:1;color:var(--on,#2A2224)">{{ f.value }}</span>
+<span style="font:500 12px/1 'Instrument Sans';color:var(--onv,#5D4B50)">cm</span>
+</div>
+</sc-for>
+<div style="display:flex;gap:10px">
+<div style="flex:1;background:var(--sfv,#F4E4E6);border-radius:18px;padding:13px 15px;display:flex;flex-direction:column;gap:4px">
+<span style="font:600 10px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">Cintura-quadril</span>
+<span style="font:600 15px/1 'Instrument Sans';color:var(--on,#2A2224)">0,76 · calculado</span>
+</div>
+<div style="flex:1;background:var(--sfv,#F4E4E6);border-radius:18px;padding:13px 15px;display:flex;flex-direction:column;gap:4px">
+<span style="font:600 10px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469)">Cintura-altura</span>
+<span style="font:600 15px/1 'Instrument Sans';color:var(--on,#2A2224)">0,46 · calculado</span>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<span style="font:600 10.5px/1.2 'Instrument Sans';letter-spacing:.08em;text-transform:uppercase;color:var(--mic,#7A6469);padding:0 4px">Anotação</span>
+<div style="background:var(--sf,#FFF8F6);border-radius:18px;padding:15px 16px;min-height:88px;font:400 14px/1.5 'Instrument Sans';color:var(--onv,#5D4B50)">Manhã, em jejum. Treino forte ontem.</div>
+</div>
+</div>
+<div style="flex:none;padding:12px 20px 24px;display:flex;gap:10px;border-top:1px solid var(--outv,#E6D2D6);background:var(--sf,#FFF8F6)">
+<button onClick="{{ closeSheets }}" style="background:transparent;border:1px solid var(--out,#8A7176);border-radius:999px;padding:15px 22px;font:600 14px/1 'Instrument Sans';color:var(--on,#2A2224);cursor:pointer;min-height:52px">Cancelar</button>
+<button onClick="{{ saveAdd }}" style="flex:1;background:var(--pr,#A81F52);color:var(--onpr,#ffffff);border:none;border-radius:999px;padding:15px;font:600 14px/1 'Instrument Sans';cursor:pointer;min-height:52px">Salvar medição</button>
+</div>
+</div>
+</sc-if>
+
+<div style="position:absolute;left:0;right:0;bottom:4px;display:flex;justify-content:center;pointer-events:none">
+<span style="width:108px;height:4px;border-radius:999px;background:var(--on,#2A2224);opacity:.35"></span>
+</div>
+
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const L = {
+  bg:"#FBF3F1", sf:"#FFF8F6", sfv:"#F4E4E6", on:"#2A2224", onv:"#5D4B50", mic:"#7A6469",
+  pr:"#A81F52", onpr:"#FFFFFF", prc:"#FFD9E3", onprc:"#3F0019", terc:"#FFDDB8", onterc:"#2E1700",
+  out:"#8A7176", outv:"#E6D2D6", err:"#B3261E", fill:"#F7C9D8", grid:"#E6D2D6"
+};
+const D = {
+  bg:"#141011", sf:"#191113", sfv:"#3A2C30", on:"#F0E0E3", onv:"#D6BFC5", mic:"#9E848A",
+  pr:"#FFB1C6", onpr:"#5E0A2B", prc:"#7E1F45", onprc:"#FFD9E3", terc:"#693C0D", onterc:"#FFDDB8",
+  out:"#9E848A", outv:"#4A393E", err:"#F2B8B5", fill:"#5E2338", grid:"#31252A"
+};
+
+const LB = {
+  bg:"#F1F5FA", sf:"#F9FBFE", sfv:"#E2E8F1", on:"#1E2329", onv:"#46515C", mic:"#5F6B77",
+  pr:"#0F5EA8", onpr:"#FFFFFF", prc:"#D6E7FA", onprc:"#001B36", terc:"#FFDDB8", onterc:"#2E1700",
+  out:"#78838F", outv:"#D5DDE6", err:"#B3261E", fill:"#C9DDF7", grid:"#D5DDE6"
+};
+const DB = {
+  bg:"#0F1418", sf:"#131A20", sfv:"#2A333B", on:"#DFE7EF", onv:"#BFCBD7", mic:"#8E9BA8",
+  pr:"#9CC9FF", onpr:"#00325C", prc:"#1E4A75", onprc:"#D6E7FA", terc:"#693C0D", onterc:"#FFDDB8",
+  out:"#8E9BA8", outv:"#38434D", err:"#F2B8B5", fill:"#1F3A54", grid:"#242E36"
+};
+
+const SERIES = {
+  peso:    {label:"Peso", unit:"kg", cur:"72,4", delta:"−1,8 kg em 30 dias", vals:[74.2,74.0,73.8,73.9,73.4,73.1,73.3,72.9,72.6,72.8,72.5,72.4], hi:"74,5", mid:"73,4", lo:"72,3", stats:[["Mínimo","72,4"],["Média","73,4"],["Máximo","74,2"]]},
+  gordura: {label:"Gordura", unit:"%", cur:"23,8", delta:"−1,1 p.p. em 30 dias", vals:[24.9,24.8,24.7,24.6,24.5,24.3,24.4,24.1,24.0,23.9,23.9,23.8], hi:"25,0", mid:"24,4", lo:"23,7", stats:[["Mínimo","23,8"],["Média","24,3"],["Máximo","24,9"]]},
+  agua:    {label:"Água", unit:"%", cur:"54,1", delta:"+0,9 p.p. em 30 dias", vals:[53.2,53.1,53.4,53.3,53.6,53.5,53.8,53.7,53.9,54.0,53.9,54.1], hi:"54,2", mid:"53,7", lo:"53,1", stats:[["Mínimo","53,1"],["Média","53,6"],["Máximo","54,1"]]},
+  musculo: {label:"Músculo", unit:"%", cur:"38,2", delta:"+0,6 p.p. em 30 dias", vals:[37.6,37.5,37.7,37.8,37.7,37.9,38.0,37.9,38.1,38.0,38.2,38.2], hi:"38,3", mid:"37,9", lo:"37,5", stats:[["Mínimo","37,5"],["Média","37,9"],["Máximo","38,2"]]},
+  imc:     {label:"IMC", unit:"", cur:"24,1", delta:"−0,6 em 30 dias", vals:[24.7,24.6,24.6,24.6,24.4,24.3,24.4,24.2,24.1,24.2,24.1,24.1], hi:"24,8", mid:"24,4", lo:"24,0", stats:[["Mínimo","24,1"],["Média","24,4"],["Máximo","24,7"]]},
+  cintura: {label:"Cintura", unit:"cm", cur:"78,0", delta:"−2,0 cm em 30 dias", vals:[80,80,79.5,79.5,79,79,78.5,78.5,78,78,78,78], hi:"80,2", mid:"79,1", lo:"77,9", stats:[["Mínimo","78,0"],["Média","79,0"],["Máximo","80,0"]]}
+};
+
+const PERIOD_NOTE = {
+  semana: "Agregado por semana: cada ponto é a média das medições daquela semana. Semanas sem medição ficam vazias, sem interpolar.",
+  mes: "Agregado por mês: cada ponto é a média do mês, e a faixa clara mostra a distância entre a menor e a maior medição.",
+  ano: "Agregado por ano: útil depois do segundo ano de uso. Antes disso o gráfico avisa que há poucos pontos."
+};
+
+function path(vals, w, h, pad) {
+  const min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
+  const span = (max - min) || 1;
+  const pts = vals.map((v, i) => {
+    const x = (i / (vals.length - 1)) * w;
+    const y = pad + (1 - (v - min) / span) * (h - pad * 2);
+    return [x, y];
+  });
+  return {
+    line: pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" "),
+    area: pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ") + " L" + w + " " + h + " L0 " + h + " Z",
+    pts: pts
+  };
+}
+
+class Component extends DCLogic {
+  state = {
+    theme: "light", screen: "hoje", sheet: null, openRecord: null,
+    metric: "peso", period: "mes", user: "Marina", newWeight: 72.4,
+    off: {"massa magra": true, "massa óssea": true, "tmb": true, "cintura": true}
+  };
+
+  set(p) { this.setState(p); }
+
+  renderVals() {
+    const dark = this.state.theme === "dark";
+    const s = this.state;
+    const azul = s.accent === "azul";
+    const c = azul ? (dark ? DB : LB) : (dark ? D : L);
+    const themeVars = (!dark && !azul)
+      ? ""
+      : Object.keys(c).map(k => "--" + k + ":" + c[k]).join(";");
+
+    const sp = path(SERIES.peso.vals, 306, 104, 10);
+    const ser = SERIES[s.metric];
+    const ch = path(ser.vals, 280, 156, 8);
+
+    const recs = [
+      {month:"Setembro 2026", day:"17 set", time:"08:12", weight:"72,4", delta:"−0,6", down:true, sub:"23,8% gordura · 54,1% água · anotação", full:"17 set 2026 · 08:12", note:"Manhã, em jejum. Treino forte ontem."},
+      {day:"12 set", time:"07:58", weight:"73,0", delta:"−0,3", down:true, sub:"24,1% gordura · 53,8% água", full:"12 set 2026 · 07:58", note:"Sem anotação."},
+      {day:"08 set", time:"08:20", weight:"73,3", delta:"+0,2", down:false, sub:"24,3% gordura · cintura 78,5 cm", full:"08 set 2026 · 08:20", note:"Medi a cintura depois do almoço."},
+      {day:"03 set", time:"07:45", weight:"73,1", delta:"−0,3", down:true, sub:"24,4% gordura · 53,5% água", full:"03 set 2026 · 07:45", note:"Sem anotação."},
+      {month:"Agosto 2026", day:"28 ago", time:"08:05", weight:"73,4", delta:"−0,5", down:true, sub:"24,5% gordura · 53,6% água", full:"28 ago 2026 · 08:05", note:"Viagem na semana, pouca rotina."},
+      {day:"22 ago", time:"08:33", weight:"73,9", delta:"+0,1", down:false, sub:"24,6% gordura · 53,3% água", full:"22 ago 2026 · 08:33", note:"Sem anotação."},
+      {day:"18 ago", time:"08:02", weight:"74,2", delta:"−", down:true, sub:"24,9% gordura · cintura 80,0 cm", full:"18 ago 2026 · 08:02", note:"Primeira medição depois das férias."}
+    ];
+    let lastMonth = null;
+    const records = recs.map((r, i) => {
+      const showMonth = !!r.month;
+      if (r.month) lastMonth = r.month;
+      return Object.assign({}, r, {
+        showMonth, month: r.month || lastMonth,
+        deltaColor: r.down ? c.pr : c.onv,
+        onClick: () => this.set({sheet: "record", openRecord: r})
+      });
+    });
+
+    const navItem = (id, label, icon) => ({
+      label, icon,
+      pill: s.screen === id ? c.prc : "transparent",
+      iconColor: s.screen === id ? c.onprc : c.onv,
+      labelColor: s.screen === id ? c.on : c.onv,
+      onClick: () => this.set({screen: id, sheet: null})
+    });
+
+    const chip = (id, label) => ({
+      label,
+      bg: s.metric === id ? c.pr : "transparent",
+      fg: s.metric === id ? c.onpr : c.on,
+      border: s.metric === id ? c.pr : c.out,
+      onClick: () => this.set({metric: id})
+    });
+
+    const per = (id, label) => ({
+      label,
+      bg: s.period === id ? c.sf : "transparent",
+      fg: s.period === id ? c.on : c.onv,
+      onClick: () => this.set({period: id})
+    });
+
+    const toggle = (label, source) => {
+      const key = label.toLowerCase();
+      const on = !s.off[key];
+      return {
+        label, source,
+        trackBg: on ? c.pr : "transparent",
+        trackBorder: on ? c.pr : c.out,
+        knobBg: on ? c.onpr : c.out,
+        knobLeft: on ? "22px" : "3px",
+        onClick: () => {
+          const off = Object.assign({}, s.off);
+          if (on) off[key] = true; else delete off[key];
+          this.set({off});
+        }
+      };
+    };
+
+    const metricDefs = [
+      ["peso","Peso","kg","72,4","−0,6 kg"],
+      ["gordura","Gordura","%","23,8","−0,3 p.p."],
+      ["agua","Água","%","54,1","+0,2 p.p."],
+      ["musculo","Músculo","%","38,2","+0,1 p.p."],
+      ["imc","IMC","","24,1","−0,2"],
+      ["cintura","Cintura","cm","78,0","−0,5 cm"]
+    ];
+
+    const formula = (id, name, desc) => ({
+      name, desc,
+      bg: s.formula === id || (!s.formula && id === "gallagher") ? c.prc : c.sf,
+      border: s.formula === id || (!s.formula && id === "gallagher") ? c.pr : "transparent",
+      ring: s.formula === id || (!s.formula && id === "gallagher") ? c.pr : c.out,
+      dot: s.formula === id || (!s.formula && id === "gallagher") ? c.pr : "transparent",
+      onClick: () => this.set({formula: id})
+    });
+
+    const user = (name, sub, tag, initial) => ({
+      name, sub, tag: s.user === name ? "Ativo" : "",
+      initial,
+      bg: s.user === name ? c.prc : c.sf,
+      border: s.user === name ? c.pr : "transparent",
+      avatarBg: s.user === name ? c.pr : c.sfv,
+      avatarFg: s.user === name ? c.onpr : c.on,
+      onClick: () => this.set({user: name, sheet: null})
+    });
+
+    return {
+      themeVars, isDark: dark, isLight: !dark,
+      setLight: () => this.set({theme: "light"}),
+      setDark: () => this.set({theme: "dark"}),
+      lightBtnBg: dark ? "transparent" : "#A81F52", lightBtnFg: dark ? "#5D4B50" : "#FFFFFF",
+      darkBtnBg: dark ? "#2A2224" : "transparent", darkBtnFg: dark ? "#FFFFFF" : "#5D4B50",
+      appearLightBg: dark ? "transparent" : c.pr, appearLightFg: dark ? c.onv : c.onpr,
+      appearDarkBg: dark ? c.pr : "transparent", appearDarkFg: dark ? c.onpr : c.onv,
+      setRosa: () => this.set({accent: "rosa"}),
+      setAzul: () => this.set({accent: "azul"}),
+      accentRosaBg: azul ? "transparent" : c.pr, accentRosaFg: azul ? c.onv : c.onpr,
+      accentAzulBg: azul ? c.pr : "transparent", accentAzulFg: azul ? c.onpr : c.onv,
+      accentRosaDot: "#A81F52", accentAzulDot: "#0F5EA8",
+
+      isHoje: s.screen === "hoje" , isHist: s.screen === "hist", isReg: s.screen === "reg",
+      isPerfil: s.screen === "perfil", isAjustes: s.screen === "ajustes",
+      goAjustes: () => this.set({screen: "ajustes", sheet: null}),
+      goHistorico: () => this.set({screen: "hist", sheet: null}),
+      openUsers: () => this.set({sheet: "users"}),
+      openAdd: () => this.set({sheet: "add"}),
+      openWeigh: () => this.set({sheet: "weigh", reading: null}),
+      showWeigh: s.sheet === "weigh",
+      hasReading: !!s.reading,
+      noReading: !s.reading,
+      reading: s.reading ? s.reading.toFixed(1).replace(".", ",") : "",
+      simulate: () => this.set({reading: 72.1}),
+      weighCtaBg: s.reading ? c.pr : c.sfv,
+      weighCtaFg: s.reading ? c.onpr : c.mic,
+      weighCtaLabel: s.reading ? "Salvar medição" : "Aguardando a balança…",
+      weighCta: s.reading ? () => this.set({sheet: null, screen: "reg", reading: null}) : () => {},
+      openAddFromWeigh: () => this.set({sheet: "add", newWeight: s.reading || s.newWeight}),
+      saveReading: () => this.set({sheet: null, screen: "reg", reading: null}),
+      closeSheets: () => this.set({sheet: null}),
+      saveAdd: () => this.set({sheet: null, screen: "reg"}),
+      showUsers: s.sheet === "users", showAdd: s.sheet === "add", showRecord: s.sheet === "record",
+      openRecord: s.openRecord || recs[0],
+
+      sparkLine: sp.line, sparkArea: sp.area, sparkLastY: sp.pts[sp.pts.length - 1][1].toFixed(1),
+
+      overviewMetrics: metricDefs.filter(m => !s.off[m[1].toLowerCase()]).slice(0, 6).map(m => ({
+        label: m[1], unit: m[2], value: m[3], delta: m[4],
+        deltaColor: m[4].indexOf("−") === 0 ? c.pr : c.onv,
+        onClick: () => this.set({screen: "hist", metric: m[0]})
+      })),
+
+      metricChips: metricDefs.filter(m => !s.off[m[1].toLowerCase()]).map(m => chip(m[0], m[1])),
+      periods: [per("semana", "Semana"), per("mes", "Mês"), per("ano", "Ano")],
+      chartTitle: ser.label + " · " + (s.period === "semana" ? "por semana" : s.period === "mes" ? "por mês" : "por ano"),
+      chartCurrent: ser.cur, chartUnit: ser.unit, chartDelta: ser.delta,
+      chartLine: ch.line, chartArea: ch.area,
+      chartDots: ch.pts.filter((p, i) => i % 2 === 1).map(p => ({x: p[0].toFixed(1), y: p[1].toFixed(1)})),
+      chartLabels: [{t:"abr"},{t:"mai"},{t:"jun"},{t:"jul"},{t:"ago"},{t:"set"}],
+      chartStats: ser.stats.map(st => ({label: st[0], value: st[1] + (ser.unit ? " " + ser.unit : "")})),
+      axisHi: ser.hi, axisMid: ser.mid, axisLo: ser.lo,
+      aggregationNote: PERIOD_NOTE[s.period],
+
+      records,
+      recordDetail: [
+        {k:"Gordura corporal", v:"23,8 %"}, {k:"Água corporal", v:"54,1 %"},
+        {k:"Músculo", v:"38,2 %"}, {k:"Massa magra", v:"55,2 kg"},
+        {k:"Massa óssea", v:"2,9 kg"}, {k:"IMC", v:"24,1"}, {k:"TMB", v:"1.452 kcal"}
+      ],
+
+      profileFields: [
+        {label:"Nome", value:"Marina Alves", feeds:"Identifica o perfil na balança"},
+        {label:"Nascimento", value:"14 fev 1991 · 35 anos", feeds:"Entra em gordura estimada, água e TMB"},
+        {label:"Altura", value:"170 cm", feeds:"Entra em IMC, massa magra e cintura-altura"},
+        {label:"Sexo", value:"Feminino", feeds:"Entra em gordura estimada, água e TMB"}
+      ],
+      users: [user("Marina", "72,4 kg · medida há 2 dias", "", "M"), user("Rafael", "81,2 kg · medido hoje", "", "R"), user("Joana", "58,6 kg · medida há 9 dias", "", "J")],
+
+      metricToggles: [
+        toggle("Peso", "balança"), toggle("Gordura", "estimada"), toggle("Água", "estimada"),
+        toggle("Músculo", "balança"), toggle("Massa magra", "estimada"), toggle("Massa óssea", "balança"),
+        toggle("IMC", "calculado"), toggle("TMB", "calculado"), toggle("Cintura", "manual")
+      ],
+      formulas: [
+        formula("gallagher", "Gallagher", "Padrão. Usa IMC, idade e sexo."),
+        formula("gallagher-asian", "Gallagher (asiático)", "Mesma base, coeficientes para população asiática."),
+        formula("deurenberg", "Deurenberg", "Clássica, tende a superestimar em atletas."),
+        formula("eddy", "Eddy", "Alternativa para faixas de IMC mais altas.")
+      ],
+
+      newWeight: s.newWeight.toFixed(1).replace(".", ","),
+      newWeightDelta: (s.newWeight - 73.0 <= 0 ? "↓ " : "↑ ") + Math.abs(s.newWeight - 73.0).toFixed(1).replace(".", ",") + " kg em relação a 12 set",
+      incWeight: () => this.set({newWeight: Math.round((s.newWeight + 0.1) * 10) / 10}),
+      decWeight: () => this.set({newWeight: Math.round((s.newWeight - 0.1) * 10) / 10}),
+      manualFields: [
+        {label:"Cintura", value:"78,0"}, {label:"Quadril", value:"102,5"}, {label:"Pescoço", value:"32,0"}
+      ],
+      nav: [
+        navItem("hoje", "Hoje", "M4 11.5 12 5l8 6.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"),
+        navItem("hist", "Histórico", "M4 18V6m0 12h16M7.5 15l3.5-4.5 3 2.5L20 7"),
+        navItem("reg", "Medições", "M5 5h14M5 12h14M5 19h9"),
+        navItem("perfil", "Perfil", "M12 12a3.6 3.6 0 1 0 0-7.2 3.6 3.6 0 0 0 0 7.2M5 20c.8-3.4 3.6-5 7-5s6.2 1.6 7 5")
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
