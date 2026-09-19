@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep:*)",
+      "Bash(rg:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(sed -n:*)",
+      "Bash(sort:*)",
+      "Bash(uniq:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(./gradlew lint:*)",
+      "Bash(./gradlew test:*)",
+      "Bash(./gradlew assembleDebug:*)"
+    ],
+    "deny": [
+      "Edit(android_app/app/src/main/res/values-*/**)",
+      "Edit(android_app/app/src/main/java/com/health/openscale/core/bluetooth/**)",
+      "Read(./android_app/app/build/**)",
+      "Read(./android_app/.gradle/**)"
+    ]
+  }
+}
