@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Strings do redesign em português do Brasil.
+  ~
+  ~ Os textos vêm do protótipo (design/App.dc.html), que foi escrito em
+  ~ português — são eles que carregam a voz do design ("Suba na balança
+  ~ descalça", "Nada sai do aparelho sem você pedir"), e por isso estão
+  ~ preservados literalmente em vez de traduzidos do inglês.
+  ~
+  ~ Arquivo separado de values-pt-rBR/strings.xml, que é gerido pelo Weblate.
+  ~ Se o Weblate for configurado para cobrir strings_redesign.xml, este
+  ~ arquivo passa a ser mantido por lá.
+  -->
+<resources>
+
+    <!-- ── Navegação ────────────────────────────────────────────────── -->
+    <string name="rd_nav_today">Hoje</string>
+    <string name="rd_nav_history">Histórico</string>
+    <string name="rd_nav_records">Medições</string>
+    <string name="rd_nav_profile">Perfil</string>
+    <string name="rd_title_settings">Configurações</string>
+
+    <!-- ── Tela Hoje ────────────────────────────────────────────────── -->
+    <string name="rd_today_weight_at">Peso · %1$s</string>
+    <string name="rd_today_since">desde %1$s</string>
+    <string name="rd_today_last_30_days">Últimos 30 dias</string>
+    <string name="rd_today_see_history">Ver histórico</string>
+    <string name="rd_today_composition">Composição</string>
+    <string name="rd_today_choose_metrics">Escolher métricas</string>
+    <string name="rd_today_no_data">Nenhuma medição ainda</string>
+    <string name="rd_today_no_data_hint">Suba na balança ou registre uma medição à mão para começar.</string>
+
+    <!-- ── Histórico ────────────────────────────────────────────────── -->
+    <string name="rd_history_period_week">Semana</string>
+    <string name="rd_history_period_month">Mês</string>
+    <string name="rd_history_period_year">Ano</string>
+    <string name="rd_history_chart_title">%1$s · %2$s</string>
+    <string name="rd_history_by_week">por semana</string>
+    <string name="rd_history_by_month">por mês</string>
+    <string name="rd_history_by_year">por ano</string>
+    <string name="rd_history_stat_min">Menor</string>
+    <string name="rd_history_stat_max">Maior</string>
+    <string name="rd_history_stat_avg">Média</string>
+    <string name="rd_history_note_week">Cada ponto é um dia. Dias sem medição ficam de fora.</string>
+    <string name="rd_history_note_month">Cada ponto é a média daquela semana.</string>
+    <string name="rd_history_note_year">Cada ponto é a média daquele mês.</string>
+
+    <!-- ── Medições ─────────────────────────────────────────────────── -->
+    <plurals name="rd_records_count">
+        <item quantity="one">%d registro</item>
+        <item quantity="other">%d registros</item>
+    </plurals>
+    <string name="rd_records_empty">Nenhum registro ainda</string>
+    <string name="rd_record_no_note">Sem anotação.</string>
+    <string name="rd_record_edit">Editar</string>
+    <string name="rd_record_delete">Apagar</string>
+
+    <!-- ── Perfil ───────────────────────────────────────────────────── -->
+    <string name="rd_profile_since">Desde %1$s · %2$s</string>
+    <string name="rd_profile_formula_note">Estes quatro campos entram direto nas fórmulas. Mudar a altura recalcula o IMC e a relação cintura-altura de todo o histórico.</string>
+    <string name="rd_profile_field_name">Nome</string>
+    <string name="rd_profile_field_birthday">Nascimento</string>
+    <string name="rd_profile_field_height">Altura</string>
+    <string name="rd_profile_field_sex">Sexo</string>
+    <string name="rd_profile_feeds_identity">Identifica o perfil na balança</string>
+    <string name="rd_profile_feeds_age">Entra em gordura estimada, água e TMB</string>
+    <string name="rd_profile_feeds_height">Entra em IMC, massa magra e cintura-altura</string>
+    <string name="rd_profile_people">Pessoas nesta balança</string>
+    <string name="rd_profile_add_person">+ Adicionar pessoa</string>
+    <string name="rd_profile_active">Ativo</string>
+    <string name="rd_profile_switch_person">Trocar de pessoa</string>
+
+    <!-- ── Ajustes ──────────────────────────────────────────────────── -->
+    <string name="rd_settings_scale_search">Procurar balança</string>
+    <string name="rd_settings_scale_forget">Esquecer</string>
+    <string name="rd_settings_scale_connected">Conectada · sincronizada %1$s</string>
+    <string name="rd_settings_scale_none">Nenhuma balança pareada</string>
+    <string name="rd_settings_metrics_shown">Métricas exibidas</string>
+    <string name="rd_settings_metrics_order_note">A ordem desta lista é a ordem dos cartões na visão geral.</string>
+    <string name="rd_settings_source_scale">balança</string>
+    <string name="rd_settings_source_estimated">estimada</string>
+    <string name="rd_settings_source_calculated">calculado</string>
+    <string name="rd_settings_source_manual">manual</string>
+    <string name="rd_settings_fat_formula">Fórmula de gordura estimada</string>
+    <string name="rd_settings_data">Dados</string>
+    <string name="rd_settings_import_csv">Importar CSV</string>
+    <string name="rd_settings_export_csv">Exportar CSV</string>
+    <string name="rd_settings_export_note">Exporta apenas o perfil ativo. Nada sai do aparelho sem você pedir.</string>
+    <string name="rd_settings_appearance">Aparência</string>
+    <string name="rd_settings_theme_light">Claro</string>
+    <string name="rd_settings_theme_dark">Escuro</string>
+    <string name="rd_settings_theme_system">Sistema</string>
+    <string name="rd_settings_accent">Acento</string>
+    <string name="rd_settings_accent_pink">Rosa</string>
+    <string name="rd_settings_accent_blue">Azul</string>
+    <string name="rd_settings_accent_note">A cor escolhida troca também a linha do gráfico e os neutros: o rosa vem com cinzas quentes, o azul com cinzas frios.</string>
+    <string name="rd_settings_accent_blue_unavailable">A paleta azul ainda não teve o contraste verificado.</string>
+    <string name="rd_settings_more">Mais configurações (telas clássicas)</string>
+    <string name="rd_legacy_unavailable">Não foi possível abrir a tela clássica</string>
+
+    <!-- ── Pesar ────────────────────────────────────────────────────── -->
+    <string name="rd_weigh_action">Pesar</string>
+    <string name="rd_weigh_step_on">Suba na balança descalça</string>
+    <string name="rd_weigh_placeholder">- -,-</string>
+    <string name="rd_weigh_waiting">Aguardando a leitura. A medição chega sozinha e é atribuída a %1$s pelo peso.</string>
+    <string name="rd_weigh_waiting_cta">Aguardando a balança…</string>
+    <string name="rd_weigh_received">Leitura recebida</string>
+    <string name="rd_weigh_received_hint">Gordura, água, músculo e TMB chegaram junto. Você ainda pode acrescentar cintura, quadril, pescoço e uma anotação.</string>
+    <string name="rd_weigh_save">Salvar medição</string>
+    <string name="rd_weigh_manual">Inserir à mão</string>
+    <string name="rd_weigh_manual_hint">"Inserir à mão" é o caminho para quando a balança não está por perto.</string>
+    <string name="rd_weigh_connecting">Conectando…</string>
+    <string name="rd_weigh_disconnected">Balança não conectada</string>
+
+    <!-- ── Nova medição ─────────────────────────────────────────────── -->
+    <string name="rd_add_title">Nova medição</string>
+    <string name="rd_add_date">Data</string>
+    <string name="rd_add_time">Hora</string>
+    <string name="rd_add_weight">Peso</string>
+    <string name="rd_add_delta_from">%1$s em relação a %2$s</string>
+    <string name="rd_add_manual_measures">Medidas manuais</string>
+    <string name="rd_add_note">Anotação</string>
+    <string name="rd_add_note_hint">Algo que valha a pena lembrar sobre esta medição</string>
+    <string name="rd_add_calculated">%1$s · calculado</string>
+    <string name="rd_add_save">Salvar</string>
+    <string name="rd_add_decrease">Diminuir</string>
+    <string name="rd_add_increase">Aumentar</string>
+
+    <!-- ── Unidades ─────────────────────────────────────────────────── -->
+    <string name="rd_unit_kcal">kcal</string>
+
+    <!-- ── Comuns ───────────────────────────────────────────────────── -->
+    <string name="rd_close">Fechar</string>
+    <string name="rd_cancel">Cancelar</string>
+    <string name="rd_back">Voltar</string>
+
+    <string name="rd_delta_down">↓ %1$s</string>
+    <string name="rd_delta_up">↑ %1$s</string>
+    <string name="rd_delta_none">—</string>
+
+    <!-- Descrições de acessibilidade -->
+    <string name="rd_cd_user_avatar">Perfil de %1$s</string>
+    <string name="rd_cd_settings">Abrir configurações</string>
+    <string name="rd_cd_chart">Gráfico de %1$s ao longo do tempo</string>
+
+</resources>
