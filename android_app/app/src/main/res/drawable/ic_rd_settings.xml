@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ajustes (sliders) — traçado extraído de design/App.dc.html -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <path
+        android:pathData="M4 7h9M18 7h2M4 17h5M14 17h6"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FF000000"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M15.5 4.6a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8z"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FF000000" />
+    <path
+        android:pathData="M11.5 14.6a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8z"
+        android:strokeWidth="1.8"
+        android:strokeColor="#FF000000" />
+</vector>

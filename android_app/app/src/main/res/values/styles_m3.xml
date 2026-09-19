@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Estilos de componente do redesign.
+  ~ Centralizam as decisões que se repetem em toda tela do protótipo:
+  ~ cartão sem sombra, botão pill, chip de variação.
+  -->
+<resources>
+
+    <!-- ── Cartões ──────────────────────────────────────────────────────
+         Sem sombra em nenhum tema (decisão explícita do design).
+         No claro a hierarquia vem do surface mais claro que o background;
+         no escuro, da borda de 1px em outlineVariant.
+         A borda existe nos dois temas: no claro ela é quase invisível
+         (#E6D2D6 sobre #FFF8F6), o que é o efeito desejado. -->
+    <style name="Widget.OpenScale.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
+        <item name="cardCornerRadius">@dimen/rd_radius_card</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeColor">?attr/colorOutlineVariant</item>
+        <item name="strokeWidth">@dimen/rd_stroke</item>
+        <item name="contentPadding">@dimen/rd_card_padding</item>
+    </style>
+
+    <style name="Widget.OpenScale.Card.Large">
+        <item name="cardCornerRadius">@dimen/rd_radius_card_large</item>
+        <item name="contentPadding">@dimen/rd_card_padding_large</item>
+    </style>
+
+    <style name="Widget.OpenScale.Card.Small">
+        <item name="cardCornerRadius">@dimen/rd_radius_card_small</item>
+    </style>
+
+    <!-- Cartão clicável: mesma aparência, com ripple e alvo de toque. -->
+    <style name="Widget.OpenScale.Card.Clickable">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="rippleColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- ── Botões ───────────────────────────────────────────────────────
+         Todos pill (raio 999dp) e com 48dp de alvo de toque. -->
+    <style name="Widget.OpenScale.Button" parent="Widget.Material3.Button">
+        <item name="android:minHeight">@dimen/rd_touch_min</item>
+        <item name="cornerRadius">@dimen/rd_radius_pill</item>
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.Label</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Widget.OpenScale.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">@dimen/rd_touch_min</item>
+        <item name="cornerRadius">@dimen/rd_radius_pill</item>
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.Label</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="strokeColor">?attr/colorOutline</item>
+    </style>
+
+    <!-- Botão de excluir: contorno e texto em error. -->
+    <style name="Widget.OpenScale.Button.Danger" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:minHeight">@dimen/rd_touch_min</item>
+        <item name="cornerRadius">@dimen/rd_radius_pill</item>
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.Label</item>
+        <item name="android:textColor">?attr/colorError</item>
+        <item name="strokeColor">?attr/colorError</item>
+    </style>
+
+    <!-- Botão de texto, sem fundo: "Ver histórico", "Escolher métricas". -->
+    <style name="Widget.OpenScale.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.Delta</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+    </style>
+
+    <!-- Botão "+ Adicionar pessoa": contorno tracejado. -->
+    <style name="Widget.OpenScale.Button.Dashed" parent="Widget.OpenScale.Button.Outlined">
+        <item name="cornerRadius">@dimen/rd_radius_card</item>
+        <item name="android:minHeight">56dp</item>
+    </style>
+
+    <!-- ── Chips ────────────────────────────────────────────────────────
+         Seletor de métrica no Histórico. -->
+    <style name="Widget.OpenScale.Chip" parent="Widget.Material3.Chip.Filter">
+        <item name="android:minHeight">42dp</item>
+        <item name="chipCornerRadius">@dimen/rd_radius_pill</item>
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.Delta</item>
+        <item name="chipStrokeColor">?attr/colorOutline</item>
+        <item name="chipStrokeWidth">@dimen/rd_stroke</item>
+        <item name="chipIconVisible">false</item>
+        <item name="checkedIconVisible">false</item>
+    </style>
+
+    <!-- ── Textos ───────────────────────────────────────────────────────
+         Atalhos para não repetir textAppearance em cada TextView. -->
+    <style name="Widget.OpenScale.LabelMicro">
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.LabelMicro</item>
+    </style>
+
+    <style name="Widget.OpenScale.ScreenTitle">
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.ScreenTitle</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
+    <!-- ── Bottom sheet ─────────────────────────────────────────────── -->
+    <style name="Widget.OpenScale.BottomSheet" parent="Widget.Material3.BottomSheet">
+        <item name="backgroundTint">?attr/android:colorBackground</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.OpenScale.Sheet</item>
+    </style>
+
+    <style name="ShapeAppearance.OpenScale.Sheet" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/rd_radius_sheet</item>
+        <item name="cornerSizeTopRight">@dimen/rd_radius_sheet</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+    <style name="ThemeOverlay.OpenScale.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.OpenScale.BottomSheet</item>
+        <item name="android:navigationBarColor">?attr/android:colorBackground</item>
+    </style>
+
+</resources>

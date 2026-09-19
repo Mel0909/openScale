@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Strings do redesign.
+  ~
+  ~ Ficam em arquivo separado de strings.xml de propósito: strings.xml é a
+  ~ fonte que o Weblate distribui aos tradutores, e misturar chaves novas
+  ~ com o histórico dele complica o merge. O Weblate pode ser configurado
+  ~ depois para incluir este arquivo.
+  ~
+  ~ O inglês aqui é a fonte de verdade. Os textos em português do protótipo
+  ~ vivem em values-pt-rBR/strings_redesign.xml.
+  -->
+<resources>
+
+    <!-- ── Navegação ────────────────────────────────────────────────── -->
+    <string name="rd_nav_today">Today</string>
+    <string name="rd_nav_history">History</string>
+    <string name="rd_nav_records">Records</string>
+    <string name="rd_nav_profile">Profile</string>
+    <string name="rd_title_settings">Settings</string>
+
+    <!-- ── Tela Hoje ────────────────────────────────────────────────── -->
+    <!-- Rótulo acima do peso: "Weight · 17 Sep, 08:12" -->
+    <string name="rd_today_weight_at">Weight · %1$s</string>
+    <string name="rd_today_since">since %1$s</string>
+    <string name="rd_today_last_30_days">Last 30 days</string>
+    <string name="rd_today_see_history">See history</string>
+    <string name="rd_today_composition">Composition</string>
+    <string name="rd_today_choose_metrics">Choose metrics</string>
+    <string name="rd_today_no_data">No measurements yet</string>
+    <string name="rd_today_no_data_hint">Step on your scale or add a measurement by hand to get started.</string>
+
+    <!-- ── Histórico ────────────────────────────────────────────────── -->
+    <string name="rd_history_period_week">Week</string>
+    <string name="rd_history_period_month">Month</string>
+    <string name="rd_history_period_year">Year</string>
+    <!-- "Weight · by month" -->
+    <string name="rd_history_chart_title">%1$s · %2$s</string>
+    <string name="rd_history_by_week">by week</string>
+    <string name="rd_history_by_month">by month</string>
+    <string name="rd_history_by_year">by year</string>
+    <string name="rd_history_stat_min">Lowest</string>
+    <string name="rd_history_stat_max">Highest</string>
+    <string name="rd_history_stat_avg">Average</string>
+    <string name="rd_history_note_week">Each point is one day. Days without a measurement are left out.</string>
+    <string name="rd_history_note_month">Each point is the average of that week.</string>
+    <string name="rd_history_note_year">Each point is the average of that month.</string>
+
+    <!-- ── Medições ─────────────────────────────────────────────────── -->
+    <plurals name="rd_records_count">
+        <item quantity="one">%d record</item>
+        <item quantity="other">%d records</item>
+    </plurals>
+    <string name="rd_records_empty">No records yet</string>
+    <string name="rd_record_no_note">No note.</string>
+    <string name="rd_record_edit">Edit</string>
+    <string name="rd_record_delete">Delete</string>
+
+    <!-- ── Perfil ───────────────────────────────────────────────────── -->
+    <!-- "Since March 2024 · 128 measurements" -->
+    <string name="rd_profile_since">Since %1$s · %2$s</string>
+    <string name="rd_profile_formula_note">These four fields feed the formulas directly. Changing your height recalculates BMI and waist-to-height for your whole history.</string>
+    <string name="rd_profile_field_name">Name</string>
+    <string name="rd_profile_field_birthday">Date of birth</string>
+    <string name="rd_profile_field_height">Height</string>
+    <string name="rd_profile_field_sex">Sex</string>
+    <string name="rd_profile_feeds_identity">Identifies this profile on the scale</string>
+    <string name="rd_profile_feeds_age">Feeds estimated fat, water and BMR</string>
+    <string name="rd_profile_feeds_height">Feeds BMI, lean mass and waist-to-height</string>
+    <string name="rd_profile_people">People on this scale</string>
+    <string name="rd_profile_add_person">+ Add person</string>
+    <string name="rd_profile_active">Active</string>
+    <string name="rd_profile_switch_person">Switch person</string>
+
+    <!-- ── Ajustes ──────────────────────────────────────────────────── -->
+    <string name="rd_settings_scale_search">Find scale</string>
+    <string name="rd_settings_scale_forget">Forget</string>
+    <string name="rd_settings_scale_connected">Connected · synced %1$s</string>
+    <string name="rd_settings_scale_none">No scale paired</string>
+    <string name="rd_settings_metrics_shown">Metrics shown</string>
+    <string name="rd_settings_metrics_order_note">The order of this list is the order of the cards on the overview.</string>
+    <string name="rd_settings_source_scale">from scale</string>
+    <string name="rd_settings_source_estimated">estimated</string>
+    <string name="rd_settings_source_calculated">calculated</string>
+    <string name="rd_settings_source_manual">manual</string>
+    <string name="rd_settings_fat_formula">Estimated body fat formula</string>
+    <string name="rd_settings_data">Data</string>
+    <string name="rd_settings_import_csv">Import CSV</string>
+    <string name="rd_settings_export_csv">Export CSV</string>
+    <string name="rd_settings_export_note">Exports the active profile only. Nothing leaves your device unless you ask.</string>
+    <string name="rd_settings_appearance">Appearance</string>
+    <string name="rd_settings_theme_light">Light</string>
+    <string name="rd_settings_theme_dark">Dark</string>
+    <string name="rd_settings_theme_system">System</string>
+    <string name="rd_settings_accent">Accent</string>
+    <string name="rd_settings_accent_pink">Pink</string>
+    <string name="rd_settings_accent_blue">Blue</string>
+    <string name="rd_settings_accent_note">The accent also changes the chart line and the neutrals: pink comes with warm greys, blue with cool ones.</string>
+    <string name="rd_settings_accent_blue_unavailable">The blue palette has not been contrast-checked yet.</string>
+
+    <!-- ── Pesar ────────────────────────────────────────────────────── -->
+    <string name="rd_weigh_action">Weigh</string>
+    <string name="rd_weigh_step_on">Step on the scale barefoot</string>
+    <string name="rd_weigh_placeholder">- -,-</string>
+    <string name="rd_weigh_waiting">Waiting for the reading. The measurement arrives on its own and is assigned to %1$s by weight.</string>
+    <string name="rd_weigh_waiting_cta">Waiting for the scale…</string>
+    <string name="rd_weigh_received">Reading received</string>
+    <string name="rd_weigh_received_hint">Fat, water, muscle and BMR came along. You can still add waist, hip, neck and a note.</string>
+    <string name="rd_weigh_save">Save measurement</string>
+    <string name="rd_weigh_manual">Enter by hand</string>
+    <string name="rd_weigh_manual_hint">"Enter by hand" is the way when the scale is not around.</string>
+    <string name="rd_weigh_connecting">Connecting…</string>
+    <string name="rd_weigh_disconnected">Scale not connected</string>
+
+    <!-- ── Nova medição ─────────────────────────────────────────────── -->
+    <string name="rd_add_title">New measurement</string>
+    <string name="rd_add_date">Date</string>
+    <string name="rd_add_time">Time</string>
+    <string name="rd_add_weight">Weight</string>
+    <!-- "↓ 0.6 kg from 12 Sep" -->
+    <string name="rd_add_delta_from">%1$s from %2$s</string>
+    <string name="rd_add_manual_measures">Manual measurements</string>
+    <string name="rd_add_note">Note</string>
+    <string name="rd_add_note_hint">Anything worth remembering about this measurement</string>
+    <string name="rd_add_calculated">%1$s · calculated</string>
+    <string name="rd_add_save">Save</string>
+    <string name="rd_add_decrease">Decrease</string>
+    <string name="rd_add_increase">Increase</string>
+
+    <!-- ── Comuns ───────────────────────────────────────────────────── -->
+    <string name="rd_close">Close</string>
+    <string name="rd_cancel">Cancel</string>
+    <string name="rd_back">Back</string>
+
+    <!-- Símbolos de variação. Separados para não ficarem embutidos em código. -->
+    <string name="rd_delta_down">↓ %1$s</string>
+    <string name="rd_delta_up">↑ %1$s</string>
+    <string name="rd_delta_none">—</string>
+
+    <!-- Descrições de acessibilidade -->
+    <string name="rd_cd_user_avatar">Profile of %1$s</string>
+    <string name="rd_cd_settings">Open settings</string>
+    <string name="rd_cd_chart">Chart of %1$s over time</string>
+
+</resources>

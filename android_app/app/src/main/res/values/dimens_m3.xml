@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Dimensões do redesign, extraídas de design/App.dc.html.
+  ~ O protótipo usa px de CSS num frame de 412px de largura, que é
+  ~ exatamente a largura em dp de um telefone comum — então os valores
+  ~ transferem 1:1 para dp.
+  -->
+<resources>
+
+    <!-- Raios de canto. O design usa cantos generosos e variados por tamanho
+         de elemento: quanto maior o cartão, maior o raio. -->
+    <dimen name="rd_radius_card_large">26dp</dimen>   <!-- cartão de gráfico, sparkline -->
+    <dimen name="rd_radius_card">22dp</dimen>         <!-- cartão de métrica, perfil -->
+    <dimen name="rd_radius_card_small">20dp</dimen>   <!-- linha de registro, stat -->
+    <dimen name="rd_radius_field">18dp</dimen>        <!-- campo de entrada -->
+    <dimen name="rd_radius_sheet">30dp</dimen>        <!-- topo do bottom sheet -->
+    <dimen name="rd_radius_fab">20dp</dimen>          <!-- botão Pesar -->
+    <dimen name="rd_radius_pill">999dp</dimen>        <!-- chip, botão, toggle -->
+
+    <!-- Espaçamento -->
+    <dimen name="rd_screen_margin">20dp</dimen>
+    <dimen name="rd_gap_tight">8dp</dimen>
+    <dimen name="rd_gap">12dp</dimen>
+    <dimen name="rd_gap_section">20dp</dimen>
+    <dimen name="rd_card_padding">16dp</dimen>
+    <dimen name="rd_card_padding_large">20dp</dimen>
+
+    <!-- Alturas mínimas. O design respeita 44-48dp de alvo de toque em tudo
+         que é clicável — abaixo disso vira problema de acessibilidade. -->
+    <dimen name="rd_touch_min">48dp</dimen>
+    <dimen name="rd_metric_card_min_height">112dp</dimen>
+    <dimen name="rd_record_row_min_height">66dp</dimen>
+    <dimen name="rd_profile_row_min_height">78dp</dimen>
+    <dimen name="rd_user_row_min_height">68dp</dimen>
+
+    <!-- Bottom nav e o botão Pesar que flutua acima dela -->
+    <dimen name="rd_bottom_nav_height">76dp</dimen>
+    <dimen name="rd_fab_height">60dp</dimen>
+    <dimen name="rd_fab_margin_bottom">104dp</dimen>
+    <dimen name="rd_content_bottom_padding">130dp</dimen>
+
+    <!-- Gráficos -->
+    <dimen name="rd_sparkline_height">104dp</dimen>
+    <dimen name="rd_chart_height">156dp</dimen>
+
+    <!-- Avatares -->
+    <dimen name="rd_avatar_small">32dp</dimen>
+    <dimen name="rd_avatar_medium">40dp</dimen>
+    <dimen name="rd_avatar_large">60dp</dimen>
+
+    <!-- Borda de 1px: no tema escuro é ela que dá hierarquia aos cartões,
+         já que o design não usa sombra. -->
+    <dimen name="rd_stroke">1dp</dimen>
+
+</resources>
