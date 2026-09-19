@@ -35,7 +35,11 @@ import com.health.openscale.gui.MainActivity;
  */
 public final class LegacyBridge {
 
-    /** Abre a UI antiga na tela de edição do usuário. */
+    /**
+     * Abre a UI antiga para criar ou editar um usuário.
+     *
+     * @param userId id do perfil a editar, ou -1 para criar o primeiro.
+     */
     public static void openUserSettings(Activity activity, int userId) {
         openLegacy(activity);
     }
@@ -52,6 +56,10 @@ public final class LegacyBridge {
      * fragment inicial pela preferência "lastFragmentId", e forçar um destino
      * exigiria expor a navegação dela. Como é uma ponte temporária, abrir a
      * tela e deixar o usuário chegar ao lugar é suficiente.
+     *
+     * Sobre o botão voltar: a Overview antiga intercepta o back e chama
+     * finish(). Como a Activity nova está embaixo na pilha, isso fecha só a
+     * antiga e devolve o usuário à UI nova — que é o comportamento desejado.
      */
     private static void openLegacy(Activity activity) {
         try {

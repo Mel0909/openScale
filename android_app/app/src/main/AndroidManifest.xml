@@ -28,25 +28,26 @@
         android:label="@string/app_name"
         android:name=".core.Application"
         android:theme="@style/AppTheme" >
+        <!-- Porta de entrada do app: a UI redesenhada. -->
         <activity
-            android:name=".gui.MainActivity"
+            android:name=".gui.redesign.MainActivityNew"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Theme.OpenScale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Activity da UI redesenhada.
-             NAO e o launcher ainda: enquanto o build nao puder ser verificado,
-             a MainActivity antiga continua sendo a porta de entrada. Para
-             trocar, mova o intent-filter MAIN/LAUNCHER para ca.
-             Ver .claude/docs/decisoes-implementacao.md (decisao 12). -->
+
+        <!-- UI antiga. Continua registrada, sem ser launcher, porque
+             LegacyBridge a abre para o que o design ainda nao cobre:
+             backup, lembretes, pareamento de balanca e edicao de perfil.
+             Ver .claude/docs/inventario-legado.md. -->
         <activity
-            android:name=".gui.redesign.MainActivityNew"
+            android:name=".gui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.OpenScale" />
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".gui.slides.AppIntroActivity" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".gui.slides.SlideToNavigationAdapter" android:theme="@style/AppTheme.NoActionBar"/>

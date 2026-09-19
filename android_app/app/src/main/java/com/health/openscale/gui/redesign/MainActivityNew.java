@@ -16,10 +16,13 @@
 package com.health.openscale.gui.redesign;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
@@ -31,19 +34,23 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.health.openscale.R;
+import com.health.openscale.core.OpenScale;
 import com.health.openscale.gui.MainActivity;
+import com.health.openscale.gui.slides.AppIntroActivity;
 
 /**
- * Activity da UI redesenhada.
+ * Activity da UI redesenhada. É a porta de entrada do app.
  *
- * Coexiste com a MainActivity antiga de propósito: enquanto o build não
- * puder ser verificado, a antiga continua sendo o launcher. Para trocar,
- * basta mover o intent-filter MAIN/LAUNCHER no AndroidManifest.
+ * Diferente da MainActivity antiga, não tem Toolbar nem DrawerLayout — o
+ * design usa apenas a bottom nav, e cada tela traz o próprio título.
  *
- * Diferente da antiga, não tem Toolbar nem DrawerLayout — o design usa
- * apenas a bottom nav, e cada tela traz o próprio título.
+ * A Activity antiga continua registrada, sem ser launcher: LegacyBridge a
+ * abre para o que o design ainda não cobre (backup, lembretes, pareamento
+ * de balança e edição de perfil).
  */
 public class MainActivityNew extends AppCompatActivity {
+
+    private static final int APPINTRO_REQUEST = 103;
 
     private NavController navController;
     private MaterialButton weighButton;
@@ -76,6 +83,52 @@ public class MainActivityNew extends AppCompatActivity {
         // ruído, então some.
         navController.addOnDestinationChangedListener(
                 (controller, destination, arguments) -> updateWeighButton(destination));
+
+        maybeShowOnboarding();
+    }
+
+    /**
+     * Onboarding da primeira execução.
+     *
+     * Esta Activity é o launcher, então a responsabilidade de mostrar os
+     * slides passou para cá — antes vivia na MainActivity antiga. Sem isso,
+     * uma instalação nova abriria sem nenhum usuário, e o app não grava
+     * medição sem usuário selecionado.
+     */
+    private void maybeShowOnboarding() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (prefs.getBoolean("firstStart", true)) {
+            prefs.edit().putBoolean("firstStart", false).apply();
+            startActivityForResult(new Intent(this, AppIntroActivity.class), APPINTRO_REQUEST);
+            return;
+        }
+
+        // Já viu o intro mas continua sem usuário (por exemplo, pulou os
+        // slides ou apagou o único perfil): manda criar um.
+        if (OpenScale.getInstance().getSelectedScaleUserId() == -1) {
+            openUserCreation();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == APPINTRO_REQUEST
+                && OpenScale.getInstance().getSelectedScaleUserId() == -1) {
+            openUserCreation();
+        }
+    }
+
+    /**
+     * Criação do primeiro usuário.
+     *
+     * Ainda usa a tela antiga: ela já resolve validação de data, altura,
+     * unidades e meta. Ver decisão §14.
+     */
+    private void openUserCreation() {
+        LegacyBridge.openUserSettings(this, -1);
     }
 
     private void updateWeighButton(NavDestination destination) {
