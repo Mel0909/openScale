@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Referenciado pelo meta-data preloaded_fonts no AndroidManifest.
+  ~ Faz o sistema buscar as fontes na instalação, evitando o flash de fonte
+  ~ fallback na primeira abertura.
+  -->
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/bricolage_grotesque_extrabold</item>
+        <item>@font/bricolage_grotesque_bold</item>
+        <item>@font/instrument_sans_regular</item>
+        <item>@font/instrument_sans_medium</item>
+        <item>@font/instrument_sans_semibold</item>
+    </array>
+</resources>

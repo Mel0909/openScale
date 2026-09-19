@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Instrument Sans, peso 500.
+  ~
+  ~ Usa Downloadable Fonts (provedor do Google Play). Ver decisao §3 em
+  ~ .claude/docs/decisoes-implementacao.md: nao foi possivel baixar os .ttf
+  ~ nesta maquina. Em builds F-Droid, sem Play Services, cai no fallback do
+  ~ sistema — por isso a recomendacao e trocar por .ttf empacotado.
+  ~
+  ~ Para empacotar: baixe o .ttf do Google Fonts, coloque em res/font/ e
+  ~ substitua este arquivo pelo proprio .ttf (mesmo nome, extensao .ttf).
+  -->
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:fontProviderAuthority="com.google.android.gms.fonts"
+    app:fontProviderPackage="com.google.android.gms"
+    app:fontProviderQuery="name=Instrument Sans&amp;weight=500"
+    app:fontProviderCerts="@array/com_google_android_gms_fonts_certs" />

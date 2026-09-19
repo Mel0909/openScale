@@ -1,0 +1,73 @@
+Destino: android_app/app/src/main/res/values-night/colors_m3.xml
+
+Não consegui criar este arquivo: a regra Edit(res/values-*/**) do
+.claude/settings.json — escrita para proteger as traduções do Weblate — também
+bloqueia values-night/, que não é traduzível. Ver §0 de decisoes-implementacao.md.
+
+Copie o conteúdo abaixo (da linha <?xml em diante) para o caminho acima.
+
+────────────────────────────────────────────────────────────────────────
+
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Paleta do redesign — tema escuro.
+  ~ Fonte: design/Tokens.dc.html ("Etapa 1 de 4 · fundação").
+  ~ Precisa ter EXATAMENTE as mesmas chaves de values/colors_m3.xml.
+  ~ Qualquer chave presente só num dos dois vira bug de tema.
+  -->
+<resources>
+
+    <!-- Primárias -->
+    <color name="md_primary">#FFB1C6</color>              <!-- 10,90 sobre surface -->
+    <color name="md_on_primary">#5E0A2B</color>           <!-- 7,90 sobre primary -->
+    <color name="md_primary_container">#7E1F45</color>
+    <color name="md_on_primary_container">#FFD9E3</color> <!-- 7,51 sobre container -->
+
+    <!-- Secundárias -->
+    <color name="md_secondary">#E3BDC7</color>            <!-- 10,94 sobre surface -->
+    <color name="md_on_secondary">#432A33</color>         <!-- 7,65 sobre secondary -->
+    <color name="md_secondary_container">#5B3F48</color>
+    <color name="md_on_secondary_container">#FFD9E3</color> <!-- 7,24 sobre container -->
+
+    <!-- Terciárias -->
+    <color name="md_tertiary">#EFBD8B</color>             <!-- 10,90 sobre surface -->
+    <color name="md_on_tertiary">#4A2800</color>          <!-- 7,73 sobre tertiary -->
+    <color name="md_tertiary_container">#693C0D</color>
+    <color name="md_on_tertiary_container">#FFDDB8</color> <!-- 7,40 sobre container -->
+
+    <!-- Superfícies -->
+    <color name="md_background">#141011</color>
+    <color name="md_on_background">#F0E0E3</color>        <!-- 14,82 sobre background -->
+    <color name="md_surface">#191113</color>
+    <color name="md_on_surface">#F0E0E3</color>           <!-- 14,60 sobre surface -->
+    <color name="md_surface_variant">#3A2C30</color>
+    <color name="md_on_surface_variant">#D6BFC5</color>   <!-- 7,60 sobre surfaceVariant -->
+
+    <!-- Contornos. No escuro a hierarquia dos cartões vem desta borda de 1px. -->
+    <color name="md_outline">#9E848A</color>              <!-- 5,41 sobre surface -->
+    <color name="md_outline_variant">#4A393E</color>
+
+    <!-- Erro -->
+    <color name="md_error">#F2B8B5</color>                <!-- 10,88 sobre surface -->
+    <color name="md_on_error">#601410</color>             <!-- 7,66 sobre error -->
+    <color name="md_error_container">#8C1D18</color>
+    <color name="md_on_error_container">#F9DEDC</color>   <!-- 7,17 sobre container -->
+
+    <!-- Rótulo micro -->
+    <color name="md_label_micro">#B9A2A8</color>
+
+    <!-- Gráfico (MPAndroidChart) -->
+    <color name="chart_line">#FFB1C6</color>
+    <color name="chart_fill">#5E2338</color>
+    <color name="chart_point">#FFB1C6</color>
+    <color name="chart_highlight">#FFD9E3</color>
+    <color name="chart_second_series">#EFBD8B</color>
+    <color name="chart_grid">#31252A</color>
+    <color name="chart_axis_line">#4A393E</color>
+    <color name="chart_axis_text">#B9A2A8</color>
+    <color name="chart_limit_line">#2C2023</color>
+
+    <!-- Véu dos bottom sheets -->
+    <color name="md_scrim">#8C0A0507</color>
+
+</resources>

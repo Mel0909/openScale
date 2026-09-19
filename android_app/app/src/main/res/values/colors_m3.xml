@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Paleta do redesign — tema claro.
+  ~ Fonte: design/Tokens.dc.html ("Etapa 1 de 4 · fundação").
+  ~ Todos os pares têm contraste WCAG AA verificado na fonte; o comentário
+  ~ ao lado de cada slot repete a razão medida.
+  ~ A contraparte escura vive em values-night/colors_m3.xml e precisa ter
+  ~ exatamente as mesmas chaves.
+  -->
+<resources>
+
+    <!-- Primárias: cor de dado e de ação -->
+    <color name="md_primary">#A81F52</color>              <!-- 6,71 sobre surface -->
+    <color name="md_on_primary">#FFFFFF</color>           <!-- 7,04 sobre primary -->
+    <color name="md_primary_container">#FFD9E3</color>
+    <color name="md_on_primary_container">#3F0019</color> <!-- 13,29 sobre container -->
+
+    <!-- Secundárias: ação secundária, ícone inativo -->
+    <color name="md_secondary">#7A5A62</color>            <!-- 5,77 sobre surface -->
+    <color name="md_on_secondary">#FFFFFF</color>         <!-- 6,06 sobre secondary -->
+    <color name="md_secondary_container">#FBE1E7</color>
+    <color name="md_on_secondary_container">#2F1620</color> <!-- 13,55 sobre container -->
+
+    <!-- Terciárias: 2ª série de gráfico, alerta suave -->
+    <color name="md_tertiary">#8A5A2B</color>             <!-- 5,59 sobre surface -->
+    <color name="md_on_tertiary">#FFFFFF</color>          <!-- 5,87 sobre tertiary -->
+    <color name="md_tertiary_container">#FFDDB8</color>
+    <color name="md_on_tertiary_container">#2E1700</color> <!-- 13,15 sobre container -->
+
+    <!-- Superfícies: fundo quente, cartões mais claros que o fundo -->
+    <color name="md_background">#FBF3F1</color>
+    <color name="md_on_background">#2A2224</color>        <!-- 14,19 sobre background -->
+    <color name="md_surface">#FFF8F6</color>
+    <color name="md_on_surface">#2A2224</color>           <!-- 14,79 sobre surface -->
+    <color name="md_surface_variant">#F4E4E6</color>
+    <color name="md_on_surface_variant">#5D4B50</color>   <!-- 7,73 sobre surface -->
+
+    <!-- Contornos. ATENÇÃO: outline tem 4,25 — só borda e eixo, nunca texto. -->
+    <color name="md_outline">#8A7176</color>
+    <color name="md_outline_variant">#E6D2D6</color>
+
+    <!-- Erro -->
+    <color name="md_error">#B3261E</color>                <!-- 6,23 sobre surface -->
+    <color name="md_on_error">#FFFFFF</color>             <!-- 6,54 sobre error -->
+    <color name="md_error_container">#F9DEDC</color>
+    <color name="md_on_error_container">#410E0B</color>   <!-- 12,77 sobre container -->
+
+    <!-- Rótulo micro: o cinza mais claro ainda legível como texto de apoio -->
+    <color name="md_label_micro">#7A6469</color>
+
+    <!-- Gráfico (MPAndroidChart) -->
+    <color name="chart_line">#A81F52</color>
+    <color name="chart_fill">#F7C9D8</color>
+    <color name="chart_point">#A81F52</color>
+    <color name="chart_highlight">#C2185B</color>
+    <color name="chart_second_series">#8A5A2B</color>
+    <color name="chart_grid">#E6D2D6</color>
+    <color name="chart_axis_line">#D9C2C7</color>
+    <color name="chart_axis_text">#7A6469</color>
+    <color name="chart_limit_line">#F4E4E6</color>
+
+    <!-- Véu dos bottom sheets -->
+    <color name="md_scrim">#6B281C46</color>
+
+</resources>

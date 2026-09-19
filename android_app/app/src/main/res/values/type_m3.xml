@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Escala tipográfica do redesign.
+  ~ Fonte: design/Tokens.dc.html, seção "Escala tipográfica".
+  ~
+  ~ Duas famílias:
+  ~   Bricolage Grotesque (800/700) — só números e títulos curtos. É ela que
+  ~     cria o contraste de peso do design.
+  ~   Instrument Sans (400/500/600) — todo o resto.
+  ~
+  ~ Tudo em sp (nunca dp) para respeitar o tamanho de fonte do sistema.
+  -->
+<resources>
+
+    <!-- Número herói: o peso na tela Hoje. displayLarge.
+         O token define 64sp; a tela Hoje usa 84sp como destaque próprio. -->
+    <style name="TextAppearance.OpenScale.HeroNumber" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="android:fontFamily">@font/bricolage_grotesque_extrabold</item>
+        <item name="android:textSize">64sp</item>
+        <item name="android:letterSpacing">-0.035</item>
+        <item name="lineHeight">59sp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Número secundário: valores nos cartões de métrica. headlineMedium -->
+    <style name="TextAppearance.OpenScale.SecondaryNumber" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">@font/bricolage_grotesque_bold</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="lineHeight">34sp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Título de tela: "Histórico", "Medições", "Perfil". headlineSmall -->
+    <style name="TextAppearance.OpenScale.ScreenTitle" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">@font/bricolage_grotesque_bold</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:letterSpacing">-0.015</item>
+        <item name="lineHeight">30sp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Título de seção. titleMedium -->
+    <style name="TextAppearance.OpenScale.SectionTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">@font/instrument_sans_semibold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="lineHeight">23sp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Corpo. bodyLarge -->
+    <style name="TextAppearance.OpenScale.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">@font/instrument_sans_regular</item>
+        <item name="android:textSize">15sp</item>
+        <item name="lineHeight">23sp</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Rótulo. labelLarge -->
+    <style name="TextAppearance.OpenScale.Label" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">@font/instrument_sans_medium</item>
+        <item name="android:textSize">13sp</item>
+        <item name="lineHeight">16sp</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Rótulo micro: caixa alta, muito espaçado. É a assinatura do design.
+         labelSmall. Usado em "ÚLTIMA MEDIÇÃO", "COMPOSIÇÃO", etc. -->
+    <style name="TextAppearance.OpenScale.LabelMicro" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/instrument_sans_semibold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:letterSpacing">0.09</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="lineHeight">13sp</item>
+        <item name="android:textColor">@color/md_label_micro</item>
+    </style>
+
+    <!-- Unidade ao lado do número ("kg", "%"). Não está nomeado nos tokens,
+         mas aparece em toda tela do protótipo, sempre no mesmo tratamento. -->
+    <style name="TextAppearance.OpenScale.Unit" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">@font/instrument_sans_medium</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Chip de variação ("↓ 0,6 kg") -->
+    <style name="TextAppearance.OpenScale.Delta" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">@font/instrument_sans_semibold</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+</resources>
