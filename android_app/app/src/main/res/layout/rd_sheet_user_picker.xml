@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sheet "Trocar de pessoa". -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/android:colorBackground"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/rd_screen_margin"
+    android:paddingTop="14dp"
+    android:paddingEnd="@dimen/rd_screen_margin"
+    android:paddingBottom="28dp">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_rd_sheet_handle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/rd_gap_tight"
+        android:text="@string/rd_profile_switch_person"
+        android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro" />
+
+    <LinearLayout
+        android:id="@+id/rd_user_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rd_user_close"
+        style="@style/Widget.OpenScale.Button.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/rd_gap_tight"
+        android:text="@string/rd_close" />
+
+</LinearLayout>

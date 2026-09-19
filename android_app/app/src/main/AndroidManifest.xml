@@ -38,8 +38,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Activity da UI redesenhada.
+             NAO e o launcher ainda: enquanto o build nao puder ser verificado,
+             a MainActivity antiga continua sendo a porta de entrada. Para
+             trocar, mova o intent-filter MAIN/LAUNCHER para ca.
+             Ver .claude/docs/decisoes-implementacao.md (decisao 12). -->
+        <activity
+            android:name=".gui.redesign.MainActivityNew"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.OpenScale" />
+
         <activity android:name=".gui.slides.AppIntroActivity" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".gui.slides.SlideToNavigationAdapter" android:theme="@style/AppTheme.NoActionBar"/>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <receiver android:name=".core.alarm.ReminderBootReceiver" android:enabled="false">
             <intent-filter>

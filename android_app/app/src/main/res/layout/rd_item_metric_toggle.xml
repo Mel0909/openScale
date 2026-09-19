@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Linha de métrica nos Ajustes: nome, origem do dado, interruptor. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="56dp"
+    android:orientation="horizontal"
+    android:paddingTop="13dp"
+    android:paddingBottom="13dp">
+
+    <TextView
+        android:id="@+id/rd_toggle_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.OpenScale.Label"
+        android:textSize="14sp"
+        android:textColor="?attr/colorOnSurface"
+        tools:text="Gordura" />
+
+    <TextView
+        android:id="@+id/rd_toggle_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/rd_gap"
+        android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+        android:textAllCaps="false"
+        android:letterSpacing="0"
+        android:textSize="11sp"
+        tools:text="estimada" />
+
+    <Switch
+        android:id="@+id/rd_toggle_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Quatro abas do design: Hoje · Histórico · Medições · Perfil.
+  ~ Os ids casam com os destinos de rd_navigation.xml, o que faz o
+  ~ NavigationUI ligar aba e destino sem código extra.
+  -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/rd_today"
+        android:icon="@drawable/ic_rd_today"
+        android:title="@string/rd_nav_today" />
+    <item
+        android:id="@+id/rd_history"
+        android:icon="@drawable/ic_rd_history"
+        android:title="@string/rd_nav_history" />
+    <item
+        android:id="@+id/rd_records"
+        android:icon="@drawable/ic_rd_records"
+        android:title="@string/rd_nav_records" />
+    <item
+        android:id="@+id/rd_profile"
+        android:icon="@drawable/ic_rd_profile"
+        android:title="@string/rd_nav_profile" />
+</menu>

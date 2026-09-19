@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Esqueleto do app redesenhado.
+  ~
+  ~ Diferenças de propósito em relação ao activity_main.xml antigo:
+  ~   - sem DrawerLayout: o design não tem menu lateral
+  ~   - sem Toolbar: cada tela traz o próprio título
+  ~   - o botão "Pesar" flutua sobre o conteúdo, acima da bottom nav
+  ~
+  ~ O conteúdo vai até embaixo (a bottom nav fica sobreposta) para o scroll
+  ~ passar por baixo dela; o padding inferior dos fragments compensa.
+  -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rd_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/android:colorBackground"
+    android:fitsSystemWindows="true">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/rd_nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/rd_navigation" />
+
+    <!-- Botão Pesar. Não é um FAB do Material: o design especifica um
+         retângulo de cantos 20dp com rótulo, não um círculo. -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rd_weigh_button"
+        style="@style/Widget.OpenScale.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/rd_fab_height"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/rd_screen_margin"
+        android:layout_marginBottom="@dimen/rd_fab_margin_bottom"
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
+        android:text="@string/rd_weigh_action"
+        app:cornerRadius="@dimen/rd_radius_fab"
+        app:icon="@drawable/ic_rd_scale"
+        app:iconGravity="textStart"
+        app:iconTint="?attr/colorOnPrimary" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/rd_bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rd_bottom_nav_height"
+        android:layout_gravity="bottom"
+        android:background="?attr/colorSurface"
+        app:elevation="0dp"
+        app:itemActiveIndicatorStyle="@style/Widget.OpenScale.NavIndicator"
+        app:itemIconTint="@color/color_rd_nav_icon"
+        app:itemTextColor="@color/color_rd_nav_label"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/rd_bottom_nav" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

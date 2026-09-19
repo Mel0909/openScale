@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Tela Hoje. Estrutura do protótipo, de cima para baixo:
+  ~   cabeçalho (chip de usuário + ajustes)
+  ~   peso herói + chip de variação
+  ~   cartão de sparkline, clicável, leva ao Histórico
+  ~   grade 2 colunas de cartões de métrica
+  -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/rd_screen_margin"
+    android:paddingEnd="@dimen/rd_screen_margin"
+    android:paddingBottom="@dimen/rd_content_bottom_padding"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- ── Cabeçalho ─────────────────────────────────────────────── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_tight"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Chip de usuário: avatar com inicial + nome. Abre o seletor. -->
+            <LinearLayout
+                android:id="@+id/rd_user_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rd_user_chip"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:minHeight="44dp"
+                android:orientation="horizontal"
+                android:paddingStart="6dp"
+                android:paddingEnd="14dp">
+
+                <TextView
+                    android:id="@+id/rd_user_initial"
+                    android:layout_width="@dimen/rd_avatar_small"
+                    android:layout_height="@dimen/rd_avatar_small"
+                    android:background="@drawable/bg_rd_avatar"
+                    android:gravity="center"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    tools:text="M" />
+
+                <TextView
+                    android:id="@+id/rd_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:textAppearance="@style/TextAppearance.OpenScale.Label"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:text="Marina" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="▾"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/rd_settings_button"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/rd_cd_settings"
+                android:src="@drawable/ic_rd_settings" />
+        </LinearLayout>
+
+        <!-- ── Peso herói ────────────────────────────────────────────── -->
+        <TextView
+            android:id="@+id/rd_hero_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+            tools:text="Peso · 17 set, 08:12" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_tight"
+            android:baselineAligned="true"
+            android:orientation="horizontal">
+
+            <!-- 84sp é o destaque próprio da tela Hoje; o token displayLarge
+                 é 64sp e vale para os demais usos. -->
+            <TextView
+                android:id="@+id/rd_hero_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.OpenScale.HeroNumber"
+                android:textSize="84sp"
+                tools:text="72,4" />
+
+            <TextView
+                android:id="@+id/rd_hero_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textAppearance="@style/TextAppearance.OpenScale.Unit"
+                android:textSize="20sp"
+                tools:text="kg" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rd_hero_delta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rd_delta_chip"
+                android:paddingStart="14dp"
+                android:paddingTop="9dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="9dp"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                tools:text="↓ 0,6 kg" />
+
+            <TextView
+                android:id="@+id/rd_hero_since"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="9dp"
+                android:textAppearance="@style/TextAppearance.OpenScale.Body"
+                android:textSize="13sp"
+                tools:text="desde 12 set" />
+        </LinearLayout>
+
+        <!-- ── Sparkline ─────────────────────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/rd_sparkline_card"
+            style="@style/Widget.OpenScale.Card.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:clickable="true"
+            android:focusable="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/rd_today_last_30_days"
+                        android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rd_today_see_history"
+                        android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+                        android:textColor="?attr/colorPrimary" />
+                </LinearLayout>
+
+                <com.health.openscale.gui.redesign.widget.SparklineView
+                    android:id="@+id/rd_sparkline"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/rd_sparkline_height"
+                    android:layout_marginTop="@dimen/rd_gap_tight" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rd_spark_start"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+                        android:textAllCaps="false"
+                        android:letterSpacing="0"
+                        tools:text="18 ago" />
+
+                    <TextView
+                        android:id="@+id/rd_spark_mid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+                        android:textAllCaps="false"
+                        android:letterSpacing="0"
+                        tools:text="2 set" />
+
+                    <TextView
+                        android:id="@+id/rd_spark_end"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+                        android:textAllCaps="false"
+                        android:letterSpacing="0"
+                        tools:text="17 set" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── Composição ────────────────────────────────────────────── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/rd_today_composition"
+                android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro" />
+
+            <TextView
+                android:id="@+id/rd_choose_metrics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="@string/rd_today_choose_metrics"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+                android:textColor="?attr/colorPrimary" />
+        </LinearLayout>
+
+        <!-- Grade de métricas, preenchida em runtime.
+             LinearLayout vertical que recebe uma linha (LinearLayout
+             horizontal) a cada duas métricas. Evita depender da lib
+             androidx.gridlayout só por isto. -->
+        <LinearLayout
+            android:id="@+id/rd_metric_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap"
+            android:orientation="vertical" />
+
+        <!-- Estado vazio: sem nenhuma medição ainda. -->
+        <LinearLayout
+            android:id="@+id/rd_empty_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rd_today_no_data"
+                android:textAppearance="@style/TextAppearance.OpenScale.SectionTitle" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/rd_gap_tight"
+                android:gravity="center"
+                android:text="@string/rd_today_no_data_hint"
+                android:textAppearance="@style/TextAppearance.OpenScale.Body" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Tela Histórico: chips de métrica, seletor de período, gráfico e stats.
+  -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/rd_screen_margin"
+    android:paddingEnd="@dimen/rd_screen_margin"
+    android:paddingBottom="@dimen/rd_content_bottom_padding"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Widget.OpenScale.ScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rd_nav_history" />
+
+        <!-- Chips de métrica, rolagem horizontal -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/rd_metric_chips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="true"
+                app:singleSelection="true" />
+        </HorizontalScrollView>
+
+        <!-- Seletor de período -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap"
+            android:background="@drawable/bg_rd_segmented"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/rd_period_week"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="44dp"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:text="@string/rd_history_period_week"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta" />
+
+            <TextView
+                android:id="@+id/rd_period_month"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="44dp"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:text="@string/rd_history_period_month"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta" />
+
+            <TextView
+                android:id="@+id/rd_period_year"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="44dp"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:text="@string/rd_history_period_year"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta" />
+        </LinearLayout>
+
+        <!-- Cartão do gráfico -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.OpenScale.Card.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/rd_chart_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+                            android:textSize="10.5sp"
+                            tools:text="Peso · por mês" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:baselineAligned="true"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/rd_chart_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.OpenScale.SecondaryNumber"
+                                android:textSize="32sp"
+                                tools:text="72,4" />
+
+                            <TextView
+                                android:id="@+id/rd_chart_unit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:textAppearance="@style/TextAppearance.OpenScale.Unit"
+                                android:textSize="13sp"
+                                tools:text="kg" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/rd_chart_delta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+                        android:textColor="?attr/colorPrimary"
+                        tools:text="↓ 1,8 kg" />
+                </LinearLayout>
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/rd_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/rd_chart_height"
+                    android:layout_marginTop="@dimen/rd_gap" />
+
+                <TextView
+                    android:id="@+id/rd_history_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rd_gap"
+                    android:gravity="center"
+                    android:text="@string/rd_records_empty"
+                    android:textAppearance="@style/TextAppearance.OpenScale.Body"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Estatísticas -->
+        <LinearLayout
+            android:id="@+id/rd_chart_stats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/rd_stat_min"
+                layout="@layout/rd_item_stat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/rd_stat_avg"
+                layout="@layout/rd_item_stat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/rd_stat_max"
+                layout="@layout/rd_item_stat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/rd_aggregation_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap"
+            android:textAppearance="@style/TextAppearance.OpenScale.Body"
+            android:textSize="13sp"
+            tools:text="Cada ponto é a média daquela semana." />
+
+    </LinearLayout>
+</ScrollView>

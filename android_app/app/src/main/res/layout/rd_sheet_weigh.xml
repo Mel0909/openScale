@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Sheet "Pesar".
+  ~ Dois estados no mesmo layout: aguardando (número em placeholder cinza) e
+  ~ leitura recebida (número em onSurface). A troca é feita em código.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/android:colorBackground"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/rd_screen_margin"
+    android:paddingTop="14dp"
+    android:paddingEnd="@dimen/rd_screen_margin"
+    android:paddingBottom="28dp">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_rd_sheet_handle" />
+
+    <!-- Status da balança: ponto + texto. Substitui o ícone que ficava na
+         toolbar da UI antiga. -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/rd_weigh_status_dot"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:background="@drawable/bg_rd_status_dot" />
+
+        <TextView
+            android:id="@+id/rd_weigh_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="Beurer BF700 · conectada" />
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.OpenScale.Card.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/rd_weigh_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+                tools:text="Suba na balança descalça" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:baselineAligned="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/rd_weigh_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.OpenScale.HeroNumber"
+                    tools:text="72,1" />
+
+                <TextView
+                    android:id="@+id/rd_weigh_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/TextAppearance.OpenScale.Unit"
+                    android:visibility="gone"
+                    tools:text="kg"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/rd_weigh_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.OpenScale.Body"
+                android:textSize="12.5sp"
+                tools:text="Aguardando a leitura." />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rd_weigh_manual"
+            style="@style/Widget.OpenScale.Button.Outlined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/rd_gap_tight"
+            android:text="@string/rd_weigh_manual" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rd_weigh_save"
+            style="@style/Widget.OpenScale.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/rd_weigh_waiting_cta" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/rd_gap"
+        android:gravity="center"
+        android:text="@string/rd_weigh_manual_hint"
+        android:textAppearance="@style/TextAppearance.OpenScale.Body"
+        android:textSize="11.5sp" />
+
+</LinearLayout>

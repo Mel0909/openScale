@@ -103,6 +103,21 @@
         <item name="android:layout_marginTop">12dp</item>
     </style>
 
+    <!-- ── Bottom nav ───────────────────────────────────────────────────
+         O design marca a aba ativa com uma pill de primaryContainer atrás
+         do ícone, e mantém o rótulo sempre visível. -->
+    <style name="Widget.OpenScale.NavIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorPrimaryContainer</item>
+        <item name="android:width">56dp</item>
+        <item name="android:height">32dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.OpenScale.Pill</item>
+    </style>
+
+    <style name="ShapeAppearance.OpenScale.Pill" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
     <!-- ── Bottom sheet ─────────────────────────────────────────────── -->
     <style name="Widget.OpenScale.BottomSheet" parent="Widget.Material3.BottomSheet">
         <item name="backgroundTint">?attr/android:colorBackground</item>

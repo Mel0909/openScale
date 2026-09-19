@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Grafo de navegação do redesign.
+  ~
+  ~ Quatro destinos de topo (as abas) + Ajustes, que é alcançado pelo ícone
+  ~ no cabeçalho da tela Hoje, não por aba.
+  ~
+  ~ Os ids dos quatro primeiros são idênticos aos do menu rd_bottom_nav.xml
+  ~ de propósito: é assim que NavigationUI.setupWithNavController liga os dois.
+  -->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rd_navigation"
+    app:startDestination="@id/rd_today">
+
+    <fragment
+        android:id="@+id/rd_today"
+        android:name="com.health.openscale.gui.redesign.TodayFragment"
+        android:label="@string/rd_nav_today"
+        tools:layout="@layout/rd_fragment_today">
+        <action
+            android:id="@+id/rd_action_today_to_history"
+            app:destination="@id/rd_history" />
+        <action
+            android:id="@+id/rd_action_today_to_settings"
+            app:destination="@id/rd_settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/rd_history"
+        android:name="com.health.openscale.gui.redesign.HistoryFragment"
+        android:label="@string/rd_nav_history"
+        tools:layout="@layout/rd_fragment_history">
+        <!-- Qual métrica abrir. Vazio = a primeira habilitada (peso). -->
+        <argument
+            android:name="metricKey"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/rd_records"
+        android:name="com.health.openscale.gui.redesign.RecordsFragment"
+        android:label="@string/rd_nav_records"
+        tools:layout="@layout/rd_fragment_records" />
+
+    <fragment
+        android:id="@+id/rd_profile"
+        android:name="com.health.openscale.gui.redesign.ProfileFragment"
+        android:label="@string/rd_nav_profile"
+        tools:layout="@layout/rd_fragment_profile">
+        <action
+            android:id="@+id/rd_action_profile_to_settings"
+            app:destination="@id/rd_settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/rd_settings"
+        android:name="com.health.openscale.gui.redesign.SettingsFragment"
+        android:label="@string/rd_title_settings"
+        tools:layout="@layout/rd_fragment_settings" />
+
+</navigation>

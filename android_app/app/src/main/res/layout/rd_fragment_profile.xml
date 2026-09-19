@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tela Perfil: campos que alimentam as fórmulas + pessoas nesta balança. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/rd_screen_margin"
+    android:paddingEnd="@dimen/rd_screen_margin"
+    android:paddingBottom="@dimen/rd_content_bottom_padding"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Widget.OpenScale.ScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rd_nav_profile" />
+
+        <!-- Cabeçalho do perfil ativo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rd_profile_initial"
+                android:layout_width="@dimen/rd_avatar_large"
+                android:layout_height="@dimen/rd_avatar_large"
+                android:background="@drawable/bg_rd_avatar"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.OpenScale.SecondaryNumber"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="24sp"
+                tools:text="M" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/rd_profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="@style/TextAppearance.OpenScale.SectionTitle"
+                    tools:text="Marina Alves" />
+
+                <TextView
+                    android:id="@+id/rd_profile_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:textAppearance="@style/TextAppearance.OpenScale.Body"
+                    android:textSize="13sp"
+                    tools:text="Desde março de 2024 · 128 medições" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Aviso de que os campos alimentam as fórmulas -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:background="@drawable/bg_rd_info"
+            android:padding="17dp"
+            android:text="@string/rd_profile_formula_note"
+            android:textAppearance="@style/TextAppearance.OpenScale.Body"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/rd_profile_fields"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:orientation="vertical" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:layout_marginBottom="@dimen/rd_gap_tight"
+            android:text="@string/rd_profile_people"
+            android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+            android:textSize="10.5sp" />
+
+        <LinearLayout
+            android:id="@+id/rd_profile_users"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+</ScrollView>

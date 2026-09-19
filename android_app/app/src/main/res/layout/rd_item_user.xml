@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Linha de usuário: avatar, nome, último peso, e "Ativo" no selecionado. -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rd_user_row_card"
+    style="@style/Widget.OpenScale.Card.Clickable"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/rd_gap_tight"
+    android:minHeight="@dimen/rd_user_row_min_height">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/rd_user_row_initial"
+            android:layout_width="@dimen/rd_avatar_medium"
+            android:layout_height="@dimen/rd_avatar_medium"
+            android:background="@drawable/bg_rd_avatar"
+            android:gravity="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="M" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rd_user_row_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.OpenScale.Label"
+                android:textSize="14.5sp"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="Marina" />
+
+            <TextView
+                android:id="@+id/rd_user_row_subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.OpenScale.Body"
+                android:textSize="12sp"
+                tools:text="72,4 kg · 17 set" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/rd_user_row_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/rd_gap_tight"
+            android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+            android:textSize="12sp"
+            android:textColor="?attr/colorPrimary"
+            android:visibility="gone"
+            tools:text="Ativo"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

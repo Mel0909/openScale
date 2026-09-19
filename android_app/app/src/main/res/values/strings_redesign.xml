@@ -127,6 +127,14 @@
     <string name="rd_add_decrease">Decrease</string>
     <string name="rd_add_increase">Increase</string>
 
+    <!-- Ponte para as telas ainda não reconstruídas (backup, lembretes,
+         pareamento, idioma). Ver .claude/docs/inventario-legado.md. -->
+    <string name="rd_settings_more">More settings (classic screens)</string>
+    <string name="rd_legacy_unavailable">Could not open the classic screen</string>
+
+    <!-- ── Unidades ─────────────────────────────────────────────────── -->
+    <string name="rd_unit_kcal">kcal</string>
+
     <!-- ── Comuns ───────────────────────────────────────────────────── -->
     <string name="rd_close">Close</string>
     <string name="rd_cancel">Cancel</string>

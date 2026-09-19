@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Cartão de estatística (mínimo / média / máximo) do Histórico.
+  ~ Incluído três vezes via <include>, cada um com id próprio — por isso os
+  ~ ids internos se repetem e são resolvidos a partir do container.
+  -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.OpenScale.Card.Small"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:layout_marginEnd="@dimen/rd_gap_tight">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rd_stat_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+            android:textSize="10sp"
+            tools:text="Média" />
+
+        <TextView
+            android:id="@+id/rd_stat_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.OpenScale.SecondaryNumber"
+            android:textSize="20sp"
+            tools:text="72,8 kg" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

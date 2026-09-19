@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tela Ajustes: balança, métricas, dados, aparência. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/rd_screen_margin"
+    android:paddingEnd="@dimen/rd_screen_margin"
+    android:paddingBottom="@dimen/rd_content_bottom_padding"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Widget.OpenScale.ScreenTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rd_title_settings" />
+
+        <!-- ── Balança ──────────────────────────────────────────────── -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.OpenScale.Card.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_rd_icon_tile"
+                        android:contentDescription="@null"
+                        android:padding="12dp"
+                        android:src="@drawable/ic_rd_scale"
+                        app:tint="?attr/colorOnPrimaryContainer"
+                        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/rd_scale_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textAppearance="@style/TextAppearance.OpenScale.Label"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textSize="14.5sp"
+                            tools:text="Beurer BF700" />
+
+                        <TextView
+                            android:id="@+id/rd_scale_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:textAppearance="@style/TextAppearance.OpenScale.Body"
+                            android:textSize="12sp"
+                            tools:text="Conectada" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/rd_scale_search"
+                    style="@style/Widget.OpenScale.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/rd_gap"
+                    android:text="@string/rd_settings_scale_search" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── Métricas ─────────────────────────────────────────────── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:layout_marginBottom="@dimen/rd_gap_tight"
+            android:text="@string/rd_settings_metrics_shown"
+            android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+            android:textSize="10.5sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.OpenScale.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/rd_metric_toggles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="?android:attr/listDivider"
+                android:orientation="vertical"
+                android:showDividers="middle" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_tight"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="@string/rd_settings_metrics_order_note"
+            android:textAppearance="@style/TextAppearance.OpenScale.Body"
+            android:textSize="12sp" />
+
+        <!-- ── Dados ────────────────────────────────────────────────── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:layout_marginBottom="@dimen/rd_gap_tight"
+            android:text="@string/rd_settings_data"
+            android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+            android:textSize="10.5sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rd_import_csv"
+                style="@style/Widget.OpenScale.Card.Clickable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/rd_gap_tight"
+                android:layout_weight="1"
+                android:minHeight="84dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_rd_import"
+                        app:tint="?attr/colorPrimary"
+                        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/rd_gap_tight"
+                        android:text="@string/rd_settings_import_csv"
+                        android:textAppearance="@style/TextAppearance.OpenScale.Label"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="13.5sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rd_export_csv"
+                style="@style/Widget.OpenScale.Card.Clickable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="84dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_rd_export"
+                        app:tint="?attr/colorPrimary"
+                        xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/rd_gap_tight"
+                        android:text="@string/rd_settings_export_csv"
+                        android:textAppearance="@style/TextAppearance.OpenScale.Label"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textSize="13.5sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_tight"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:text="@string/rd_settings_export_note"
+            android:textAppearance="@style/TextAppearance.OpenScale.Body"
+            android:textSize="12sp" />
+
+        <!-- ── Aparência ────────────────────────────────────────────── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:layout_marginBottom="@dimen/rd_gap_tight"
+            android:text="@string/rd_settings_appearance"
+            android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+            android:textSize="10.5sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rd_segmented"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/rd_theme_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="46dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/rd_settings_theme_light"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta" />
+
+            <TextView
+                android:id="@+id/rd_theme_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="46dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/rd_settings_theme_dark"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta" />
+
+            <TextView
+                android:id="@+id/rd_theme_system"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="46dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/rd_settings_theme_system"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta" />
+        </LinearLayout>
+
+        <!-- Acento: só a paleta rosa tem contraste verificado nos tokens,
+             então a azul mostra um aviso ao ser tocada. Ver decisão §4. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_tight"
+            android:background="@drawable/bg_rd_segmented"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <TextView
+                android:id="@+id/rd_accent_pink"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rd_segment_selected"
+                android:gravity="center"
+                android:minHeight="46dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/rd_settings_accent_pink"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+                android:textColor="?attr/colorOnSurface" />
+
+            <TextView
+                android:id="@+id/rd_accent_blue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minHeight="46dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/rd_settings_accent_blue"
+                android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+
+        <!-- Ponte para o que ainda não foi reconstruído -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rd_more_settings"
+            style="@style/Widget.OpenScale.Button.Outlined"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_section"
+            android:text="@string/rd_settings_more" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Cartão de métrica da grade da tela Hoje.
+  ~ layout_width 0 + weight 1 faz dois cartões dividirem a linha igualmente.
+  -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.OpenScale.Card.Clickable"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:layout_marginEnd="@dimen/rd_gap"
+    android:minHeight="@dimen/rd_metric_card_min_height">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/rd_metric_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.OpenScale.LabelMicro"
+            android:textSize="10.5sp"
+            tools:text="Gordura" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:baselineAligned="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/rd_metric_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.OpenScale.SecondaryNumber"
+                android:textSize="31sp"
+                tools:text="23,8" />
+
+            <TextView
+                android:id="@+id/rd_metric_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textAppearance="@style/TextAppearance.OpenScale.Unit"
+                android:textSize="12sp"
+                tools:text="%" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/rd_metric_delta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:textAppearance="@style/TextAppearance.OpenScale.Delta"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="↓ 0,3" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
