@@ -23,36 +23,30 @@ Studio instalado, é um build — e é esperado que apareçam ajustes.
 
 Os pontos de maior risco de falhar na primeira compilação estão marcados com 🔴.
 
-### 🚧 Bloqueio que me impediu de terminar o tema escuro
+### ✅ Resolvido depois (2026-09-20)
 
-A regra `Edit(res/values-*/**)` no `.claude/settings.json` — **que eu mesmo escrevi
-ontem** para proteger as traduções do Weblate — também bloqueia
-`res/values-night/`, que **não é traduzível**: é o tema escuro.
+Três pendências da noite foram fechadas com sua autorização:
 
-Tentei refinar a regra para mirar só `values-*/strings.xml` e fui corretamente
-impedido: alterar as próprias permissões não é algo que eu deva fazer sem você.
+**Tema escuro.** A regra `Edit(res/values-*/**)` — escrita para proteger as
+traduções do Weblate — também bloqueava `res/values-night/`, que não é traduzível.
+A regra passou a mirar só `values-*/strings.xml`, e `values-night/colors_m3.xml`
+foi criado: 35 cores, paridade exata de chaves com o tema claro (conferida).
 
-**Consequência:** `values/colors_m3.xml` (tema claro) existe, mas
-`values-night/colors_m3.xml` **não foi criado**. Sem ele, o tema escuro cai nas cores
-claras — o app fica legível, mas errado no escuro.
+**Strings em português.** As 104 strings do redesign agora existem em
+`values-pt-rBR/strings_redesign.xml`, com os textos literais do protótipo.
+Chaves e placeholders `%1$s` conferidos contra o inglês — cobertura igual,
+sem divergência (divergência de placeholder é crash em runtime, não erro de build).
 
-**O que você precisa fazer (1 minuto):** trocar no `.claude/settings.json` a linha
+**Launcher.** `MainActivityNew` passou a ser a porta de entrada. Ao fazer isso
+apareceu algo que eu não tinha previsto: o **onboarding da primeira execução**
+(`firstStart` → `AppIntroActivity` → criar usuário) vivia só na Activity antiga.
+Sem trazê-lo, uma instalação nova abriria sem nenhum perfil — e o app não grava
+medição sem usuário selecionado. Foi portado para a Activity nova, cobrindo
+também o caso de já ter visto os slides mas continuar sem perfil.
 
-```
-"Edit(android_app/app/src/main/res/values-*/**)"
-```
-
-por
-
-```
-"Edit(android_app/app/src/main/res/values-*/strings.xml)",
-"Write(android_app/app/src/main/res/values-*/strings.xml)"
-```
-
-Isso mantém a proteção do Weblate (que é sobre `strings.xml`) e libera o tema escuro.
-Depois é só me pedir "cria o values-night" — deixei o conteúdo pronto em
-`.claude/docs/values-night-colors.xml.txt`, é só copiar para
-`res/values-night/colors_m3.xml`.
+Sobre o botão voltar na ponte: a Overview antiga intercepta o back e chama
+`finish()`. Como a Activity nova está embaixo na pilha, isso fecha só a antiga e
+devolve o usuário à UI nova — comportamento correto, verificado por leitura.
 
 ---
 
@@ -398,26 +392,21 @@ qualquer problema visual. É por isso que o §0 existe.
 
 Em ordem do que mais muda o resultado:
 
-1. **Permissão do `values-night`** (§0) — 1 minuto de ajuste, e o tema escuro passa
-   a existir. É o item mais barato com maior efeito.
-2. **Meta de peso** (§9) — a tela Statistics sumiu e a meta não tem lar no design.
+1. **Meta de peso** (§9) — a tela Statistics sumiu e a meta não tem lar no design.
    Minha sugestão: cartão na tela Hoje, abaixo do sparkline.
-3. **Fontes** (§3) — empacotar os `.ttf`? Recomendo que sim: sem isso, no F-Droid
+2. **Fontes** (§3) — empacotar os `.ttf`? Recomendo que sim: sem isso, no F-Droid
    as fontes caem no fallback e o design perde sua assinatura tipográfica.
-4. **Rótulo dos calipers por sexo** (§18, item 5) — está fixo no feminino.
-5. **"Últimos 30 dias"** (§16) — mudar o texto ou o comportamento?
-6. **Paleta azul** (§4) — quer? Precisaria dos contrastes verificados antes.
-7. **Backup, lembretes, onboarding, widget** — continuam só na UI antiga, via
-   `LegacyBridge`. Viram tela nova ou corte explícito?
-8. **Quando trocar o launcher** (§12) — depois do primeiro build que rode.
-9. **`values-pt-rBR`** (§6) — bloqueado pela mesma regra do §0. As strings em
-   português do protótipo ainda não foram aplicadas; a UI aparece em inglês.
+3. **Rótulo dos calipers por sexo** (§18, item 5) — está fixo no feminino.
+4. **"Últimos 30 dias"** (§16) — mudar o texto ou o comportamento?
+5. **Paleta azul** (§4) — quer? Precisaria dos contrastes verificados antes.
+6. **Backup, lembretes, widget** — continuam só na UI antiga, via `LegacyBridge`.
+   Viram tela nova ou corte explícito?
+7. **Edição de perfil** (§14) — ainda abre a tela antiga.
 
 ---
 
-## Ordem sugerida para amanhã
+## Ordem sugerida
 
-1. Abrir no Android Studio e **compilar**. Esperar erros — nada rodou.
-2. Liberar `values-night` (§0) e me pedir o tema escuro.
-3. Trocar o launcher (§12) e ver as telas de pé.
-4. A partir daí, decidir os itens 2–7 acima com a tela na frente.
+1. Abrir no Android Studio e **compilar**. Esperar erros — nada rodou ainda.
+2. Rodar e navegar pelas cinco telas, nos dois temas.
+3. A partir daí, decidir os itens acima com a tela na frente.
