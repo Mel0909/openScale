@@ -1,13 +1,3 @@
-Destino: android_app/app/src/main/res/values-night/colors_m3.xml
-
-Não consegui criar este arquivo: a regra Edit(res/values-*/**) do
-.claude/settings.json — escrita para proteger as traduções do Weblate — também
-bloqueia values-night/, que não é traduzível. Ver §0 de decisoes-implementacao.md.
-
-Copie o conteúdo abaixo (da linha <?xml em diante) para o caminho acima.
-
-────────────────────────────────────────────────────────────────────────
-
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Paleta do redesign — tema escuro.
@@ -43,7 +33,8 @@ Copie o conteúdo abaixo (da linha <?xml em diante) para o caminho acima.
     <color name="md_surface_variant">#3A2C30</color>
     <color name="md_on_surface_variant">#D6BFC5</color>   <!-- 7,60 sobre surfaceVariant -->
 
-    <!-- Contornos. No escuro a hierarquia dos cartões vem desta borda de 1px. -->
+    <!-- Contornos. No escuro a hierarquia dos cartões vem desta borda de 1px,
+         já que o design não usa sombra em nenhum dos dois temas. -->
     <color name="md_outline">#9E848A</color>              <!-- 5,41 sobre surface -->
     <color name="md_outline_variant">#4A393E</color>
 

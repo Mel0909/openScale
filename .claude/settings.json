@@ -22,8 +22,10 @@
       "Bash(./gradlew assembleDebug:*)"
     ],
     "deny": [
-      "Edit(android_app/app/src/main/res/values-*/**)",
+      "Edit(android_app/app/src/main/res/values-*/strings.xml)",
+      "Write(android_app/app/src/main/res/values-*/strings.xml)",
       "Edit(android_app/app/src/main/java/com/health/openscale/core/bluetooth/**)",
+      "Write(android_app/app/src/main/java/com/health/openscale/core/bluetooth/**)",
       "Read(./android_app/app/build/**)",
       "Read(./android_app/.gradle/**)"
     ]
