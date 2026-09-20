@@ -59,6 +59,7 @@ import com.health.openscale.core.data.Trend
 import com.health.openscale.core.facade.SettingsPreferenceKeys
 import com.health.openscale.core.model.AggregatedMeasurement
 import com.health.openscale.core.utils.LocaleUtils
+import com.health.openscale.ui.design.DesignFormat
 import com.health.openscale.ui.design.DesignTokens
 import com.health.openscale.ui.design.components.DesignDelta
 import com.health.openscale.ui.design.components.DesignDeltaChip
@@ -254,8 +255,8 @@ private fun HojeHero(items: List<AggregatedMeasurement>) {
         )
         Spacer(Modifier.height(8.dp))
         DesignHeroValue(
-            value = raw?.let { LocaleUtils.formatValueForDisplay(it.toString(), type.unit) } ?: "—",
-            unit = type.unit.displayName,
+            value = raw?.let { DesignFormat.number(it, type.unit) } ?: "—",
+            unit = DesignFormat.unitLabel(type.unit),
         )
 
         val diff = weight.difference
@@ -263,7 +264,10 @@ private fun HojeHero(items: List<AggregatedMeasurement>) {
             Spacer(Modifier.height(16.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 DesignDeltaChip(
-                    text = LocaleUtils.formatValueForDisplay(abs(diff).toString(), type.unit),
+                    text = buildString {
+                        append(DesignFormat.number(abs(diff), type.unit))
+                        DesignFormat.unitLabel(type.unit)?.let { append(" ").append(it) }
+                    },
                     delta = when (weight.trend) {
                         Trend.DOWN -> DesignDelta.DOWN
                         Trend.UP -> DesignDelta.UP
@@ -333,13 +337,27 @@ private fun HojeComposition(
     val context = LocalContext.current
     val latest = items.firstOrNull() ?: return
 
+    // O peso entra na grade, apesar de já ser o herói: o protótipo desenha
+    // "Peso 72,4 kg" como o primeiro cartão de Composição, junto de Gordura,
+    // Água e Músculo. A repetição é intencional — a grade é a lista completa
+    // das métricas da medição, e o herói é o destaque.
+    //
+    // A ordem também é a do protótipo, e não a do banco: ele abre com as
+    // quatro métricas que uma balança de bioimpedância entrega, e só depois o
+    // resto. Sem isto a grade abre com IMC e MMC, que são derivadas.
     val metrics = remember(latest) {
-        latest.enriched.valuesWithTrend.filter { v ->
-            val t = v.currentValue.type
-            t.isEnabled &&
-                t.key != MeasurementType.WEIGHT &&
-                (t.inputType == InputFieldType.FLOAT || t.inputType == InputFieldType.INT)
-        }
+        latest.enriched.valuesWithTrend
+            .filter { v ->
+                val t = v.currentValue.type
+                t.isEnabled &&
+                    (t.inputType == InputFieldType.FLOAT || t.inputType == InputFieldType.INT)
+            }
+            .sortedBy { v ->
+                val idx = DESIGN_METRIC_ORDER.indexOf(v.currentValue.type.key)
+                // As não listadas vão para o fim, mantendo a ordem do banco
+                // entre si.
+                if (idx >= 0) idx else DESIGN_METRIC_ORDER.size
+            }
     }
     if (metrics.isEmpty()) return
 
@@ -361,18 +379,17 @@ private fun HojeComposition(
                     DesignMetricCard(
                         modifier = Modifier.weight(1f),
                         label = t.getDisplayName(context),
-                        value = numeric
-                            ?.let { LocaleUtils.formatValueForDisplay(it.toString(), t.unit) }
-                            ?: "—",
-                        unit = t.unit.displayName,
+                        value = numeric?.let { DesignFormat.number(it, t.unit) } ?: "—",
+                        unit = DesignFormat.unitLabel(t.unit),
                         delta = v.difference
                             ?.takeIf { v.trend != Trend.NOT_APPLICABLE }
                             ?.let {
-                                LocaleUtils.formatValueForDisplay(
-                                    value = it.toString(),
-                                    unit = t.unit,
-                                    includeSign = true,
-                                )
+                                buildString {
+                                    append(DesignFormat.number(it, t.unit, includeSign = true))
+                                    DesignFormat.unitLabel(t.unit)?.let { u ->
+                                        append(" ").append(u)
+                                    }
+                                }
                             },
                         hasChange = v.trend == Trend.UP || v.trend == Trend.DOWN,
                         onClick = onMetricClick,
@@ -387,6 +404,25 @@ private fun HojeComposition(
 }
 
 // ── Janela do sparkline ───────────────────────────────────────────────────────
+
+/**
+ * A ordem dos cartões na grade de Composição, como o protótipo os desenha:
+ * Peso, Gordura, Água, Músculo, IMC, Cintura.
+ *
+ * O banco devolve na ordem de criação dos tipos, que abre por IMC e massa
+ * magra — derivadas, não o que a balança mede. O protótipo abre pelas quatro
+ * métricas que a bioimpedância entrega.
+ *
+ * Métricas fora desta lista vêm depois, na ordem do banco.
+ */
+private val DESIGN_METRIC_ORDER = listOf(
+    MeasurementType.WEIGHT,
+    MeasurementType.BODY_FAT,
+    MeasurementType.WATER,
+    MeasurementType.MUSCLE,
+    MeasurementType.BMI,
+    MeasurementType.WAIST,
+)
 
 /**
  * Teto de pontos do sparkline, como no redesign anterior. O cartão tem 312 px

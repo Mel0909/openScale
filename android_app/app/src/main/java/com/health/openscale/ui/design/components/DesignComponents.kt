@@ -36,13 +36,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -69,6 +72,46 @@ import com.health.openscale.ui.theme.InstrumentSans
  */
 @Composable
 private fun isDark(): Boolean = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+
+/**
+ * Encolhe o conteúdo, proporcionalmente, só o bastante para caber na largura
+ * disponível.
+ *
+ * Os números do design são grandes — 84 sp no peso-herói, 31 sp no cartão de
+ * métrica — e foram medidos para os valores do protótipo ("72,4", "23,8").
+ * Valores reais variam: "1110 kcal" tem o dobro de dígitos, e a pessoa pode
+ * ter a fonte do sistema ampliada. Sem isto o número atravessa a tela e
+ * empurra a unidade para fora, que foi exatamente o que aconteceu.
+ *
+ * Mede o texto no seu tamanho natural e aplica um fator de escala no desenho.
+ * Como acontece na fase de layout, não há recomposição nem risco de oscilar
+ * entre dois tamanhos — o que um laço de "diminui e tenta de novo" traria.
+ */
+private fun Modifier.designShrinkToFit(): Modifier = layout { measurable, constraints ->
+    // Mede sem limite de largura: o tamanho que o texto quer ter.
+    val placeable = measurable.measure(constraints.copy(maxWidth = Constraints.Infinity))
+    val maxWidth = constraints.maxWidth
+    val scale = if (placeable.width > maxWidth && placeable.width > 0) {
+        maxWidth.toFloat() / placeable.width
+    } else {
+        1f
+    }
+    val width = (placeable.width * scale).toInt()
+    val height = (placeable.height * scale).toInt()
+    layout(width, height) {
+        if (scale == 1f) {
+            placeable.place(0, 0)
+        } else {
+            placeable.placeWithLayer(0, 0) {
+                scaleX = scale
+                scaleY = scale
+                // Ancora no canto inferior esquerdo, para o número encolher
+                // mantendo a linha de base alinhada com a unidade ao lado.
+                transformOrigin = TransformOrigin(0f, 1f)
+            }
+        }
+    }
+}
 
 // ── Cartão ────────────────────────────────────────────────────────────────────
 
@@ -161,6 +204,10 @@ fun DesignHeroValue(
             ),
             color = MaterialTheme.colorScheme.onSurface,
             maxLines = 1,
+            // 84 sp é o tamanho do protótipo e vale enquanto couber. Quando
+            // não cabe — número de muitos dígitos, fonte do sistema ampliada —
+            // encolher é melhor que cortar ou empurrar a unidade para fora.
+            modifier = Modifier.weight(1f, fill = false).designShrinkToFit(),
         )
         if (!unit.isNullOrBlank()) {
             Text(
@@ -289,6 +336,10 @@ fun DesignMetricCard(
                     ),
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
+                    // O cartão tem metade da largura da tela. Valores de quatro
+                    // dígitos (1110 kcal) não cabem em 31 sp, e sem isto o
+                    // número empurra a unidade para fora do cartão.
+                    modifier = Modifier.weight(1f, fill = false).designShrinkToFit(),
                 )
                 if (!unit.isNullOrBlank()) {
                     Text(
