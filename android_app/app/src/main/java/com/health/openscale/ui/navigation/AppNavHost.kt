@@ -38,8 +38,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.health.openscale.ui.screen.graph.GraphScreen
 import com.health.openscale.ui.screen.insights.InsightsScreen
+import com.health.openscale.ui.screen.overview.DesignOverviewScreen
 import com.health.openscale.ui.screen.overview.MeasurementDetailScreen
-import com.health.openscale.ui.screen.overview.OverviewScreen
 import com.health.openscale.ui.screen.settings.AboutScreen
 import com.health.openscale.ui.screen.settings.BluetoothDetailScreen
 import com.health.openscale.ui.screen.settings.BluetoothScreen
@@ -79,7 +79,7 @@ fun AppNavHost(
         ) {
             // Define all composable screens for navigation routes.
             composable(Routes.OVERVIEW) {
-                OverviewScreen(
+                DesignOverviewScreen(
                     navController = navController,
                     sharedViewModel = sharedViewModel,
                     bluetoothViewModel = bluetoothViewModel
@@ -92,7 +92,7 @@ fun AppNavHost(
                     navArgument("end")   { type = NavType.LongType }
                 )
             ) { backStackEntry ->
-                OverviewScreen(
+                DesignOverviewScreen(
                     navController = navController,
                     sharedViewModel = sharedViewModel,
                     bluetoothViewModel = bluetoothViewModel,
