@@ -112,10 +112,10 @@ automática por fórmula. Ler antes de reescrever.
 Três build types além do debug — `release`, `light` (sem link de doação) e `pro` —
 que só diferem em ícone, applicationId suffix e keystore.
 
-**Atenção ao ambiente local:** o Gradle 6.5 / AGP 4.1 deste projeto exige **JDK 8–11**.
-A máquina tem JDK 25 e nenhum Android SDK detectado, então `./gradlew` não roda aqui
-sem configuração adicional. Mudanças de UI precisam ser revisadas por leitura de código
-ou compiladas no Android Studio. Ver [.claude/docs/build.md](.claude/docs/build.md).
+**O build funciona** desde a migração para AGP 8.13 + Gradle 9.1 (2026-09-20).
+Use o JDK embutido do Android Studio. Ver [.claude/docs/build.md](.claude/docs/build.md),
+que lista também as armadilhas do AGP 8 — em especial: `switch` sobre `R.id` não
+compila mais.
 
 ## Convenções de código
 
