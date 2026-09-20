@@ -27,7 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import androidx.preference.PreferenceManager;
 
@@ -73,7 +73,16 @@ public class MainActivityNew extends AppCompatActivity {
         final BottomNavigationView bottomNav = findViewById(R.id.rd_bottom_nav);
         weighButton = findViewById(R.id.rd_weigh_button);
 
-        navController = Navigation.findNavController(this, R.id.rd_nav_host);
+        // Pega o NavController pelo NavHostFragment, e não por
+        // Navigation.findNavController(activity, id): com FragmentContainerView
+        // o controller ainda não está associado à view durante o onCreate,
+        // e a busca pela view lança IllegalStateException.
+        final NavHostFragment navHost = (NavHostFragment)
+                getSupportFragmentManager().findFragmentById(R.id.rd_nav_host);
+        if (navHost == null) {
+            throw new IllegalStateException("NavHostFragment não encontrado em rd_nav_host");
+        }
+        navController = navHost.getNavController();
         NavigationUI.setupWithNavController(bottomNav, navController);
 
         weighButton.setOnClickListener(v ->
