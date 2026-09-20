@@ -36,6 +36,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.health.openscale.ui.design.screen.HojeScreen
 import com.health.openscale.ui.screen.graph.GraphScreen
 import com.health.openscale.ui.screen.insights.InsightsScreen
 import com.health.openscale.ui.screen.overview.MeasurementDetailScreen
@@ -79,10 +80,12 @@ fun AppNavHost(
         ) {
             // Define all composable screens for navigation routes.
             composable(Routes.OVERVIEW) {
-                OverviewScreen(
+                // A tela Hoje do design proprio. A OverviewScreen do upstream
+                // segue no repositorio, intocada, e continua servindo a rota
+                // de drill-down abaixo.
+                HojeScreen(
                     navController = navController,
-                    sharedViewModel = sharedViewModel,
-                    bluetoothViewModel = bluetoothViewModel
+                    sharedViewModel = sharedViewModel
                 )
             }
             composable(
