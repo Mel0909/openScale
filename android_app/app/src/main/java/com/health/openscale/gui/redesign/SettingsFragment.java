@@ -70,12 +70,16 @@ public class SettingsFragment extends Fragment {
         themeDark.setOnClickListener(v -> setTheme("Dark"));
         themeSystem.setOnClickListener(v -> setTheme("System"));
 
-        // Pareamento de balança, import/export e as telas não reconstruídas
-        // continuam na UI antiga.
-        root.findViewById(R.id.rd_scale_search).setOnClickListener(v -> openLegacy());
-        root.findViewById(R.id.rd_import_csv).setOnClickListener(v -> openLegacy());
-        root.findViewById(R.id.rd_export_csv).setOnClickListener(v -> openLegacy());
-        root.findViewById(R.id.rd_more_settings).setOnClickListener(v -> openLegacy());
+        // Cada botão vai ao destino certo da UI antiga, em vez de abrir a
+        // tela inicial dela e deixar o usuário procurar.
+        root.findViewById(R.id.rd_scale_search).setOnClickListener(v ->
+                LegacyBridge.openScaleSearch(requireActivity()));
+        root.findViewById(R.id.rd_import_csv).setOnClickListener(v ->
+                LegacyBridge.openBackup(requireActivity()));
+        root.findViewById(R.id.rd_export_csv).setOnClickListener(v ->
+                LegacyBridge.openBackup(requireActivity()));
+        root.findViewById(R.id.rd_more_settings).setOnClickListener(v ->
+                LegacyBridge.openSettings(requireActivity()));
 
         // A paleta azul aparece no protótipo mas não tem contraste verificado
         // nos tokens — ver decisão §4.
@@ -170,7 +174,4 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    private void openLegacy() {
-        LegacyBridge.openSettings(requireActivity());
-    }
 }

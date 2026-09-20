@@ -17,53 +17,84 @@ package com.health.openscale.gui.redesign;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.health.openscale.R;
 import com.health.openscale.gui.MainActivity;
+import com.health.openscale.gui.preferences.UserSettingsFragment;
 
 /**
  * Ponte para as telas que ainda não foram reconstruídas.
  *
- * O design novo não cobre tudo o que o app faz: backup, lembretes,
- * pareamento de balança, onboarding e edição de perfil continuam só na UI
- * antiga. Em vez de reimplementá-las às pressas — ou pior, deixá-las
- * inacessíveis — esta classe abre a Activity antiga.
+ * O design novo não cobre tudo o que o app faz: pareamento de balança,
+ * backup, lembretes e edição de perfil continuam só na UI antiga. Em vez de
+ * reimplementá-las às pressas — ou pior, deixá-las inacessíveis — esta
+ * classe abre a Activity antiga **no destino certo**.
  *
  * É temporário por natureza. Cada item daqui deveria virar tela nova ou
  * uma decisão explícita de corte. Ver .claude/docs/inventario-legado.md.
  */
 public final class LegacyBridge {
 
+    /** Escaneamento e pareamento de balança Bluetooth. */
+    public static void openScaleSearch(Activity activity) {
+        openLegacy(activity, R.id.nav_bluetooth_settings, null);
+    }
+
+    /** Preferências de Bluetooth (assistente de usuário, merge, etc). */
+    public static void openBluetoothPreferences(Activity activity) {
+        openLegacy(activity, R.id.nav_bluetooth_preferences, null);
+    }
+
+    /** Backup e import/export do banco. */
+    public static void openBackup(Activity activity) {
+        openLegacy(activity, R.id.nav_backup_preferences, null);
+    }
+
+    /** Lembretes de pesagem. */
+    public static void openReminders(Activity activity) {
+        openLegacy(activity, R.id.nav_reminder_preferences, null);
+    }
+
+    /** Tela raiz de preferências, para o que não tem atalho próprio. */
+    public static void openSettings(Activity activity) {
+        openLegacy(activity, R.id.nav_main_preferences, null);
+    }
+
     /**
-     * Abre a UI antiga para criar ou editar um usuário.
+     * Criação ou edição de um perfil.
      *
-     * @param userId id do perfil a editar, ou -1 para criar o primeiro.
+     * @param userId id do perfil a editar, ou -1 para criar um novo.
      */
     public static void openUserSettings(Activity activity, int userId) {
-        openLegacy(activity);
-    }
-
-    /** Abre a UI antiga nas preferências (backup, lembretes, bluetooth). */
-    public static void openSettings(Activity activity) {
-        openLegacy(activity);
+        // UserSettingsFragment le os argumentos via SafeArgs, entao o enum
+        // precisa ir como Serializable e as chaves com o nome exato do grafo.
+        final Bundle args = new Bundle();
+        final boolean isNew = userId == -1;
+        args.putSerializable("mode", isNew
+                ? UserSettingsFragment.USER_SETTING_MODE.ADD
+                : UserSettingsFragment.USER_SETTING_MODE.EDIT);
+        args.putInt("userId", userId);
+        args.putString("title", activity.getString(
+                isNew ? R.string.label_add_user : R.string.label_title_user));
+        openLegacy(activity, R.id.nav_usersettings, args);
     }
 
     /**
-     * Abre a MainActivity antiga.
-     *
-     * Não navega para um destino específico: a MainActivity antiga decide o
-     * fragment inicial pela preferência "lastFragmentId", e forçar um destino
-     * exigiria expor a navegação dela. Como é uma ponte temporária, abrir a
-     * tela e deixar o usuário chegar ao lugar é suficiente.
+     * Abre a MainActivity antiga num destino do grafo dela.
      *
      * Sobre o botão voltar: a Overview antiga intercepta o back e chama
      * finish(). Como a Activity nova está embaixo na pilha, isso fecha só a
      * antiga e devolve o usuário à UI nova — que é o comportamento desejado.
      */
-    private static void openLegacy(Activity activity) {
+    private static void openLegacy(Activity activity, int destinationId, Bundle args) {
         try {
             final Intent intent = new Intent(activity, MainActivity.class);
+            intent.putExtra(MainActivity.EXTRA_DESTINATION, destinationId);
+            if (args != null) {
+                intent.putExtra(MainActivity.EXTRA_DESTINATION_ARGS, args);
+            }
             activity.startActivity(intent);
         } catch (Exception ex) {
             Toast.makeText(activity, R.string.rd_legacy_unavailable,

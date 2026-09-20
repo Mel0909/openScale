@@ -101,5 +101,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rd_profile_add_person"
+            style="@style/Widget.OpenScale.Button.Dashed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rd_gap_tight"
+            android:text="@string/rd_profile_add_person" />
+
     </LinearLayout>
 </ScrollView>

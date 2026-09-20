@@ -94,6 +94,13 @@ public class MainActivity extends AppCompatActivity
     private static final int ENABLE_BLUETOOTH_REQUEST = 102;
     private static final int APPINTRO_REQUEST = 103;
 
+    /**
+     * Destino do grafo de navegação a abrir direto, informado pela UI nova
+     * através de LegacyBridge. Sem ele, a Activity restaura a última aba.
+     */
+    public static final String EXTRA_DESTINATION = "openscale.legacy.destination";
+    public static final String EXTRA_DESTINATION_ARGS = "openscale.legacy.destinationArgs";
+
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawerLayout;
     private NavController navController;
@@ -224,7 +231,17 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        navigationBottomView.setSelectedItemId(prefs.getInt("lastFragmentId", R.id.nav_overview));
+        // A UI nova abre esta Activity para as telas que ainda não foram
+        // reconstruídas (pareamento de balança, backup, perfil). Quando ela
+        // informa um destino, vai direto para ele em vez de restaurar a
+        // última aba usada. Ver LegacyBridge.
+        final int requestedDestination = getIntent().getIntExtra(EXTRA_DESTINATION, 0);
+        if (requestedDestination != 0) {
+            navigationBottomView.setSelectedItemId(prefs.getInt("lastFragmentId", R.id.nav_overview));
+            navController.navigate(requestedDestination, getIntent().getBundleExtra(EXTRA_DESTINATION_ARGS));
+        } else {
+            navigationBottomView.setSelectedItemId(prefs.getInt("lastFragmentId", R.id.nav_overview));
+        }
 
         if (BuildConfig.BUILD_TYPE == "light") {
             ImageView launcherIcon = navigationView.getHeaderView(0).findViewById(R.id.profileImageView);

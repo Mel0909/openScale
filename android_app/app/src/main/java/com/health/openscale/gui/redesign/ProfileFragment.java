@@ -67,6 +67,9 @@ public class ProfileFragment extends Fragment {
         fieldsContainer = root.findViewById(R.id.rd_profile_fields);
         usersContainer = root.findViewById(R.id.rd_profile_users);
 
+        root.findViewById(R.id.rd_profile_add_person).setOnClickListener(v ->
+                LegacyBridge.openUserSettings(requireActivity(), -1));
+
         return root;
     }
 
