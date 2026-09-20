@@ -188,8 +188,7 @@ public class GraphFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                switch (item.getItemId()) {
-                    case R.id.enableChartActionBar:
+                if (item.getItemId() == R.id.enableChartActionBar) {
                         if (item.isChecked()) {
                             item.setChecked(false);
                             prefs.edit().putBoolean("enableGraphChartActionBar", false).apply();
@@ -200,7 +199,8 @@ public class GraphFragment extends Fragment {
                             chartActionBarView.setVisibility(View.VISIBLE);
                         }
                         return true;
-                    case R.id.enableMonth:
+                }
+                else if (item.getItemId() == R.id.enableMonth) {
                         if (item.isChecked()) {
                             item.setChecked(false);
                             prefs.edit().putBoolean("showMonth", false).apply();
@@ -213,7 +213,8 @@ public class GraphFragment extends Fragment {
 
                         generateGraphs();
                         return true;
-                    case R.id.enableWeek:
+                }
+                else if (item.getItemId() == R.id.enableWeek) {
                         if (item.isChecked()) {
                             item.setChecked(false);
                             prefs.edit().putBoolean("showWeek", false).apply();
@@ -226,7 +227,8 @@ public class GraphFragment extends Fragment {
 
                         generateGraphs();
                         return true;
-                    default:
+                }
+                else {
                         return false;
                 }
             }

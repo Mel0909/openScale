@@ -194,8 +194,7 @@ public class MeasurementEntryFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.saveButton:
+        if (item.getItemId() == R.id.saveButton) {
                 final boolean isEdit = scaleMeasurement.getId() > 0;
                 saveScaleData();
                 if (isEdit) {
@@ -205,8 +204,8 @@ public class MeasurementEntryFragment extends Fragment {
                     Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigateUp();
                 }
                 return true;
-
-            case R.id.expandButton:
+        }
+        else if (item.getItemId() == R.id.expandButton) {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
                 final boolean expand = !prefs.getBoolean(PREF_EXPAND, false);
                 prefs.edit().putBoolean(PREF_EXPAND, expand).apply();
@@ -215,12 +214,12 @@ public class MeasurementEntryFragment extends Fragment {
                     measurement.setExpand(expand);
                 }
                 return true;
-
-            case R.id.editButton:
+        }
+        else if (item.getItemId() == R.id.editButton) {
                 setViewMode(MeasurementView.MeasurementViewMode.EDIT);
                 return true;
-
-            case R.id.deleteButton:
+        }
+        else if (item.getItemId() == R.id.deleteButton) {
                 deleteMeasurement();
                 return true;
         }

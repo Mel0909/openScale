@@ -149,16 +149,14 @@ public class UserSettingsFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Converters.WeightUnit scale_unit = Converters.WeightUnit.KG;
 
-                switch (checkedId) {
-                    case R.id.btnRadioKG:
+                if (checkedId == R.id.btnRadioKG) {
                         scale_unit = Converters.WeightUnit.KG;
-                        break;
-                    case R.id.btnRadioLB:
+                }
+                else if (checkedId == R.id.btnRadioLB) {
                         scale_unit = Converters.WeightUnit.LB;
-                        break;
-                    case R.id.btnRadioST:
+                }
+                else if (checkedId == R.id.btnRadioST) {
                         scale_unit = Converters.WeightUnit.ST;
-                        break;
                 }
 
                 txtInitialWeight.setHint(getResources().getString(R.string.info_enter_value_in) + " " + scale_unit.toString());
@@ -171,13 +169,11 @@ public class UserSettingsFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 Converters.MeasureUnit measure_unit = Converters.MeasureUnit.CM;
 
-                switch (radioMeasurementUnit.getCheckedRadioButtonId()) {
-                    case R.id.btnRadioCM:
+                if (radioMeasurementUnit.getCheckedRadioButtonId() == R.id.btnRadioCM) {
                         measure_unit = Converters.MeasureUnit.CM;
-                        break;
-                    case R.id.btnRadioINCH:
+                }
+                else if (radioMeasurementUnit.getCheckedRadioButtonId() == R.id.btnRadioINCH) {
                         measure_unit = Converters.MeasureUnit.INCH;
-                        break;
                 }
 
                 txtBodyHeight.setHint(getResources().getString(R.string.info_enter_value_in) + " " + measure_unit.toString());
@@ -228,8 +224,7 @@ public class UserSettingsFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.saveButton:
+        if (item.getItemId() == R.id.saveButton) {
                 if (saveUserData()) {
                     if (getActivity().findViewById(R.id.nav_host_fragment) != null){
                         Navigation.findNavController(getActivity(), R.id.nav_host_fragment).getPreviousBackStackEntry().getSavedStateHandle().set("update", true);
@@ -239,8 +234,8 @@ public class UserSettingsFragment extends Fragment {
                     }
                 }
                 return true;
-
-            case R.id.deleteButton:
+        }
+        else if (item.getItemId() == R.id.deleteButton) {
                 deleteUser();
                 return true;
         }
@@ -409,38 +404,32 @@ public class UserSettingsFragment extends Fragment {
 
                 Converters.MeasureUnit measure_unit = Converters.MeasureUnit.CM;
 
-                switch (radioMeasurementUnit.getCheckedRadioButtonId()) {
-                    case R.id.btnRadioCM:
+                if (radioMeasurementUnit.getCheckedRadioButtonId() == R.id.btnRadioCM) {
                         measure_unit = Converters.MeasureUnit.CM;
-                        break;
-                    case R.id.btnRadioINCH:
+                }
+                else if (radioMeasurementUnit.getCheckedRadioButtonId() == R.id.btnRadioINCH) {
                         measure_unit = Converters.MeasureUnit.INCH;
-                        break;
                 }
 
                 Converters.WeightUnit scale_unit = Converters.WeightUnit.KG;
 
-                switch (radioScaleUnit.getCheckedRadioButtonId()) {
-                    case R.id.btnRadioKG:
+                if (radioScaleUnit.getCheckedRadioButtonId() == R.id.btnRadioKG) {
                         scale_unit = Converters.WeightUnit.KG;
-                        break;
-                    case R.id.btnRadioLB:
+                }
+                else if (radioScaleUnit.getCheckedRadioButtonId() == R.id.btnRadioLB) {
                         scale_unit = Converters.WeightUnit.LB;
-                        break;
-                    case R.id.btnRadioST:
+                }
+                else if (radioScaleUnit.getCheckedRadioButtonId() == R.id.btnRadioST) {
                         scale_unit = Converters.WeightUnit.ST;
-                        break;
                 }
 
                 Converters.Gender gender = Converters.Gender.MALE;
 
-                switch (radioGender.getCheckedRadioButtonId()) {
-                    case R.id.btnRadioMale:
+                if (radioGender.getCheckedRadioButtonId() == R.id.btnRadioMale) {
                         gender = Converters.Gender.MALE;
-                        break;
-                    case R.id.btnRadioWoman:
+                }
+                else if (radioGender.getCheckedRadioButtonId() == R.id.btnRadioWoman) {
                         gender = Converters.Gender.FEMALE;
-                        break;
                 }
 
                 final ScaleUser scaleUser = new ScaleUser();

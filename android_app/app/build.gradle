@@ -2,12 +2,19 @@ apply plugin: 'com.android.application'
 apply plugin: "androidx.navigation.safeargs"
 
 android {
-    compileSdkVersion 31
+    // AGP 7 passou a exigir namespace aqui; antes vinha do package do
+    // AndroidManifest, que agora é ignorado para esse fim.
+    namespace 'com.health.openscale'
+
+    compileSdk 35
     defaultConfig {
         applicationId "com.health.openscale"
         testApplicationId "com.health.openscale.test"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdk 21
+        // targetSdk segue em 29 de propósito: subir para 31+ passa a exigir
+        // BLUETOOTH_SCAN/BLUETOOTH_CONNECT e mexeria na camada de balanças,
+        // que não se altera sem hardware para testar.
+        targetSdk 29
         versionCode 54
         versionName "2.3.5"
 
@@ -27,7 +34,8 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
-    lintOptions {
+    // lintOptions virou lint no AGP 7
+    lint {
         abortOnError false
     }
 
@@ -88,16 +96,16 @@ android {
 
     buildTypes {
         debug {
-            archivesBaseName = "openScale"
         }
         release {
-            archivesBaseName = "openScale-"+defaultConfig.versionName
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             signingConfig signingConfigs.release
         }
         light {
-            archivesBaseName = "openScale-"+defaultConfig.versionName
+            // Build types nao-padrao precisam dizer a qual type das
+            // bibliotecas eles correspondem, senao a resolucao falha.
+            matchingFallbacks = ['release']
             manifestPlaceholders = [
                     appIcon: "@drawable/ic_launcher_openscale_light",
                     appIconRound: "@mipmap/ic_launcher_openscale_light_round"
@@ -109,7 +117,7 @@ android {
             signingConfig signingConfigs.light
         }
         pro {
-            archivesBaseName = "openScale-"+defaultConfig.versionName
+            matchingFallbacks = ['release']
             manifestPlaceholders = [
                     appIcon: "@drawable/ic_launcher_openscale_pro",
                     appIconRound: "@mipmap/ic_launcher_openscale_pro_round"
@@ -122,26 +130,36 @@ android {
         }
     }
     compileOptions {
+        // Desugaring mantém APIs de java.time disponíveis no minSdk 21.
         coreLibraryDesugaringEnabled true
 
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        // AGP 8 exige 17 aqui; não muda o minSdk nem o bytecode do app.
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // buildConfig deixou de ser gerado por padrão no AGP 8, e o app usa
+    // BuildConfig.BUILD_TYPE e BuildConfig.VERSION_NAME.
+    buildFeatures {
+        buildConfig true
     }
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.navigation:navigation-fragment:2.3.2'
-    implementation 'androidx.navigation:navigation-ui:2.3.2'
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'androidx.navigation:navigation-fragment:2.7.7'
+    implementation 'androidx.navigation:navigation-ui:2.7.7'
+    // Substitui android.arch.lifecycle:extensions, que é pré-AndroidX e não
+    // resolve mais. Nenhum arquivo importava android.arch diretamente.
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
 
     // MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -152,22 +170,22 @@ dependencies {
     // CustomActivityOnCrash
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
     // AppIntro
-    implementation 'com.github.AppIntro:AppIntro:6.0.0'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.10'
+    implementation 'com.github.AppIntro:AppIntro:6.1.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.24'
     // Room
-    implementation 'androidx.room:room-runtime:2.2.5'
-    annotationProcessor 'androidx.room:room-compiler:2.2.5'
-    androidTestImplementation 'androidx.room:room-testing:2.2.5'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+    androidTestImplementation 'androidx.room:room-testing:2.6.1'
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
     // Local unit tests
     testImplementation 'junit:junit:4.13.1'
     // Instrumented unit tests
-    androidTestImplementation 'androidx.annotation:annotation:1.1.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'androidx.annotation:annotation:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 }
 
 tasks.withType(Test) {

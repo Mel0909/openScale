@@ -194,12 +194,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_donation:
+                if (item.getItemId() == R.id.nav_donation) {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=H5KSTQA6TKTE4&source=url")));
                         drawerLayout.closeDrawers();
                         return true;
-                    case R.id.nav_help:
+                }
+                else if (item.getItemId() == R.id.nav_help) {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/oliexdev/openScale/wiki")));
                         drawerLayout.closeDrawers();
                         return true;
@@ -368,51 +368,59 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+        // if/else em vez de switch: no AGP 8 os campos de R não são final,
+        // e case exige constante de compilação.
+        final int itemId = item.getItemId();
+
+        if (itemId == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        }
+        else if (itemId == R.id.action_add_measurement) {
+            if (OpenScale.getInstance().getSelectedScaleUserId() == -1) {
+                showNoSelectedUserDialog();
                 return true;
-            case R.id.action_add_measurement:
+            }
+
+            if (OpenScale.getInstance().getSelectedScaleUser().isAssistedWeighing()) {
+                showAssistedWeighingDialog(true);
+            } else {
+                MobileNavigationDirections.ActionNavMobileNavigationToNavDataentry action = MobileNavigationDirections.actionNavMobileNavigationToNavDataentry();
+                action.setMode(MeasurementEntryFragment.DATA_ENTRY_MODE.ADD);
+                action.setTitle(getString(R.string.label_add_measurement));
+                Navigation.findNavController(this, R.id.nav_host_fragment).navigate(action);
+            }
+            return true;
+        }
+        else if (itemId == R.id.action_bluetooth_status) {
+            if (OpenScale.getInstance().disconnectFromBluetoothDevice()) {
+                setBluetoothStatusIcon(R.drawable.ic_bluetooth_disabled);
+            }
+            else {
                 if (OpenScale.getInstance().getSelectedScaleUserId() == -1) {
                     showNoSelectedUserDialog();
                     return true;
                 }
 
                 if (OpenScale.getInstance().getSelectedScaleUser().isAssistedWeighing()) {
-                    showAssistedWeighingDialog(true);
+                    showAssistedWeighingDialog(false);
                 } else {
-                    MobileNavigationDirections.ActionNavMobileNavigationToNavDataentry action = MobileNavigationDirections.actionNavMobileNavigationToNavDataentry();
-                    action.setMode(MeasurementEntryFragment.DATA_ENTRY_MODE.ADD);
-                    action.setTitle(getString(R.string.label_add_measurement));
-                    Navigation.findNavController(this, R.id.nav_host_fragment).navigate(action);
+                    invokeConnectToBluetoothDevice();
                 }
-                return true;
-            case R.id.action_bluetooth_status:
-                if (OpenScale.getInstance().disconnectFromBluetoothDevice()) {
-                    setBluetoothStatusIcon(R.drawable.ic_bluetooth_disabled);
-                }
-                else {
-                    if (OpenScale.getInstance().getSelectedScaleUserId() == -1) {
-                        showNoSelectedUserDialog();
-                        return true;
-                    }
-
-                    if (OpenScale.getInstance().getSelectedScaleUser().isAssistedWeighing()) {
-                        showAssistedWeighingDialog(false);
-                    } else {
-                        invokeConnectToBluetoothDevice();
-                    }
-                }
-                return true;
-            case R.id.importData:
-                importCsvFile();
-                return true;
-            case R.id.exportData:
-                exportCsvFile();
-                return true;
-            case R.id.shareData:
-                shareCsvFile();
-                return true;
+            }
+            return true;
+        }
+        else if (itemId == R.id.importData) {
+            importCsvFile();
+            return true;
+        }
+        else if (itemId == R.id.exportData) {
+            exportCsvFile();
+            return true;
+        }
+        else if (itemId == R.id.shareData) {
+            shareCsvFile();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
