@@ -1,85 +1,70 @@
-# Build e verificação
+# Build
 
-## Estado do ambiente local (verificado em 2026-09-19)
+**Status: funciona.** Verificado em 2026-09-20 — `assembleDebug` gera o APK.
 
-| Requisito | Necessário | Nesta máquina |
-|---|---|---|
-| JDK | 8–11 (exigência de Gradle 6.5 + AGP 4.1) | **JDK 25 (Temurin)** ❌ |
-| Android SDK | API 29 + build-tools | **não detectado** (`ANDROID_HOME` vazio) ❌ |
-| Gradle | 6.5 (via wrapper, baixa sozinho) | wrapper presente ✔ |
+## Toolchain
 
-**Conclusão: `./gradlew` não roda nesta máquina sem configuração adicional.**
-Gradle 6.5 falha com JDK acima de 15 (erro típico de acesso reflexivo a
-`java.lang.reflect` / classes internas do JDK).
+| Peça | Versão |
+|---|---|
+| Linguagem | Kotlin |
+| UI | Jetpack Compose |
+| AGP | 8.x (via version catalog) |
+| Gradle | 9.4.1 |
+| JDK | 25 (o embutido no Android Studio, em `jbr/`) |
+| compileSdk / targetSdk | 37 |
+| **minSdk** | **31 (Android 12)** |
+| DI | Hilt |
+| Persistência | Room |
+| Build script | Kotlin DSL (`.gradle.kts`) + `libs.versions.toml` |
 
-### Para habilitar o build
+## Android Studio
 
-Uma das opções:
+Abrir a pasta **`android_app`**, não a raiz do repo.
 
-1. **Android Studio** — traz JDK embutido e gerencia o SDK. Caminho mais simples.
-2. **JDK 11 paralelo** — instalar e apontar:
-   ```
-   android_app/gradle.properties:
-   org.gradle.java.home=C:\\Program Files\\Eclipse Adoptium\\jdk-11...
-   ```
-   Mais o SDK do Android em `android_app/local.properties`:
-   ```
-   sdk.dir=C\:\\Users\\melbi\\AppData\\Local\\Android\\Sdk
-   ```
-   Os dois arquivos estão no `.gitignore` — são locais, não entram em commit.
+Se a sincronização reclamar do JDK: **Settings → Build, Execution, Deployment →
+Build Tools → Gradle → Gradle JDK** → escolher o JDK embutido (`jbr`).
 
-## Comandos (quando o ambiente estiver pronto)
+## Linha de comando
 
-Sempre a partir de `android_app/`:
+A partir de `android_app/`:
 
 ```bash
-./gradlew assembleDebug          # APK debug
-./gradlew test                   # testes unitários JVM (rápidos, sem device)
-./gradlew connectedAndroidTest   # testes Espresso (precisa device/emulador)
-./gradlew lint                   # lint (abortOnError false — não quebra o build)
+export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"
+export ANDROID_HOME="$HOME/AppData/Local/Android/Sdk"
+
+./gradlew assembleDebug      # APK debug
+./gradlew testDebugUnitTest  # testes unitários
+./gradlew lint               # lint
 ```
 
-APK sai em `android_app/app/build/outputs/apk/`.
+APK em `app/build/outputs/apk/debug/openScale-debug.apk`.
 
-## Como verificar mudanças de UI sem conseguir compilar
+O APK debug é grande (~88 MB) porque Compose em debug carrega ferramentas de
+inspeção. O release fica bem menor.
 
-Enquanto o build local não estiver disponível, mudanças visuais precisam ser
-verificadas por leitura. Checklist:
+O primeiro build baixa Gradle, Compose e Hilt — leva vários minutos.
 
-1. **Recursos referenciados existem?**
-   Toda cor/drawable/string nova precisa estar declarada. `@color/foo` inexistente
-   só falha na compilação de recursos.
-   ```bash
-   grep -rn "@color/" android_app/app/src/main/res android_app/app/src/main/java | \
-     grep -o "@color/[a-zA-Z_]*" | sort -u
-   ```
-   Comparar com o que existe em `res/values/colors.xml`.
+## Dependências
 
-2. **Ids usados por `findViewById` continuam existindo?**
-   Sem ViewBinding, renomear um id no XML quebra só em runtime (NPE).
-
-3. **Testes Espresso ainda batem?**
-   `androidTest/.../gui/` referencia ids e textos.
-
-4. **Não sobrou literal de cor** onde se pretendia usar o tema.
-
-## CI
-
-`.travis.yml` (legado, provavelmente inativo) compilava debug + release e
-rodava os testes unitários. Não há GitHub Actions configurado — `.github/` só
-tem templates de issue.
+Centralizadas em `gradle/libs.versions.toml` (version catalog). Para atualizar
+uma lib, é ali, não no `build.gradle.kts`.
 
 ## Build types
 
-| Type | applicationId | Diferença |
-|---|---|---|
-| `debug` | `com.health.openscale` | — |
-| `release` | `com.health.openscale` | assinado, proguard (minify off) |
-| `light` | `...light` | ícone próprio, sem item de doação no drawer |
-| `pro` | `...pro` | ícone próprio, sem item de doação no drawer |
+O upstream define variantes além de debug/release — entre elas `oss` e `beta`,
+com sufixo no `versionName`. Ver `app/build.gradle.kts`.
 
-As diferenças são só de ícone/assinatura/menu — **não há divergência de código de UI**
-entre os flavors. Uma mudança visual vale para os quatro.
+Os keystores são procurados fora do repositório; sem eles o build segue sem
+assinar.
 
-Os keystores são procurados **fora do repositório** (`../../openScale.keystore`);
-se não existirem, o build segue sem assinar.
+## Fontes do design
+
+`res/font/` tem dois `.ttf` variáveis (592 KB no total), empacotados no APK.
+São parte do design — ver [design-compose.md](design-compose.md). Não
+substituir por Downloadable Fonts: quebraria no F-Droid.
+
+## Histórico
+
+A base antiga (fork 2.3.5, Java/XML) usava AGP 4.1 e Gradle 6.5, e não abria no
+Android Studio atual. Isso motivou primeiro uma migração de build e depois a
+adoção do upstream 3.1.3. Ver [historico-fork.md](historico-fork.md).

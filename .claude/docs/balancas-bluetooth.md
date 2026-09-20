@@ -1,271 +1,128 @@
-# Balanças Bluetooth — como funciona e o que nunca quebrar
+# Balanças Bluetooth — o que nunca quebrar
 
-Documento de segurança para a reconstrução da UI. A camada Bluetooth é a parte do
-app que **falha silenciosamente**: um erro aqui não dá crash nem erro de compilação —
-a balança simplesmente para de conectar, ou conecta e não entrega dado, e só se
-descobre com hardware real na mão.
+Documento de segurança. A camada Bluetooth é a parte do app que **falha em
+silêncio**: um erro aqui não dá crash nem erro de compilação — a balança
+simplesmente para de conectar, ou conecta e não entrega dado, e só se descobre
+com hardware real na mão.
 
-**Regra geral: não edite nada em `core/bluetooth/`.** O que a UI nova precisa é
+**Regra geral: não edite nada em `core/bluetooth/`.** O que a UI precisa é
 conversar certo com essa camada. Este documento explica como.
 
 ---
 
-## 1. O caminho completo de uma pesagem
+## A estrutura
 
 ```
-usuário toca "Pesar agora"
-   ↓
-MainActivity.invokeConnectToBluetoothDevice()        ← validações (§4)
-   ↓
-OpenScale.connectToBluetoothDevice(name, mac, handler)
-   ↓
-BluetoothFactory.createDeviceDriver(context, name)   ← escolhe driver pelo NOME
-   ↓
-driver.registerCallbackHandler(handler)              ← OBRIGATÓRIO antes de connect
-driver.connect(mac)
-   ↓
-[ scan LE → conecta → descobre serviços → máquina de estados §2 ]
-   ↓
-driver.addScaleMeasurement(medição)
-   ↓
-Handler.handleMessage(BT_STATUS.RETRIEVE_SCALE_DATA) ← na UI (§3)
-   ↓
-merge com última medição (se preference ligada)
-   ↓
-OpenScale.addScaleMeasurement(dados, silent=true)    ← pipeline de regras §5
-   ↓
-Room insere → LiveData dispara → telas atualizam
+core/bluetooth/
+├── ScaleFactory.kt          escolhe o handler pelo dispositivo anunciado
+├── ScaleCommunicator.kt     a interface + os eventos
+├── scales/                  72 handlers, um por protocolo
+│   ├── ScaleDeviceHandler   contrato comum
+│   ├── GattScaleAdapter     base para balanças que conectam via GATT
+│   ├── BroadcastScaleAdapter base para as que só anunciam (sem conexão)
+│   └── *Handler.kt          um por fabricante/modelo
+└── libs/                    algoritmos de composição corporal por marca
 ```
 
-A UI aparece em **dois pontos**: dispara a conexão e recebe o resultado por `Handler`.
-Todo o resto é `core/`.
+São **72 handlers** — contra 24 no fork antigo. A maioria veio de engenharia
+reversa da comunidade, sem especificação pública para consultar.
 
----
+## O contrato com a UI
 
-## 2. A máquina de estados dos drivers
+`ScaleCommunicator` expõe estado como `StateFlow` e eventos como `Flow`:
 
-`BluetoothCommunication` (`core/bluetooth/BluetoothCommunication.java`) é a base
-dos 24 drivers. Cada driver implementa `onNextStep(int stepNr)` como um `switch`
-que executa um passo de inicialização por vez.
+```kotlin
+val isConnecting: StateFlow<Boolean>
+val isConnected: StateFlow<Boolean>
 
-```java
-protected boolean onNextStep(int stepNr) {
-    switch (stepNr) {
-        case 0: writeBytes(...); break;          // avança sozinho
-        case 1: setNotificationOn(...); break;   // PARA e espera callback
-        case 2: stopMachineState(); break;       // PARA até resumeMachineState()
-        default: return false;                   // fim → desconecta em 60s
-    }
-    return true;
-}
+fun connect(address: String, scaleUser: ScaleUser?)
+fun disconnect()
+fun requestMeasurement()
 ```
 
-### As regras não óbvias
+Os eventos são uma `sealed class BluetoothEvent`:
 
-| Operação | Comportamento |
+| Evento | Quando |
 |---|---|
-| `writeBytes()` | Avança sozinho — `onCharacteristicWrite` chama `nextMachineStep()`. |
-| `setNotificationOn()` / `setIndicationOn()` | Chamam `stopMachineState()` internamente. Retomam em `onNotificationStateUpdate`. **Não chame `resumeMachineState()` manualmente depois.** |
-| `readBytes()` | **Não avança sozinho.** O comentário no código avisa: `nextMachineStep()` precisa ser chamado manualmente. |
-| `stopMachineState()` | Congela a máquina. Só `resumeMachineState()` destrava. Esquecer = trava para sempre. |
-| `return false` | Encerra a inicialização e agenda desconexão em 60s. |
+| `Listening` | começou a escutar anúncios (balanças de broadcast) |
+| `Connected` / `Disconnected` | conexão GATT |
+| `ConnectionFailed` | falhou ao conectar |
+| `MeasurementReceived` | **o dado chegou** |
+| `BroadcastComplete` | leitura por anúncio terminou |
+| `DeviceMessage` | mensagem da própria balança para o usuário |
+| `UserInteractionRequired` | a balança pede uma ação (ex.: escolher slot) |
+| `Error` | erro inesperado |
 
-**Timeout global de 60s**: `resetDisconnectTimer()` é chamado a cada notificação
-recebida. Se a balança ficar 60s sem enviar nada, desconecta. Para uma balança que
-espera o usuário subir nela, é isso que dá a janela de espera.
+**A UI deve tratar todos.** Ignorar `Error` ou `ConnectionFailed` produz
+exatamente o sintoma pior: a tela fica esperando para sempre, sem dizer por quê.
 
-`onBluetoothNotify(uuid, bytes)` é onde cada driver faz o parse binário do seu
-protocolo. É o código mais sensível do repositório — bytes crus, checksums,
-endianness, escalas de unidade.
+Diferente do código antigo, **não há `Handler` com ordinal de enum** — o que
+elimina a armadilha de "inserir um valor no meio do enum quebra tudo". Aqui o
+`when` sobre a sealed class é exaustivo e o compilador cobra.
 
----
+## Como a UI fala com isso
 
-## 3. O contrato com a UI: `BT_STATUS`
+Pela `BluetoothFacade`, não diretamente. A facade é a fronteira; os handlers
+são detalhe de implementação.
 
-O driver fala com a UI por `Handler`, usando `msg.what` = ordinal do enum.
+## Dois modos de balança
 
-```java
-public enum BT_STATUS {
-    RETRIEVE_SCALE_DATA,      // msg.obj = ScaleMeasurement  ← o dado chegou
-    INIT_PROCESS,
-    CONNECTION_RETRYING,
-    CONNECTION_ESTABLISHED,
-    CONNECTION_DISCONNECT,
-    CONNECTION_LOST,
-    NO_DEVICE_FOUND,
-    UNEXPECTED_ERROR,         // msg.obj = texto do erro
-    SCALE_MESSAGE             // msg.arg1 = string res id, msg.obj = valor
-}
-```
+Isso explica muita coisa no comportamento:
 
-### ⚠️ A ordem do enum é o protocolo
+- **GATT** (`GattScaleAdapter`) — conecta, troca dados, desconecta. É o modelo
+  clássico.
+- **Broadcast** (`BroadcastScaleAdapter`) — a balança **não aceita conexão**;
+  ela só transmite o peso em anúncios BLE. O app escuta, lê o pacote e termina.
+  Por isso existem `Listening` e `BroadcastComplete` separados de `Connected`.
 
-`BT_STATUS.values()[msg.what]` converte o inteiro de volta em estado.
-**Inserir um valor no meio do enum quebra todos os drivers de uma vez**, sem erro
-de compilação. Se precisar de um estado novo, **acrescente no fim**.
+Uma tela que assume "conectar → receber → desconectar" quebra com as de
+broadcast.
 
-### O que a UI nova precisa implementar
+## Permissões
 
-Um `Handler` que trate os 9 casos. Hoje isso vive em
-`MainActivity.callbackBtHandler` e faz duas coisas:
+Com `minSdk 31`, o modelo é o do Android 12+:
 
-1. **Atualiza o ícone de status** na toolbar (buscando / conectado / perdido).
-   O design novo não tem toolbar — **precisa decidir onde esse estado aparece**.
-   Sugestão natural: dentro do sheet "Pesar agora", que já tem o estado
-   "Aguardando a balança…".
-2. **Trata `RETRIEVE_SCALE_DATA`**, que contém a regra de merge (§5).
+- `BLUETOOTH_SCAN` — para escanear
+- `BLUETOOTH_CONNECT` — para conectar **e para ler o nome do dispositivo**
 
-`SCALE_MESSAGE` carrega um **string resource id** em `msg.arg1`, resolvido com
-`getResources().getString(msg.arg1)`. Mensagens da própria balança (ex.: "pesagem
-fora de faixa"). Mantenha essas strings.
+Esse detalhe do nome importa: sem `BLUETOOTH_CONNECT`, `device.name` volta
+`null`, o `ScaleFactory` não acha o handler, e a balança aparece como **não
+suportada** — sem nenhum erro visível.
 
----
+Se alguém relatar "minha balança aparece como não suportada", a ordem de
+suspeita é:
+1. permissão de Bluetooth negada;
+2. o modelo realmente não tem handler;
+3. o nome anunciado mudou (firmware novo).
 
-## 4. Validações antes de conectar — todas obrigatórias
+## Identificação do dispositivo
 
-`invokeConnectToBluetoothDevice()` faz esta sequência. A UI nova **precisa repetir
-todas**, ou a conexão falha de formas confusas:
+`ScaleFactory` decide o handler a partir do que o dispositivo anuncia — nome,
+prefixo, às vezes UUID de serviço ou dados de fabricante.
 
-1. **Build `light`** → mostra diálogo de upgrade e retorna (não conecta).
-2. **Usuário selecionado?** Se `getSelectedScaleUserId() == -1`, avisa e retorna.
-3. **MAC válido?** `BluetoothAdapter.checkBluetoothAddress(hwAddress)`.
-   Sem balança pareada → "nenhum dispositivo configurado".
-4. **Bluetooth ligado?** Se não, dispara `ACTION_REQUEST_ENABLE`.
-5. **Driver existe?** `connectToBluetoothDevice()` retorna `false` se
-   `createDeviceDriver()` não reconhecer o nome → "balança não suportada".
+**O nome anunciado é dado, não texto de exibição.** Se uma tela nova de
+pareamento for escrita, grave o nome **cru**: sem `trim`, sem normalizar caixa,
+sem "embelezar". Formate só na hora de mostrar.
 
-### Permissão de localização — o detalhe que mais confunde
-
-Android exige `ACCESS_FINE_LOCATION` para escanear BLE. Além da permissão, o
-**serviço de localização precisa estar ligado** (`PermissionHelper.requestLocationServicePermission`).
-
-E tem um comportamento deliberado em `connect()`:
-
-```java
-// Running an LE scan during connect improves connectivity on some phones
-// (e.g. Sony Xperia Z5 compact). For some scales (e.g. Medisana BS444)
-// it seems to be a requirement that the scale is discovered before connecting.
-```
-
-Com permissão → faz scan antes de conectar (e chama `stopMachineState()`).
-Sem permissão → conecta direto, **e algumas balanças nunca conectam assim**.
-Se um usuário relatar "não conecta", localização desligada é a primeira suspeita.
-
-> **Nota para quando o targetSdk subir:** a partir do Android 12 (API 31) existem
-> `BLUETOOTH_SCAN` e `BLUETOOTH_CONNECT`. O app hoje é `targetSdk 29` e usa o
-> modelo antigo. Isso vai precisar de atenção numa modernização do build — mas
-> **não mexa nisso junto com a UI**.
-
----
-
-## 5. Regras de negócio na entrada da medição
-
-`OpenScale.addScaleMeasurement()` aplica esta sequência. **A ordem importa.**
-
-1. **Atribuição de usuário** — se `smartUserAssign` estiver ligado,
-   `getSmartUserAssignment(peso, 15.0f)` escolhe o perfil cujo último peso está a
-   até 15 kg do valor recebido (o mais próximo vence). Se nenhum bater e
-   `ignoreOutOfRange` estiver ligado, **a medição é descartada**. Senão, vai para
-   o usuário selecionado.
-2. **Pesagem assistida** — se o perfil tem `isAssistedWeighing()`, subtrai o peso
-   do usuário de referência (para pesar bebê ou pet no colo).
-3. **Correção de amputação** — multiplica pelo fator do perfil.
-4. **Estimativas**, nesta ordem obrigatória: água → gordura → **LBM por último**,
-   porque uma das fórmulas de LBM depende da gordura já calculada. Cada uma só roda
-   se a métrica estiver habilitada **e** com estimativa ligada.
-5. **Insere** — se já existe medição com a mesma data/hora, o insert falha e o app
-   avisa "dado duplicado". É assim que se evita duplicar ao reler o histórico da balança.
-6. Dispara widget, alarme e LiveData.
-
-O parâmetro `silent` controla só o toast de confirmação. A UI Bluetooth chama com
-`silent=true` (o toast viria em duplicidade com o status).
-
-### `merge()` — atenção ao funcionamento
-
-Fica em `MainActivity` hoje, antes de `addScaleMeasurement`:
-
-```java
-if (prefs.getBoolean("mergeWithLastMeasurement", true)) {   // default: LIGADO
-    scaleBtData.merge(openScale.getLastScaleMeasurement());
-}
-```
-
-`ScaleMeasurement.merge()` usa **reflection**: percorre os campos `Float` e copia
-do anterior **só onde o atual é `0.0f`**. Serve para pesar na balança e completar
-com medidas manuais feitas antes.
-
-Duas implicações:
-- Campo que não seja `Float` não é mesclado. Renomear ou trocar o tipo de um campo
-  em `ScaleMeasurement` muda esse comportamento **silenciosamente**.
-- Um valor legitimamente zero é tratado como "ausente".
-
-Na reconstrução, essa regra deveria migrar de `MainActivity` para `core/` —
-é lógica de domínio no lugar errado. Mas **migre preservando o comportamento**.
-
----
-
-## 6. Pareamento: como a balança é escolhida
-
-`BluetoothSettingsFragment` escaneia e lista dispositivos. Ao escolher, grava
-duas preferences:
-
-```java
-"btHwAddress"  → MAC          (PREFERENCE_KEY_BLUETOOTH_HW_ADDRESS)
-"btDeviceName" → nome anunciado (PREFERENCE_KEY_BLUETOOTH_DEVICE_NAME)
-```
-
-**O nome não é cosmético — é o que seleciona o driver.** `createDeviceDriver()`
-compara o nome anunciado contra uma lista de prefixos e valores exatos:
-
-```java
-if (name.startsWith("beurer bf700")) → BluetoothBeurerSanitas(BEURER_BF700_800_RT_LIBRA)
-if (deviceName.startsWith("013197")) → BluetoothMedisanaBS44x(true)   // case-sensitive!
-if (deviceName.startsWith("QN-Scale")) → BluetoothQNScale
-...
-return null;  // não suportado
-```
-
-Cuidados:
-- Alguns testes usam `name` (minúsculo, via `toLowerCase(Locale.US)`) e outros usam
-  `deviceName` (original, **case-sensitive**). Misturar quebra o reconhecimento.
-- Se a UI nova reescrever a tela de pareamento, **grave exatamente o nome anunciado**,
-  sem trim, sem normalizar caixa, sem "embelezar" para exibição. Guarde o nome cru
-  e formate só na hora de mostrar.
-- Há um bloco comentado (Beurer BF600/BF850) — suporte desabilitado de propósito.
-  Não reative sem hardware para testar.
-
-`BluetoothDebug` é um driver especial que varre todos os serviços GATT e gera log —
-é como a comunidade reporta balanças novas. Vale manter acessível em algum canto
-dos Ajustes.
-
----
-
-## 7. Checklist antes de mexer em algo que toca Bluetooth
+## Checklist antes de mexer em algo que toca Bluetooth
 
 - [ ] Não editei nada em `core/bluetooth/`.
-- [ ] Não inseri valor no meio do enum `BT_STATUS` (só no fim, se precisei).
-- [ ] O `Handler` novo trata os **9** estados, não só os felizes.
-- [ ] `registerCallbackHandler()` é chamado **antes** de `connect()`.
-- [ ] As 5 validações do §4 acontecem antes de conectar.
-- [ ] Permissão de localização **e** serviço de localização são verificados.
-- [ ] `btDeviceName` é gravado cru, sem normalização.
-- [ ] A regra de `merge` foi preservada (default ligado).
-- [ ] Chamo `addScaleMeasurement(dados, true)` — com `silent=true`.
-- [ ] `disconnectFromBluetoothDevice()` é chamado ao sair da tela de pesagem.
-- [ ] Não alterei campos de `ScaleMeasurement` (quebraria o `merge` por reflection).
-- [ ] As strings de `SCALE_MESSAGE` continuam existindo em `strings.xml`.
+- [ ] Falo com `BluetoothFacade`, não com handler direto.
+- [ ] Trato **todos** os `BluetoothEvent`, inclusive `Error` e `ConnectionFailed`.
+- [ ] Considerei balanças de broadcast, não só GATT.
+- [ ] Peço `BLUETOOTH_SCAN` e `BLUETOOTH_CONNECT` antes de escanear.
+- [ ] Desconecto ao sair da tela de pesagem.
+- [ ] Se gravo o dispositivo escolhido, gravo o nome cru.
 
----
+## Por que isso exige cuidado extra
 
-## 8. Por que isso exige cuidado extra
+- **Não dá para testar sem hardware.** Não há mock.
+- **Falha em silêncio.** Sem exception, sem crash.
+- **72 protocolos proprietários**, quase todos de engenharia reversa.
+- **O upstream é ativo nesta área.** Manter `core/bluetooth/` idêntico facilita
+  puxar suporte a balanças novas — que é justamente o motivo pelo qual este
+  fork adotou o 3.1.3.
 
-- **Não dá para testar aqui.** Exige hardware real; não há mock. O build local
-  nem compila (`.claude/docs/build.md`).
-- **Falha em silêncio.** Sem exception, sem crash — a balança só não responde.
-- **24 protocolos proprietários**, quase todos de engenharia reversa da comunidade,
-  cada um com quirks. Não há especificação para consultar.
-- **O upstream continua ativo.** Manter `core/bluetooth/` idêntico ao upstream
-  facilita puxar suporte a balanças novas.
-
-Se algo parecer errado nessa camada, a resposta certa quase sempre é **relatar,
-não consertar** — a menos que haja uma balança em mãos para verificar.
+Se algo parecer errado nessa camada, a resposta certa quase sempre é **relatar
+ao upstream, não consertar aqui** — a menos que haja uma balança em mãos para
+verificar.

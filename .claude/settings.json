@@ -17,13 +17,15 @@
       "Bash(git log:*)",
       "Bash(git show:*)",
       "Bash(git branch:*)",
-      "Bash(./gradlew lint:*)",
-      "Bash(./gradlew test:*)",
-      "Bash(./gradlew assembleDebug:*)"
+      "Bash(./gradlew assembleDebug:*)",
+      "Bash(./gradlew testDebugUnitTest:*)",
+      "Bash(./gradlew lint:*)"
     ],
     "deny": [
-      "Edit(android_app/app/src/main/res/values-*/**)",
+      "Edit(android_app/app/src/main/res/values-*/strings.xml)",
+      "Write(android_app/app/src/main/res/values-*/strings.xml)",
       "Edit(android_app/app/src/main/java/com/health/openscale/core/bluetooth/**)",
+      "Write(android_app/app/src/main/java/com/health/openscale/core/bluetooth/**)",
       "Read(./android_app/app/build/**)",
       "Read(./android_app/.gradle/**)"
     ]
