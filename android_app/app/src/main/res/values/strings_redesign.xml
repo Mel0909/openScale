@@ -132,6 +132,14 @@
     <string name="rd_settings_more">More settings (classic screens)</string>
     <string name="rd_legacy_unavailable">Could not open the classic screen</string>
 
+    <!-- ── Guia inicial ─────────────────────────────────────────────── -->
+    <string name="rd_slide_add_scale">Add Bluetooth scale</string>
+    <string name="rd_slide_your_scale">Your scale</string>
+    <string name="rd_slide_no_scale_yet">No scale paired yet</string>
+    <string name="rd_slide_add_person">Add person</string>
+    <string name="rd_slide_people">People</string>
+    <string name="rd_slide_no_person_yet">No profile created yet</string>
+
     <!-- ── Unidades ─────────────────────────────────────────────────── -->
     <string name="rd_unit_kcal">kcal</string>
 

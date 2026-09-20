@@ -52,7 +52,9 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".gui.slides.AppIntroActivity" android:exported="false" android:theme="@style/AppTheme.NoActionBar"/>
+        <!-- Guia inicial: usa o tema do redesign para herdar a paleta,
+             a tipografia e o modo escuro. -->
+        <activity android:name=".gui.slides.AppIntroActivity" android:exported="false" android:theme="@style/Theme.OpenScale"/>
         <activity android:name=".gui.slides.SlideToNavigationAdapter" android:exported="false" android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data

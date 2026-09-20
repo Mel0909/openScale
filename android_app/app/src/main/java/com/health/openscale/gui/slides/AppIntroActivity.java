@@ -20,6 +20,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import androidx.core.content.ContextCompat;
+
 import com.github.appintro.AppIntro;
 import com.health.openscale.R;
 
@@ -28,7 +30,13 @@ public class AppIntroActivity extends AppIntro {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setBarColor(getResources().getColor(R.color.blue_normal));
+        // Barra e indicadores nas cores do design, em vez do azul holo.
+        setBarColor(ContextCompat.getColor(this, R.color.md_surface));
+        setSeparatorColor(ContextCompat.getColor(this, R.color.md_outline_variant));
+        setIndicatorColor(
+                ContextCompat.getColor(this, R.color.md_primary),
+                ContextCompat.getColor(this, R.color.md_outline_variant));
+        setColorTransitionsEnabled(false);
 
         setSkipButtonEnabled(true);
 

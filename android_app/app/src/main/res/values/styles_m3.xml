@@ -137,4 +137,19 @@
         <item name="android:navigationBarColor">?attr/android:colorBackground</item>
     </style>
 
+    <!-- ── Onboarding ───────────────────────────────────────────────────
+         Os slides da primeira execução usam a mesma linguagem das telas:
+         fundo do tema, número/título em Bricolage, corpo em Instrument Sans,
+         e um "tile" arredondado atrás do ícone em vez do ícone solto. -->
+    <style name="Widget.OpenScale.Slide.Title" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.ScreenTitle</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Widget.OpenScale.Slide.Body" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.OpenScale.Body</item>
+        <item name="android:gravity">center</item>
+        <item name="android:lineSpacingMultiplier">1.15</item>
+    </style>
+
 </resources>

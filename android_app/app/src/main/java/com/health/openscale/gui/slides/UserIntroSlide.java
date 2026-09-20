@@ -35,6 +35,7 @@ import com.health.openscale.core.OpenScale;
 import com.health.openscale.core.datatypes.ScaleUser;
 
 import java.util.List;
+import java.util.Locale;
 
 public class UserIntroSlide extends Fragment{
 
@@ -96,68 +97,46 @@ public class UserIntroSlide extends Fragment{
     }
 
 
+    /**
+     * Preenche a lista de perfis criados.
+     *
+     * Usa o mesmo item de usuário das telas novas (rd_item_user), em vez da
+     * tabela com cabeçalho em negrito da versão antiga — assim o guia inicial
+     * mostra o perfil do mesmo jeito que o app vai mostrar depois.
+     */
     private void updateTableUsers() {
         tblUsers.removeAllViews();
-        tblUsers.setStretchAllColumns(true);
 
-        List<ScaleUser> scaleUserList = OpenScale.getInstance().getScaleUserList();
+        final List<ScaleUser> scaleUserList = OpenScale.getInstance().getScaleUserList();
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
 
-        TableRow header = new TableRow(getContext());
+        if (scaleUserList.isEmpty()) {
+            final TextView empty = new TextView(getContext());
+            empty.setText(R.string.rd_slide_no_person_yet);
+            empty.setGravity(Gravity.CENTER);
+            empty.setPadding(0, 32, 0, 32);
+            tblUsers.addView(empty);
+            return;
+        }
 
-        TextView headerUsername = new TextView(getContext());
-        headerUsername.setText(R.string.label_user_name);
-        headerUsername.setGravity(Gravity.CENTER_HORIZONTAL);
-        headerUsername.setTypeface(null, Typeface.BOLD);
-        header.addView(headerUsername);
+        for (ScaleUser scaleUser : scaleUserList) {
+            final View row = inflater.inflate(R.layout.rd_item_user, tblUsers, false);
 
-        TextView headAge = new TextView(getContext());
-        headAge.setText(R.string.label_age);
-        headAge.setGravity(Gravity.CENTER_HORIZONTAL);
-        headAge.setTypeface(null, Typeface.BOLD);
-        header.addView(headAge);
+            final TextView initial = row.findViewById(R.id.rd_user_row_initial);
+            final TextView name = row.findViewById(R.id.rd_user_row_name);
+            final TextView subtitle = row.findViewById(R.id.rd_user_row_subtitle);
 
-        TextView headerGender = new TextView(getContext());
-        headerGender.setText(R.string.label_gender);
-        headerGender.setGravity(Gravity.CENTER_HORIZONTAL);
-        headerGender.setTypeface(null, Typeface.BOLD);
-        header.addView(headerGender);
+            final String userName = scaleUser.getUserName();
+            name.setText(userName);
+            initial.setText(userName.isEmpty()
+                    ? "" : userName.substring(0, 1).toUpperCase(Locale.getDefault()));
 
-        tblUsers.addView(header);
+            // "35 anos · Feminino"
+            subtitle.setText(getString(
+                    scaleUser.getGender().isMale() ? R.string.label_male : R.string.label_female)
+                    + " · " + scaleUser.getAge());
 
-        if (!scaleUserList.isEmpty()) {
-            TableRow row = new TableRow(getContext());
-
-            for (ScaleUser scaleUser : scaleUserList) {
-                row = new TableRow(getContext());
-
-                TextView txtUsername = new TextView(getContext());
-                txtUsername.setText(scaleUser.getUserName());
-                txtUsername.setGravity(Gravity.CENTER_HORIZONTAL);
-                row.addView(txtUsername);
-
-                TextView txtAge = new TextView(getContext());
-                txtAge.setText(Integer.toString(scaleUser.getAge()));
-                txtAge.setGravity(Gravity.CENTER_HORIZONTAL);
-                row.addView(txtAge);
-
-                TextView txtGender = new TextView(getContext());
-                txtGender.setText((scaleUser.getGender().isMale()) ? getString(R.string.label_male) : getString(R.string.label_female));
-                txtGender.setGravity(Gravity.CENTER_HORIZONTAL);
-                row.addView(txtGender);
-
-                row.setGravity(Gravity.CENTER_HORIZONTAL);
-
-                tblUsers.addView(row);
-            }
-        } else {
-            TableRow row = new TableRow(getContext());
-
-            TextView txtEmpty = new TextView(getContext());
-            txtEmpty.setText("[" + getContext().getString(R.string.label_empty) + "]");
-            txtEmpty.setGravity(Gravity.CENTER_HORIZONTAL);
-            row.addView(txtEmpty);
-
-            row.setGravity(Gravity.CENTER_HORIZONTAL);
+            row.findViewById(R.id.rd_user_row_tag).setVisibility(View.GONE);
 
             tblUsers.addView(row);
         }

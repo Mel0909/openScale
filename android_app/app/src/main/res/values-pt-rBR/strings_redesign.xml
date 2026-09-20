@@ -126,6 +126,14 @@
     <string name="rd_add_decrease">Diminuir</string>
     <string name="rd_add_increase">Aumentar</string>
 
+    <!-- ── Guia inicial ─────────────────────────────────────────────── -->
+    <string name="rd_slide_add_scale">Adicionar balança Bluetooth</string>
+    <string name="rd_slide_your_scale">Sua balança</string>
+    <string name="rd_slide_no_scale_yet">Nenhuma balança pareada ainda</string>
+    <string name="rd_slide_add_person">Adicionar pessoa</string>
+    <string name="rd_slide_people">Pessoas</string>
+    <string name="rd_slide_no_person_yet">Nenhum perfil criado ainda</string>
+
     <!-- ── Unidades ─────────────────────────────────────────────────── -->
     <string name="rd_unit_kcal">kcal</string>
 
