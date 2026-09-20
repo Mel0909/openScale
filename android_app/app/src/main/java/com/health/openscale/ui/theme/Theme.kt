@@ -21,13 +21,10 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
-import androidx.compose.ui.platform.LocalContext
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -103,6 +100,84 @@ private val darkScheme = darkColorScheme(
     surfaceContainer = surfaceContainerDark,
     surfaceContainerHigh = surfaceContainerHighDark,
     surfaceContainerHighest = surfaceContainerHighestDark,
+)
+
+// ── Paleta do design proprio (design/Tokens.dc.html) ──────────────────────────
+
+private val designLightScheme = lightColorScheme(
+    primary = designPrimaryLight,
+    onPrimary = designOnPrimaryLight,
+    primaryContainer = designPrimaryContainerLight,
+    onPrimaryContainer = designOnPrimaryContainerLight,
+    secondary = designSecondaryLight,
+    onSecondary = designOnSecondaryLight,
+    secondaryContainer = designSecondaryContainerLight,
+    onSecondaryContainer = designOnSecondaryContainerLight,
+    tertiary = designTertiaryLight,
+    onTertiary = designOnTertiaryLight,
+    tertiaryContainer = designTertiaryContainerLight,
+    onTertiaryContainer = designOnTertiaryContainerLight,
+    error = designErrorLight,
+    onError = designOnErrorLight,
+    errorContainer = designErrorContainerLight,
+    onErrorContainer = designOnErrorContainerLight,
+    background = designBackgroundLight,
+    onBackground = designOnBackgroundLight,
+    surface = designSurfaceLight,
+    onSurface = designOnSurfaceLight,
+    surfaceVariant = designSurfaceVariantLight,
+    onSurfaceVariant = designOnSurfaceVariantLight,
+    outline = designOutlineLight,
+    outlineVariant = designOutlineVariantLight,
+    scrim = designScrimLight,
+    inverseSurface = designInverseSurfaceLight,
+    inverseOnSurface = designInverseOnSurfaceLight,
+    inversePrimary = designInversePrimaryLight,
+    surfaceDim = designSurfaceDimLight,
+    surfaceBright = designSurfaceBrightLight,
+    surfaceContainerLowest = designSurfaceContainerLowestLight,
+    surfaceContainerLow = designSurfaceContainerLowLight,
+    surfaceContainer = designSurfaceContainerLight,
+    surfaceContainerHigh = designSurfaceContainerHighLight,
+    surfaceContainerHighest = designSurfaceContainerHighestLight,
+)
+
+private val designDarkScheme = darkColorScheme(
+    primary = designPrimaryDark,
+    onPrimary = designOnPrimaryDark,
+    primaryContainer = designPrimaryContainerDark,
+    onPrimaryContainer = designOnPrimaryContainerDark,
+    secondary = designSecondaryDark,
+    onSecondary = designOnSecondaryDark,
+    secondaryContainer = designSecondaryContainerDark,
+    onSecondaryContainer = designOnSecondaryContainerDark,
+    tertiary = designTertiaryDark,
+    onTertiary = designOnTertiaryDark,
+    tertiaryContainer = designTertiaryContainerDark,
+    onTertiaryContainer = designOnTertiaryContainerDark,
+    error = designErrorDark,
+    onError = designOnErrorDark,
+    errorContainer = designErrorContainerDark,
+    onErrorContainer = designOnErrorContainerDark,
+    background = designBackgroundDark,
+    onBackground = designOnBackgroundDark,
+    surface = designSurfaceDark,
+    onSurface = designOnSurfaceDark,
+    surfaceVariant = designSurfaceVariantDark,
+    onSurfaceVariant = designOnSurfaceVariantDark,
+    outline = designOutlineDark,
+    outlineVariant = designOutlineVariantDark,
+    scrim = designScrimDark,
+    inverseSurface = designInverseSurfaceDark,
+    inverseOnSurface = designInverseOnSurfaceDark,
+    inversePrimary = designInversePrimaryDark,
+    surfaceDim = designSurfaceDimDark,
+    surfaceBright = designSurfaceBrightDark,
+    surfaceContainerLowest = designSurfaceContainerLowestDark,
+    surfaceContainerLow = designSurfaceContainerLowDark,
+    surfaceContainer = designSurfaceContainerDark,
+    surfaceContainerHigh = designSurfaceContainerHighDark,
+    surfaceContainerHighest = designSurfaceContainerHighestDark,
 )
 
 // Medium/High Contrast — für Android Accessibility Settings
@@ -286,25 +361,24 @@ private fun ColorScheme.toPureBlack(): ColorScheme = copy(
 fun OpenScaleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     highContrast: Boolean = false,
-    useDynamicColor: Boolean = true,
+    @Suppress("UNUSED_PARAMETER") useDynamicColor: Boolean = true,
     pureBlack: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    val context = LocalContext.current
-
     // Pure black is a dark theme in its own right: switching it on forces the dark variant even
     // when the system runs in light mode.
     val useDarkScheme = darkTheme || pureBlack
 
     val baseScheme: ColorScheme = when {
-        useDynamicColor ->
-            if (useDarkScheme) dynamicDarkColorScheme(context)
-            else dynamicLightColorScheme(context)
-
+        // O design proprio vence o dynamic color: a paleta rosa e a identidade
+        // do app, e deixar o sistema sobrescreve-la anularia o design. Os
+        // esquemas de alto contraste do upstream continuam valendo, porque sao
+        // acessibilidade, nao estetica.
         useDarkScheme && highContrast  -> highContrastDarkScheme
-        useDarkScheme                  -> darkScheme
         !useDarkScheme && highContrast -> highContrastLightScheme
-        else                           -> lightScheme
+
+        useDarkScheme                  -> designDarkScheme
+        else                           -> designLightScheme
     }
 
     // Applies on top of every dark variant: static, high contrast and dynamic.
@@ -312,7 +386,7 @@ fun OpenScaleTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography  = AppTypography,
+        typography  = DesignTypography,
         content     = content,
     )
 }
