@@ -6,7 +6,7 @@ android {
     // AndroidManifest, que agora é ignorado para esse fim.
     namespace 'com.health.openscale'
 
-    compileSdk 31
+    compileSdk 35
     defaultConfig {
         applicationId "com.health.openscale"
         testApplicationId "com.health.openscale.test"
@@ -130,24 +130,32 @@ android {
         }
     }
     compileOptions {
+        // Desugaring mantém APIs de java.time disponíveis no minSdk 21.
         coreLibraryDesugaringEnabled true
 
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        // AGP 8 exige 17 aqui; não muda o minSdk nem o bytecode do app.
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    // buildConfig deixou de ser gerado por padrão no AGP 8, e o app usa
+    // BuildConfig.BUILD_TYPE e BuildConfig.VERSION_NAME.
+    buildFeatures {
+        buildConfig true
     }
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.9'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.preference:preference:1.2.0'
-    implementation 'androidx.navigation:navigation-fragment:2.5.3'
-    implementation 'androidx.navigation:navigation-ui:2.5.3'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'androidx.navigation:navigation-fragment:2.7.7'
+    implementation 'androidx.navigation:navigation-ui:2.7.7'
     // Substitui android.arch.lifecycle:extensions, que é pré-AndroidX e não
     // resolve mais. Nenhum arquivo importava android.arch diretamente.
     implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'
@@ -163,11 +171,11 @@ dependencies {
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
     // AppIntro
     implementation 'com.github.AppIntro:AppIntro:6.1.0'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.21'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.24'
     // Room
-    implementation 'androidx.room:room-runtime:2.4.3'
-    annotationProcessor 'androidx.room:room-compiler:2.4.3'
-    androidTestImplementation 'androidx.room:room-testing:2.4.3'
+    implementation 'androidx.room:room-runtime:2.6.1'
+    annotationProcessor 'androidx.room:room-compiler:2.6.1'
+    androidTestImplementation 'androidx.room:room-testing:2.6.1'
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
     // Local unit tests

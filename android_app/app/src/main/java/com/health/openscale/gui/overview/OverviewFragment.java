@@ -119,8 +119,7 @@ public class OverviewFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                switch (item.getItemId()) {
-                    case R.id.enableChartActionBar:
+                if (item.getItemId() == R.id.enableChartActionBar) {
                         if (item.isChecked()) {
                             item.setChecked(false);
                             prefs.edit().putBoolean("enableOverviewChartActionBar", false).apply();
@@ -131,16 +130,17 @@ public class OverviewFragment extends Fragment {
                             chartActionBarView.setVisibility(View.VISIBLE);
                         }
                         return true;
-                    case R.id.menu_range_day:
+                }
+                else if (item.getItemId() == R.id.menu_range_day) {
                         prefs.edit().putInt("selectRangeMode", ChartMeasurementView.ViewMode.DAY_OF_ALL.ordinal()).commit();
-                        break;
-                    case R.id.menu_range_week:
+                }
+                else if (item.getItemId() == R.id.menu_range_week) {
                         prefs.edit().putInt("selectRangeMode", ChartMeasurementView.ViewMode.WEEK_OF_ALL.ordinal()).commit();
-                        break;
-                    case R.id.menu_range_month:
+                }
+                else if (item.getItemId() == R.id.menu_range_month) {
                         prefs.edit().putInt("selectRangeMode", ChartMeasurementView.ViewMode.MONTH_OF_ALL.ordinal()).commit();
-                        break;
-                    case R.id.menu_range_year:
+                }
+                else if (item.getItemId() == R.id.menu_range_year) {
                         prefs.edit().putInt("selectRangeMode", ChartMeasurementView.ViewMode.YEAR_OF_ALL.ordinal()).commit();
                 }
 
