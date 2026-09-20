@@ -94,11 +94,11 @@
 
     <!-- ── Textos ───────────────────────────────────────────────────────
          Atalhos para não repetir textAppearance em cada TextView. -->
-    <style name="Widget.OpenScale.LabelMicro">
+    <style name="Widget.OpenScale.LabelMicro" parent="">
         <item name="android:textAppearance">@style/TextAppearance.OpenScale.LabelMicro</item>
     </style>
 
-    <style name="Widget.OpenScale.ScreenTitle">
+    <style name="Widget.OpenScale.ScreenTitle" parent="">
         <item name="android:textAppearance">@style/TextAppearance.OpenScale.ScreenTitle</item>
         <item name="android:layout_marginTop">12dp</item>
     </style>
