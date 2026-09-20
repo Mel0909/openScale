@@ -36,6 +36,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.health.openscale.ui.design.screen.HistoricoScreen
 import com.health.openscale.ui.design.screen.HojeScreen
 import com.health.openscale.ui.screen.graph.GraphScreen
 import com.health.openscale.ui.screen.insights.InsightsScreen
@@ -104,10 +105,11 @@ fun AppNavHost(
                 )
             }
             composable(Routes.GRAPH) {
-                GraphScreen(
+                // A tela Historico do design proprio. A GraphScreen do
+                // upstream segue no repositorio, intocada.
+                HistoricoScreen(
                     navController = navController,
-                    sharedViewModel = sharedViewModel,
-                    bluetoothViewModel = bluetoothViewModel
+                    sharedViewModel = sharedViewModel
                 )
             }
             composable(Routes.TABLE) {

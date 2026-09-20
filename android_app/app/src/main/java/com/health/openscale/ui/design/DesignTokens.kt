@@ -119,5 +119,11 @@ object DesignTokens {
 
         /** Título de tela: `font-size:28px`. */
         val ScreenTitle = 28.sp
+
+        /** Número do cartão de gráfico, no Histórico: `font-size:32px`. */
+        val ChartValue = 32.sp
+
+        /** Número do cartão de estatística: `font-size:20px`. */
+        val StatValue = 20.sp
     }
 }

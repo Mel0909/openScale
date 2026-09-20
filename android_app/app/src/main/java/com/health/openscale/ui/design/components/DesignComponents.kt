@@ -443,3 +443,65 @@ fun DesignScreenTitle(
         modifier = modifier,
     )
 }
+
+// ── Números em outros tamanhos ────────────────────────────────────────────────
+
+/**
+ * O número do cartão de gráfico, no Histórico: Bricolage 700 em 32 px, com a
+ * unidade em 13 px ao lado.
+ */
+@Composable
+fun DesignChartValue(
+    value: String,
+    unit: String?,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.Bottom,
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+    ) {
+        Text(
+            text = value,
+            style = TextStyle(
+                fontFamily = BricolageGrotesque,
+                fontWeight = FontWeight.Bold,
+                fontSize = DesignTokens.Type.ChartValue,
+                lineHeight = DesignTokens.Type.ChartValue,
+                letterSpacing = (-0.02).em,
+            ),
+            color = MaterialTheme.colorScheme.onSurface,
+            maxLines = 1,
+            modifier = Modifier.weight(1f, fill = false).designShrinkToFit(),
+        )
+        if (!unit.isNullOrBlank()) {
+            Text(
+                text = unit,
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                modifier = Modifier.padding(bottom = 1.dp),
+            )
+        }
+    }
+}
+
+/** O número do cartão de estatística: Bricolage 700 em 20 px, sem unidade. */
+@Composable
+fun DesignStatValue(
+    value: String,
+    modifier: Modifier = Modifier,
+) {
+    Text(
+        text = value,
+        style = TextStyle(
+            fontFamily = BricolageGrotesque,
+            fontWeight = FontWeight.Bold,
+            fontSize = DesignTokens.Type.StatValue,
+            lineHeight = DesignTokens.Type.StatValue,
+        ),
+        color = MaterialTheme.colorScheme.onSurface,
+        maxLines = 1,
+        modifier = modifier.designShrinkToFit(),
+    )
+}

@@ -59,6 +59,7 @@ import com.health.openscale.core.data.Trend
 import com.health.openscale.core.facade.SettingsPreferenceKeys
 import com.health.openscale.core.model.AggregatedMeasurement
 import com.health.openscale.core.utils.LocaleUtils
+import com.health.openscale.ui.design.DESIGN_METRIC_ORDER
 import com.health.openscale.ui.design.DesignFormat
 import com.health.openscale.ui.design.DesignTokens
 import com.health.openscale.ui.design.components.DesignDelta
@@ -404,25 +405,6 @@ private fun HojeComposition(
 }
 
 // ── Janela do sparkline ───────────────────────────────────────────────────────
-
-/**
- * A ordem dos cartões na grade de Composição, como o protótipo os desenha:
- * Peso, Gordura, Água, Músculo, IMC, Cintura.
- *
- * O banco devolve na ordem de criação dos tipos, que abre por IMC e massa
- * magra — derivadas, não o que a balança mede. O protótipo abre pelas quatro
- * métricas que a bioimpedância entrega.
- *
- * Métricas fora desta lista vêm depois, na ordem do banco.
- */
-private val DESIGN_METRIC_ORDER = listOf(
-    MeasurementType.WEIGHT,
-    MeasurementType.BODY_FAT,
-    MeasurementType.WATER,
-    MeasurementType.MUSCLE,
-    MeasurementType.BMI,
-    MeasurementType.WAIST,
-)
 
 /**
  * Teto de pontos do sparkline, como no redesign anterior. O cartão tem 312 px

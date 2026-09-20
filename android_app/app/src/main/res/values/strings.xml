@@ -991,5 +991,18 @@
     <string name="design_weigh_action">Weigh</string>
     <string name="design_no_data_hint">Step on your scale or add a measurement by hand to get started.</string>
     <string name="design_weigh_placeholder">- -,-</string>
+    <!-- Tela Historico -->
+    <string name="design_period_week">Week</string>
+    <string name="design_period_month">Month</string>
+    <string name="design_period_year">Year</string>
+    <string name="design_period_by_week">by week</string> <!-- chart subtitle: "Weight · by week" -->
+    <string name="design_period_by_month">by month</string>
+    <string name="design_period_by_year">by year</string>
+    <string name="design_period_note_week">Aggregated by week: each point is the average of the measurements in that week. Weeks without a measurement stay empty, with no interpolation.</string>
+    <string name="design_period_note_month">Aggregated by month: each point is the average for that month.</string>
+    <string name="design_period_note_year">Aggregated by year: useful after the second year of use.</string>
+    <string name="design_stat_min">Minimum</string>
+    <string name="design_stat_avg">Average</string>
+    <string name="design_stat_max">Maximum</string>
 
 </resources>

@@ -161,7 +161,7 @@ fun DesignSparkline(
             Offset(x, y)
         }
 
-        val linePath = smoothPath(points)
+        val linePath = designSmoothPath(points)
 
         drawPath(
             path = Path().apply {
@@ -181,36 +181,6 @@ fun DesignSparkline(
             color = lineColor,
             radius = 4.5.dp.toPx(),
             center = points.last(),
-        )
-    }
-}
-
-/** Suavização da curva. 0,3 aproxima o horizontal-bezier que o SVG usa. */
-private const val SMOOTHING = 0.3f
-
-/**
- * Curva de Catmull-Rom convertida em Bézier cúbica — o mesmo efeito do
- * `horizontal-bezier` do protótipo.
- *
- * O protótipo desenha a linha do sparkline curva, não em segmentos retos. Sem
- * isto a forma fica angulosa e denuncia que não é o design.
- */
-private fun smoothPath(points: List<Offset>): Path = Path().apply {
-    moveTo(points.first().x, points.first().y)
-
-    for (i in 0 until points.size - 1) {
-        val p0 = points[if (i == 0) 0 else i - 1]
-        val p1 = points[i]
-        val p2 = points[i + 1]
-        val p3 = points[if (i + 2 < points.size) i + 2 else i + 1]
-
-        cubicTo(
-            p1.x + (p2.x - p0.x) * SMOOTHING,
-            p1.y + (p2.y - p0.y) * SMOOTHING,
-            p2.x - (p3.x - p1.x) * SMOOTHING,
-            p2.y - (p3.y - p1.y) * SMOOTHING,
-            p2.x,
-            p2.y,
         )
     }
 }
