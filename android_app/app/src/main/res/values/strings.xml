@@ -975,4 +975,13 @@
     <string name="progress_below_goal">%1$s below goal</string> <!-- overshot a goal downwards -->
     <string name="progress_above_goal">%1$s above goal</string> <!-- overshot a goal upwards -->
 
+    <!-- Design proprio: telas em ui/design/, a partir do prototipo em design/ -->
+    <string name="design_last_30_days">Last 30 days</string> <!-- sparkline card label; a rolling 30 calendar day window -->
+    <string name="design_see_history">See history</string>
+    <string name="design_composition">Composition</string>
+    <string name="design_choose_metrics">Choose metrics</string>
+    <string name="design_since_date">since %1$s</string> <!-- %1$s is the date of the previous measurement -->
+    <string name="design_not_enough_data">Not enough measurements yet</string>
+    <string name="design_no_measurement_yet">No measurement yet</string>
+
 </resources>
