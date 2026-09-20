@@ -67,6 +67,9 @@ object DesignTokens {
 
         /** Margem lateral da tela: `padding:4px 20px`. */
         val ScreenHorizontal: Dp = 20.dp
+
+        /** Preenchimento interno do cartao grande: `padding:18px`/20dp. */
+        val CardLarge: Dp = 20.dp
     }
 
     /** Alturas mínimas. O protótipo usa `min-height` para alvo de toque. */

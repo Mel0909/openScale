@@ -34,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.health.openscale.ui.design.DesignTokens
 
@@ -66,7 +68,7 @@ fun DesignSparklineCard(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(DesignTokens.Radius.Card),
         onClick = onClick,
-        contentPadding = 18.dp,
+        contentPadding = DesignTokens.Spacing.CardLarge,
     ) {
         DesignSectionHeader(
             label = label,
@@ -99,18 +101,27 @@ fun DesignSparklineCard(
 
             Spacer(Modifier.height(4.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                axisLabels.forEach { t ->
+            // Três colunas de peso igual, alinhadas início/centro/fim — é o
+            // que o redesign anterior já tinha traduzido do protótipo, e
+            // mantém os rótulos sob os pontos certos mesmo com larguras de
+            // texto diferentes.
+            Row(modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp)) {
+                axisLabels.forEachIndexed { i, t ->
                     Text(
                         text = t,
                         style = MaterialTheme.typography.labelSmall.copy(
-                            letterSpacing = androidx.compose.ui.unit.TextUnit.Unspecified,
+                            // Os rótulos de data não são caixa alta nem têm
+                            // tracking: só herdam o tamanho do rótulo micro.
+                            letterSpacing = TextUnit.Unspecified,
                         ),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
+                        textAlign = when (i) {
+                            0 -> TextAlign.Start
+                            axisLabels.lastIndex -> TextAlign.End
+                            else -> TextAlign.Center
+                        },
+                        modifier = Modifier.weight(1f),
                     )
                 }
             }
@@ -150,10 +161,7 @@ fun DesignSparkline(
             Offset(x, y)
         }
 
-        val linePath = Path().apply {
-            moveTo(points.first().x, points.first().y)
-            points.drop(1).forEach { lineTo(it.x, it.y) }
-        }
+        val linePath = smoothPath(points)
 
         drawPath(
             path = Path().apply {
@@ -173,6 +181,36 @@ fun DesignSparkline(
             color = lineColor,
             radius = 4.5.dp.toPx(),
             center = points.last(),
+        )
+    }
+}
+
+/** Suavização da curva. 0,3 aproxima o horizontal-bezier que o SVG usa. */
+private const val SMOOTHING = 0.3f
+
+/**
+ * Curva de Catmull-Rom convertida em Bézier cúbica — o mesmo efeito do
+ * `horizontal-bezier` do protótipo.
+ *
+ * O protótipo desenha a linha do sparkline curva, não em segmentos retos. Sem
+ * isto a forma fica angulosa e denuncia que não é o design.
+ */
+private fun smoothPath(points: List<Offset>): Path = Path().apply {
+    moveTo(points.first().x, points.first().y)
+
+    for (i in 0 until points.size - 1) {
+        val p0 = points[if (i == 0) 0 else i - 1]
+        val p1 = points[i]
+        val p2 = points[i + 1]
+        val p3 = points[if (i + 2 < points.size) i + 2 else i + 1]
+
+        cubicTo(
+            p1.x + (p2.x - p0.x) * SMOOTHING,
+            p1.y + (p2.y - p0.y) * SMOOTHING,
+            p2.x - (p3.x - p1.x) * SMOOTHING,
+            p2.y - (p3.y - p1.y) * SMOOTHING,
+            p2.x,
+            p2.y,
         )
     }
 }
