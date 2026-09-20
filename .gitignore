@@ -50,9 +50,10 @@ captures/
 .idea/caches
 
 # Claude Code
-CLAUDE.md
+# CLAUDE.md e .claude/ sao versionados neste fork: guardam a documentacao do
+# projeto (arquitetura, design, regras das balancas), nao configuracao pessoal.
 CLAUDE.local.md
-.claude/
+.claude/settings.local.json
 
 # fastlane
 fastlane/report.xml
