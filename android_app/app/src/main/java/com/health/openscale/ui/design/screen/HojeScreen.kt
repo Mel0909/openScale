@@ -48,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -151,24 +152,33 @@ fun HojeScreen(
                     HojeHero(items = items)
                 }
 
-                item(key = "spark") {
-                    val window = remember(items) { last30CalendarDays(items) }
-                    DesignSparklineCard(
-                        label = stringResource(R.string.design_last_30_days),
-                        actionLabel = stringResource(R.string.design_see_history),
-                        values = window.values,
-                        axisLabels = window.axisLabels,
-                        emptyMessage = stringResource(R.string.design_not_enough_data),
-                        onClick = { navController.navigate(Routes.GRAPH) },
-                    )
-                }
+                // Sem nenhuma medição, o cartão e a grade saem de cena e fica
+                // só o estado vazio — é o que o redesign anterior já fazia, e
+                // evita mostrar um cartão de gráfico permanentemente vazio.
+                if (items.isEmpty()) {
+                    item(key = "empty") {
+                        HojeEmptyState()
+                    }
+                } else {
+                    item(key = "spark") {
+                        val window = remember(items) { last30CalendarDays(items) }
+                        DesignSparklineCard(
+                            label = stringResource(R.string.design_last_30_days),
+                            actionLabel = stringResource(R.string.design_see_history),
+                            values = window.values,
+                            axisLabels = window.axisLabels,
+                            emptyMessage = stringResource(R.string.design_not_enough_data),
+                            onClick = { navController.navigate(Routes.GRAPH) },
+                        )
+                    }
 
-                item(key = "composition") {
-                    HojeComposition(
-                        items = items,
-                        onMetricClick = { navController.navigate(Routes.GRAPH) },
-                        onChooseMetrics = { navController.navigate(Routes.MEASUREMENT_TYPES) },
-                    )
+                    item(key = "composition") {
+                        HojeComposition(
+                            items = items,
+                            onMetricClick = { navController.navigate(Routes.GRAPH) },
+                            onChooseMetrics = { navController.navigate(Routes.MEASUREMENT_TYPES) },
+                        )
+                    }
                 }
             }
         }
@@ -221,7 +231,10 @@ private fun HojeHero(items: List<AggregatedMeasurement>) {
         Column {
             DesignMicroLabel(text = stringResource(R.string.design_no_measurement_yet))
             Spacer(Modifier.height(8.dp))
-            DesignHeroValue(value = "- -,-", unit = null)
+            DesignHeroValue(
+                value = stringResource(R.string.design_weigh_placeholder),
+                unit = null,
+            )
         }
         return
     }
@@ -274,6 +287,37 @@ private fun HojeHero(items: List<AggregatedMeasurement>) {
                 }
             }
         }
+    }
+}
+
+// ── Estado vazio ──────────────────────────────────────────────────────────────
+
+/**
+ * O que a tela mostra quando ainda não há nenhuma medição: título e uma dica
+ * de como começar, centralizados.
+ *
+ * O protótipo assume uma conta com histórico e não desenha este caso. O texto
+ * e a forma vêm do redesign anterior (`rd_empty_state`), que já tinha
+ * resolvido a lacuna — estender o que já existe, em vez de inventar.
+ */
+@Composable
+private fun HojeEmptyState() {
+    Column(
+        modifier = Modifier.fillMaxWidth().padding(top = 40.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(
+            text = stringResource(R.string.no_measurements_title),
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        Text(
+            text = stringResource(R.string.design_no_data_hint),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
@@ -344,6 +388,12 @@ private fun HojeComposition(
 
 // ── Janela do sparkline ───────────────────────────────────────────────────────
 
+/**
+ * Teto de pontos do sparkline, como no redesign anterior. O cartão tem 312 px
+ * de largura no protótipo; mais que isto vira ruído.
+ */
+private const val SPARKLINE_MAX_POINTS = 30
+
 /** Os dados do sparkline: os valores e os três rótulos de data do rodapé. */
 private data class SparkWindow(
     val values: List<Float>,
@@ -364,10 +414,20 @@ private fun last30CalendarDays(items: List<AggregatedMeasurement>): SparkWindow 
     }.timeInMillis
 
     // A lista chega da mais recente para a mais antiga; o gráfico desenha ao
-    // contrário.
+    // contrário. Só entram as medições que têm peso — as demais não rendem
+    // ponto, e deixá-las na janela desalinharia os rótulos de data.
+    //
+    // O teto de pontos é aplicado aqui, antes de separar valores e datas, para
+    // os dois saírem da mesma janela: quem pesa várias vezes por dia teria uma
+    // linha densa demais para os 312 px de largura do cartão.
     val window = items
         .filter { it.enriched.measurementWithValues.measurement.timestamp >= cutoff }
+        .filter { item ->
+            item.enriched.valuesWithTrend
+                .any { it.currentValue.type.key == MeasurementType.WEIGHT }
+        }
         .reversed()
+        .takeLast(SPARKLINE_MAX_POINTS)
 
     val values = window.mapNotNull { item ->
         item.enriched.valuesWithTrend

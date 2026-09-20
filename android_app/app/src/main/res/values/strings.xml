@@ -983,5 +983,13 @@
     <string name="design_since_date">since %1$s</string> <!-- %1$s is the date of the previous measurement -->
     <string name="design_not_enough_data">Not enough measurements yet</string>
     <string name="design_no_measurement_yet">No measurement yet</string>
+    <!-- Barra inferior e botao principal, do prototipo -->
+    <string name="design_nav_today">Today</string>
+    <string name="design_nav_history">History</string>
+    <string name="design_nav_records">Records</string>
+    <string name="design_nav_profile">Profile</string>
+    <string name="design_weigh_action">Weigh</string>
+    <string name="design_no_data_hint">Step on your scale or add a measurement by hand to get started.</string>
+    <string name="design_weigh_placeholder">- -,-</string>
 
 </resources>
