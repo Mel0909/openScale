@@ -31,7 +31,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.health.openscale.core.facade.SettingsFacade
 import com.health.openscale.core.utils.LogManager
-import com.health.openscale.ui.navigation.AppNavigation
+import com.health.openscale.ui.design.DesignApp
 import com.health.openscale.ui.shared.SharedViewModel
 import com.health.openscale.ui.theme.OpenScaleTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,7 +97,10 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                AppNavigation(sharedViewModel)
+                // A casca do design proprio: barra inferior de 4 abas e botao
+                // Pesar. A AppNavigation do upstream (drawer + top bar) segue
+                // no repositorio, intocada.
+                DesignApp(sharedViewModel)
             }
         }
     }
